@@ -1,10 +1,6 @@
 # this is the file where the game will actually be done
 import logging
-from functions import dice
-from functions import get_file
-from functions import typing_effect
-from functions import stats
-from functions import text_regex
+from functions import *
 
 import time
 import os
@@ -12,25 +8,12 @@ import os
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 logging.debug("start of file")
 time.sleep(1)
-# this is the fancy little intro screen
-typing_effect("-"*90, .005)
-print()
-typing_effect("-"*90, .005)
-print()
-typing_effect("-"*90, .005)
-typing_effect("""
-             #####                       #####                                
-            #     # #####   ##   #####  #     #   ##   # #       ####  #####  
-            #         #    #  #  #    # #        #  #  # #      #    # #    # 
-             #####    #   #    # #    #  #####  #    # # #      #    # #    # 
-                  #   #   ###### #####        # ###### # #      #    # #####  
-            #     #   #   #    # #   #  #     # #    # # #      #    # #   #  
-             #####    #   #    # #    #  #####  #    # # ######  ####  #    # """.center(150," "), .005)
+
+intro_screen()
 print("\n")
-typing_effect("-"*90, .005)
-print()
-typing_effect("-"*90, .005)
-print()
-typing_effect("-"*90, .005)
+input("Press Enter to Continue...".center(110, " ") + "\n")
+os.system("cls")
+time.sleep(1)
 
-
+user_name = text_regex(input("What is Your Name?".center(110, " ") + "\n"))
+logging.debug("the user's first name is " + user_name[0] + " and the Last name is " + user_name[1])

@@ -43,3 +43,28 @@ def text_regex(text):
     mo = alphabet_regex.findall(text)
     return mo
     # will return a list of strings
+
+
+def intro_screen():
+    # this is the fancy little intro screen
+    typing_effect("-" * 110, .000)
+    print()
+    typing_effect("-" * 110, .000)
+    print()
+    typing_effect("-" * 110, .000)
+    typing_effect("""
+                 #####                       #####                                
+                #     # #####   ##   #####  #     #   ##   # #       ####  #####  
+                #         #    #  #  #    # #        #  #  # #      #    # #    # 
+                 #####    #   #    # #    #  #####  #    # # #      #    # #    # 
+                      #   #   ###### #####        # ###### # #      #    # #####  
+                #     #   #   #    # #   #  #     # #    # # #      #    # #   #  
+                 #####    #   #    # #    #  #####  #    # # ######  ####  #    # """.center(150, " "), .000)
+    print("\n")
+    typing_effect("-" * 110, .000)
+    print()
+    typing_effect("-" * 110, .000)
+    print()
+    typing_effect("-" * 110, .000)
+    time.sleep(.75)
+
