@@ -9,11 +9,11 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 logging.debug("start of file")
 time.sleep(1)
 
+# this is rather self-explanatory
 intro_screen()
 print("\n")
-input("Press Enter to Continue...".center(110, " ") + "\n")
 os.system("cls")
 time.sleep(1)
+print(os.getcwd())
+typing_effect(get_file(r"\storyline\intro"))
 
-user_name = text_regex(input("What is Your Name?".center(110, " ") + "\n"))
-logging.debug("the user's first name is " + user_name[0] + " and the Last name is " + user_name[1])

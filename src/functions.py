@@ -59,7 +59,7 @@ def intro_screen():
                  #####    #   #    # #    #  #####  #    # # #      #    # #    # 
                       #   #   ###### #####        # ###### # #      #    # #####  
                 #     #   #   #    # #   #  #     # #    # # #      #    # #   #  
-                 #####    #   #    # #    #  #####  #    # # ######  ####  #    # """.center(150, " "), .000)
+                 #####    #   #    # #    #  #####  #    # # ######  ####  #    # """.center(150, " "), .001)
     print("\n")
     typing_effect("-" * 110, .000)
     print()
@@ -67,4 +67,6 @@ def intro_screen():
     print()
     typing_effect("-" * 110, .000)
     time.sleep(.75)
-
+    print()
+    # input("Press Enter to Continue...".center(110, " "))
+    # todo un-comment this ^
