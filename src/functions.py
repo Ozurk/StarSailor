@@ -70,3 +70,24 @@ def intro_screen():
     print()
     # input("Press Enter to Continue...".center(110, " "))
     # todo un-comment this ^
+
+
+def user_number_validation(user_number):
+    while True:
+        if user_number.strip().isnumeric():
+            return user_number[0]
+        else:
+            user_number = input("input a single number:\n")
+
+
+
+
+def path_splitter(choice, path_1, path_2):
+    if choice == 1:
+        path_1
+    elif choice == 2:
+        path_2
+
+
+
+

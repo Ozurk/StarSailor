@@ -15,5 +15,5 @@ print("\n")
 os.system("cls")
 time.sleep(1)
 print(os.getcwd())
-typing_effect(get_file(r"\storyline\intro"))
+typing_effect(get_file(r".\storyline\intro"), .00)
 
