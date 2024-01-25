@@ -17,11 +17,12 @@ def get_file(file_path):
     return text
 
 
-def typing_effect(string, wait_time):
+def typing_effect(string):
     for letter in string:
         sys.stdout.write(letter)
         sys.stdout.flush()
-        time.sleep(float(wait_time))
+        time.sleep(float(0))
+        # todo add a parameter called wait time
 
 
 def dice():
@@ -47,11 +48,11 @@ def text_regex(text):
 
 def intro_screen():
     # this is the fancy little intro screen
-    typing_effect("-" * 110, .000)
+    typing_effect("-" * 110)
     print()
-    typing_effect("-" * 110, .000)
+    typing_effect("-" * 110)
     print()
-    typing_effect("-" * 110, .000)
+    typing_effect("-" * 110)
     typing_effect("""
                  #####                       #####                                
                 #     # #####   ##   #####  #     #   ##   # #       ####  #####  
@@ -59,13 +60,13 @@ def intro_screen():
                  #####    #   #    # #    #  #####  #    # # #      #    # #    # 
                       #   #   ###### #####        # ###### # #      #    # #####  
                 #     #   #   #    # #   #  #     # #    # # #      #    # #   #  
-                 #####    #   #    # #    #  #####  #    # # ######  ####  #    # """.center(150, " "), .001)
+                 #####    #   #    # #    #  #####  #    # # ######  ####  #    # """.center(150, " "))
     print("\n")
-    typing_effect("-" * 110, .000)
+    typing_effect("-" * 110)
     print()
-    typing_effect("-" * 110, .000)
+    typing_effect("-" * 110)
     print()
-    typing_effect("-" * 110, .000)
+    typing_effect("-" * 110)
     time.sleep(.75)
     print()
     # input("Press Enter to Continue...".center(110, " "))
@@ -78,16 +79,5 @@ def user_number_validation(user_number):
             return user_number[0]
         else:
             user_number = input("input a single number:\n")
-
-
-
-
-def path_splitter(choice, path_1, path_2):
-    if choice == 1:
-        path_1
-    elif choice == 2:
-        path_2
-
-
 
 
