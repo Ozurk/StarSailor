@@ -21,7 +21,7 @@ def typing_effect(string):
     for letter in string:
         sys.stdout.write(letter)
         sys.stdout.flush()
-        time.sleep(float(0))
+        time.sleep(.01)
         # todo add a parameter called wait time
 
 
