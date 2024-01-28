@@ -21,22 +21,22 @@ def typing_effect(string):
     for letter in string:
         sys.stdout.write(letter)
         sys.stdout.flush()
-        time.sleep(.01)
+        time.sleep(.00)  # this controls the speed of the game
         # todo add a parameter called wait time
 
 
-def dice():
-    number = random.randint(1, 6)
-    return number
-
-
-def stats(food, money, sanity):
+def user_stats(food, money, sanity):
     print("\n" * 4)
-    print("Your Food Level is at :" + str(food) + " %".center(150, "-"))
-    print("-" * 175)
-    print("You have " + str(money) + "Platinum Disks")
-    print("-" * 175)
+    print("-" * 110)
+    print("Your Food Level is at " + str(food) + "%")
+    print("-" * 110)
+    print("You have " + str(money) + " Platinum Disks")
+    print("-" * 110)
     print("Your Sanity is at " + str(sanity) + "%")
+    print("-" * 110)
+    # user_stats(stats["food"], stats["money"], stats["sanity"])
+    # input("press enter to continue...".center(110, " "))
+    # os.system("cls")
 
 
 def text_regex(text):
@@ -73,11 +73,19 @@ def intro_screen():
     # todo un-comment this ^
 
 
-def user_number_validation(user_number):
-    while True:
-        if user_number.strip().isnumeric():
-            return user_number[0]
-        else:
-            user_number = input("input a single number:\n")
+def one_or_two():
+    user_input = input("Choose \n[1] \nor \n[2]\n")
+    if user_input == "1":
+        return int(user_input)
+    elif user_input == "2":
+        return int(user_input)
+    else:
+        print("You must choose between 1 or 2")
+        one_or_two()
 
 
+def storyline_splitter(integer, option_1, option_2):
+    if integer == 1:
+        option_1()
+    elif integer == 2:
+        option_2()
