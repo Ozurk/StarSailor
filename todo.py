@@ -1,2 +1,2 @@
-# todo Clean up code
-# todo make a better function for selecting things
+# todo use AI to help me write the story line for the game
+

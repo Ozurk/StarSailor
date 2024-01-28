@@ -26,13 +26,13 @@ def typing_effect(string):
 
 
 def user_stats(food, money, sanity):
-    print("\n" * 4)
+    print("\n" * 2)
     print("-" * 110)
-    print("Your Food Level is at " + str(food) + "%")
+    print(("Your Food Level is at " + str(food) + "%").center(110))
     print("-" * 110)
-    print("You have " + str(money) + " Platinum Disks")
+    print(("You have " + str(money) + " Platinum Disks").center(110))
     print("-" * 110)
-    print("Your Sanity is at " + str(sanity) + "%")
+    print(("Your Sanity is at " + str(sanity) + "%").center(110))
     print("-" * 110)
     # user_stats(stats["food"], stats["money"], stats["sanity"])
     # input("press enter to continue...".center(110, " "))
@@ -89,3 +89,5 @@ def storyline_splitter(integer, option_1, option_2):
         option_1()
     elif integer == 2:
         option_2()
+
+
