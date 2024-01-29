@@ -14,7 +14,7 @@ def chapter1a():
     typing_effect(get_file(r"storyline\chapter_1\chapter1a"))
     # todo more text and more options
     input("Press Enter to Continue...".center(110))
-    
+
 
 
 def chapter1b():
