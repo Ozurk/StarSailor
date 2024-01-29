@@ -21,7 +21,7 @@ def typing_effect(string):
     for letter in string:
         sys.stdout.write(letter)
         sys.stdout.flush()
-        time.sleep(.00)  # this controls the speed of the game
+        time.sleep(.01)  # this controls the speed of the game
         # todo add a parameter called wait time
 
 
@@ -74,7 +74,7 @@ def intro_screen():
 
 
 def one_or_two():
-    user_input = input("Choose \n[1] \nor \n[2]\n")
+    user_input = input("\n[1] \nor \n[2]\n")
     if user_input == "1":
         return int(user_input)
     elif user_input == "2":
@@ -82,12 +82,5 @@ def one_or_two():
     else:
         print("You must choose between 1 or 2")
         one_or_two()
-
-
-def storyline_splitter(integer, option_1, option_2):
-    if integer == 1:
-        option_1()
-    elif integer == 2:
-        option_2()
 
 

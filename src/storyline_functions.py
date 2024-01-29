@@ -12,7 +12,9 @@ stats = {"money": 10000, "sanity": 100, "food": 100}
 def chapter1a():
     os.system("cls")
     typing_effect(get_file(r"storyline\chapter_1\chapter1a"))
-    # todo add something from here
+    # todo more text and more options
+    input("Press Enter to Continue...".center(110))
+    
 
 
 def chapter1b():
@@ -24,7 +26,11 @@ def intro():
     os.system("cls")
     typing_effect(get_file(r".\storyline\intro"))
     print("\n")
-    storyline_splitter(one_or_two(), chapter1a(), chapter1b())
+    intro_choice = one_or_two()
+    if intro_choice == 1:
+        chapter1a()
+    elif intro_choice == 2:
+        chapter1b()
 
 
 def random_event():
@@ -106,5 +112,4 @@ def random_event():
         os.system("cls")
 
 
-while True:
-    random_event()
+
