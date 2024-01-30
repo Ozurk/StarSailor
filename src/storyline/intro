@@ -1,7 +1,27 @@
-This is some placeholder text to be filled in with a part of the story written by Sean
-this is where the story gets defined
-Something happens
-what do you do?
-[1] option 1
-[2] option 2
+Greetings!
+Welcome to StarSailor!
+----------------------------------------------------------------------------------------------------------------------
+Once this game is started, you can interact with it in a variety of ways.
+----------------------------------------------------------------------------------------------------------------------
+Whenever prompted to make a choice, type the characters within the [brackets]
+    then press enter:
+----------------------------------------------------------------------------------------------------------------------
+For example, you want to chose the shiny dagger:
 
+   "There are two knives for sale, a shiny dagger and a matte black butterfly knife"
+   "[1] Shiny dagger"
+   "[2] Matte black butterfly knife"
+   "[3] neither"
+
+   >2    **enter**
+
+"you purchased the shiny dagger"
+-----------------------------------------------------------------------------------------------------------------------
+After each screen, your stats will appear
+you have resources named [food][money][sanity] do not run out of any of them.
+
+If you run out of food, you will die..
+
+
+when entering any text, be exact as you can be, try to avoid typos
+Good luck!!

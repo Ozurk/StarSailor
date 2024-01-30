@@ -17,12 +17,11 @@ def get_file(file_path):
     return text
 
 
-def typing_effect(string):
+def typing_effect(string, wait_time):
     for letter in string:
         sys.stdout.write(letter)
         sys.stdout.flush()
-        time.sleep(.01)  # this controls the speed of the game
-        # todo add a parameter called wait time
+        time.sleep(wait_time)  # this controls the speed of the game
 
 
 def user_stats(food, money, sanity):
@@ -46,41 +45,42 @@ def text_regex(text):
     # will return a list of strings
 
 
-def intro_screen():
+def intro_screen(wait):
     # this is the fancy little intro screen
-    typing_effect("-" * 110)
+    typing_effect("-" * 110, wait)
     print()
-    typing_effect("-" * 110)
+    typing_effect("-" * 110, wait)
     print()
-    typing_effect("-" * 110)
+    typing_effect("-" * 110, wait)
     typing_effect("""
-                 #####                       #####                                
+        *        #####                       #####                                           *
                 #     # #####   ##   #####  #     #   ##   # #       ####  #####  
-                #         #    #  #  #    # #        #  #  # #      #    # #    # 
-                 #####    #   #    # #    #  #####  #    # # #      #    # #    # 
-                      #   #   ###### #####        # ###### # #      #    # #####  
-                #     #   #   #    # #   #  #     # #    # # #      #    # #   #  
-                 #####    #   #    # #    #  #####  #    # # ######  ####  #    # """.center(150, " "))
+       *        #         #    #  #  #    # #        #  #  # #      #    # #    #          
+   *             #####    #   #    # #    #  #####  #    # # #      #    # #    #               *
+                      #   #   ###### #####        # ###### # #      #    # #####         *
+          *     #     #   #   #    # #   #  #     # #    # # #      #    # #   #            
+                 #####    #   #    # #    #  #####  #    # # ######  ####  #    # """.center(110, " "), 0)
     print("\n")
-    typing_effect("-" * 110)
+    typing_effect("-" * 110, wait)
     print()
-    typing_effect("-" * 110)
+    typing_effect("-" * 110, wait)
     print()
-    typing_effect("-" * 110)
+    typing_effect("-" * 110, wait)
     time.sleep(.75)
     print()
-    # input("Press Enter to Continue...".center(110, " "))
+    input("Press Enter to Continue...".center(110, " ") + "\n")
+    print("\n")
     # todo un-comment this ^
 
 
 def one_or_two():
-    user_input = input("\n[1] \nor \n[2]\n")
+    user_input = input("\n Enter [1] or [2]\n")
     if user_input == "1":
         return int(user_input)
     elif user_input == "2":
         return int(user_input)
     else:
-        print("You must choose between 1 or 2")
+        print("You must enter 1 or 2")
         one_or_two()
 
 
