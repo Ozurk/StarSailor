@@ -1,12 +1,16 @@
-# this is the functions file for project StarSailor
-# todo make a function for getting a file and returning the text from it
-# todo make a function that reads the text
-# todo make a random number dice thing
-
 import sys
 import time
-import random
 import re
+
+
+# ------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------Variables--------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------
+
+
+# -----------------------------------------------------------------------------------------------------------------
+# ---------------------------------This is what gets and print the text files--------------------------------------
+# -----------------------------------------------------------------------------------------------------------------
 
 
 def get_file(file_path):
@@ -17,6 +21,11 @@ def get_file(file_path):
     return text
 
 
+# -----------------------------------------------------------------------------------------------------------------
+# ---------------------------------This is what types strings out -------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------
+
+
 def typing_effect(string, wait_time):
     for letter in string:
         sys.stdout.write(letter)
@@ -24,18 +33,9 @@ def typing_effect(string, wait_time):
         time.sleep(wait_time)  # this controls the speed of the game
 
 
-def user_stats(food, money, sanity):
-    print("\n" * 2)
-    print("-" * 110)
-    print(("Your Food Level is at " + str(food) + "%").center(110))
-    print("-" * 110)
-    print(("You have " + str(money) + " Platinum Disks").center(110))
-    print("-" * 110)
-    print(("Your Sanity is at " + str(sanity) + "%").center(110))
-    print("-" * 110)
-    # user_stats(stats["food"], stats["money"], stats["sanity"])
-    # input("press enter to continue...".center(110, " "))
-    # os.system("cls")
+# -----------------------------------------------------------------------------------------------------------------
+# ---------------------------------This is what prints out the stats ----------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------
 
 
 def text_regex(text):
@@ -54,7 +54,7 @@ def intro_screen(wait):
     typing_effect("-" * 110, wait)
     typing_effect("""
         *        #####                       #####                                           *
-                #     # #####   ##   #####  #     #   ##   # #       ####  #####  
+                #     # #####   ##   #####  #     #   ##   # #       ####  #####    *
        *        #         #    #  #  #    # #        #  #  # #      #    # #    #          
    *             #####    #   #    # #    #  #####  #    # # #      #    # #    #               *
                       #   #   ###### #####        # ###### # #      #    # #####         *
@@ -82,5 +82,3 @@ def one_or_two():
     else:
         print("You must enter 1 or 2")
         one_or_two()
-
-
