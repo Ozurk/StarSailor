@@ -25,14 +25,18 @@ def chapter1a():
     typing_effect(get_file(r"storyline\chapter_1\chapter1a"), 0)
     # todo more text and more options
     q_reflector_options = ['purchase', 'decline', 'inquire']
-    q_reflector_choice = input("\n[purchase]\n[decline]\n[inquire]")
+    q_reflector_choice = input("\n[purchase]\n[decline]\n[inquire]\n")
+
     q_reflector_choice = q_reflector_choice.lower().strip()
     if q_reflector_choice in q_reflector_options:
         if q_reflector_choice == q_reflector_options[0]:
             print("you purchased to the Q-Reflector\n -5000 PD")
             input("Press Enter to Continue...".center(110, " ") + "\n")
-            inventory += ""
-            
+            global inventory
+            global stats
+            stats['money'] -= 5000
+            inventory += "q_reflector"
+
 
 
 
