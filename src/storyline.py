@@ -1,7 +1,7 @@
 import logging
 import os
 from random import randint
-
+from time import sleep
 from functions import *
 
 sleep_time = 1
@@ -27,11 +27,10 @@ def user_stats():
     print("-" * 110)
     print(("Your Sanity is at " + str(stats["sanity"]) + "%").center(110))
     print("-" * 110)
-    # user_stats(stats["food"], stats["money"], stats["sanity"])
     print("\n\n")
     print('-'*110)
     input("press enter to continue...".center(110, " "))
-    # os.system("cls")
+    os.system("cls")
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -122,54 +121,49 @@ def intro():
 def random_event():
     os.system("cls")
     choice = randint(0, 2)
-    logging.debug("the random number is %s", choice)
     if choice == 0:
-        typing_effect('''You have been selected for inter-galactic jury duty by the highest power in deep space...\n
-        Despite all efforts, you can not wiggle out of this one...\n
-        You lose a little bit of your mind...''', 0)
-        print('\n')
-        print("-" * 110)
-        input('Press Enter to Continue'.center(110))
-        os.system("cls")
-        stats["sanity"] -= 10
-        user_stats()
-        os.system("cls")
+        jury_duty()
     elif choice == 1:
         broken_down()
     elif choice == 2:
-        typing_effect("You hit it big in the crypto^3 market despite having no idea "
-                      "what you are doing.".center(110), 0)
-        print("\n")
-        typing_effect("+ 2000 platinum disks".center(110), 0)
-        print('\n')
-        print("-" * 110)
-        print("\n")
-        input('Press Enter to Continue'.center(110))
-        stats["money"] += 1000
-        os.system("cls")
-        user_stats()
-        print('\n')
-        os.system("cls")
+        crypto()
+
 
 
 # ---------------------------------------------------------------------------------------------------------------
 # --------------------------------here are the random events that can happen-------------------------------------
 # ---------------------------------------------------------------------------------------------------------------
 
+
+def jury_duty():
+    typing_effect('''You have been selected for inter-galactic jury duty by the highest power in deep space...\n
+            Despite all efforts, you can not wiggle out of this one...\n
+            You lose a little bit of your mind...''', 0)
+    print('\n')
+    print("-" * 110)
+    input('Press Enter to Continue'.center(110))
+    os.system("cls")
+    stats["sanity"] -= 10
+    user_stats()
+
+
 def broken_down():
     typing_effect("There is a ship broken-down along the side of Desmos 9, do you want to help it?".center(110), 0)
     print('\n')
     print("-" * 110)
     user_choose = input("\n[yes]\n[no]\n")
-    options_list = ["yes", 'no']
+    options_list = ["yes", "no"]
+    while user_choose not in options_list:
+        user_choose = input("please enter [yes] or [no]")
+
     if user_choose.strip().lower() in options_list:
         if user_choose.lower().strip() == "yes":
             dice_roll = randint(1, 6)
             logging.debug("the dice roll is %s", dice_roll)
             if dice_roll == 6:
                 logging.debug("the number 6 option is running")
-                typing_effect("The ship was very grateful. All they needed was a quick jump.", 0)
-                typing_effect("They rewarded you handsomely... + 5000 platinum disks\n", 0)
+                typing_effect("The ship was very grateful.\nAll they needed was a quick jump.", 0)
+                typing_effect("They rewarded you handsomely...\n + 5000 platinum disks\n", 0)
                 print("-" * 110)
                 input('Press Enter to Continue'.center(110) + "\n")
                 stats["money"] += 5000
@@ -184,21 +178,38 @@ def broken_down():
                 stats["sanity"] *= .5
                 stats["money"] *= .5
                 user_stats()
-                os.system("cls")
             else:
-                typing_effect("""The ship did not want your help.. you continue on...\n""", 0)
+                typing_effect("""The ship did not want your help..\n you continue on...\n""", 0)
                 print("-" * 110)
                 user_stats()
         elif user_choose.lower().strip() == "no":
             user_stats()
-            os.system("cls")
         else:
             print("Please type in either \n[yes]\nor\n[no]")
             broken_down()
+
+
+def crypto():
+    typing_effect("You hit it big in the crypto^3 market despite having no idea "
+                  "what you are doing.".center(110), 0)
+    print("\n")
+    typing_effect("+ 2000 platinum disks".center(110), 0)
+    print('\n')
+    print("-" * 110)
+    print("\n")
+    input('Press Enter to Continue'.center(110))
+    stats["money"] += 1000
+    os.system("cls")
+    user_stats()
+
+# -----------------------------------------------------------------------------------------------------------------
+# ----------------------------Above are the functions within the random events ------------------------------------
+# -----------------------------------------------------------------------------------------------------------------
+
 
 # -----------------------------------------------------------------------------------------------------------------
 # --------------------------------------here is where the functions run-------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------
 
 while True:
-    random_event()
+    broken_down()
