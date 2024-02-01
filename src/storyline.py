@@ -116,7 +116,7 @@ def chapter_1():
     The Foundry, the city's blazing furnace of manufactury. The choking smog is a perennial feat
     ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .005)
     input("Press enter to continue".center(115) + '\n')
-    typing_effect(get_file(r"storyline/chapter_1/chapter1.txt"), .005)
+    typing_effect(get_file(r"storyline/chapter_1/tunnel"), .005)
 
 
 # -----------------------------------------------------------------------------------------------------------------
