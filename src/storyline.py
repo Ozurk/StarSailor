@@ -1,7 +1,6 @@
 import logging
 import os
 from random import randint
-from time import sleep
 from functions import *
 
 sleep_time = 0.2
@@ -106,23 +105,28 @@ def set_and_setting():
 # -----------------------------------------------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------------------------------------------
-# --------------------------------below is the first step to enter into the game-----------------------------------
+# -------------------------------Below is the First Step in the Tunnel to the Realm--------------------------------
 # -----------------------------------------------------------------------------------------------------------------
 
 
 def chapter_1():
     os.system("cls")
-    typing_effect("""The Smokestacks are the colloquially named shanty-apartments residing above 
+    typing_effect("""
+    The Smokestacks are the colloquially named shanty-apartments residing above 
     The Foundry, the city's blazing furnace of manufactury. The choking smog is a perennial feat
     ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .005)
     input("Press enter to continue".center(115) + '\n')
-    typing_effect(get_file(r"storyline/chapter_1/chapter_1"), .005)
+    typing_effect(get_file(r"storyline/chapter_1/chapter1.txt"), .005)
 
 
 # -----------------------------------------------------------------------------------------------------------------
-# --------------------------------above is the first step to enter into the game-----------------------------------
+# ------------------------------Above is the First Step in the Tunnel to the Realm---------------------------------
 # -----------------------------------------------------------------------------------------------------------------
 
+
+# -----------------------------------------------------------------------------------------------------------------
+# --------------------------------above is the First Step in the Tunnel to the Realm-----------------------------------
+# -----------------------------------------------------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------------------------------------------
 # --------------------------------here are the random events that can happen-------------------------------------
@@ -219,7 +223,5 @@ def crypto():
 # -----------------------------------------------------------------------------------------------------------------
 # --------------------------------------here is where the functions run-------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------
-intro_screen()
-intro()
-while True:
-    random_event()
+
+chapter_1()
