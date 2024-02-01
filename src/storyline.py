@@ -2,7 +2,7 @@ import logging
 import os
 from random import randint
 from functions import *
-
+import pprint
 sleep_time = 0.2
 
 
@@ -98,6 +98,7 @@ def set_and_setting():
         player_type = 'scavver'
 
     user_stats()
+    tunnel()
 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -109,23 +110,44 @@ def set_and_setting():
 # -----------------------------------------------------------------------------------------------------------------
 
 
-def chapter_1():
+def tunnel():
     os.system("cls")
     typing_effect("""
     The Smokestacks are the colloquially named shanty-apartments residing above 
     The Foundry, the city's blazing furnace of manufactury. The choking smog is a perennial feat
-    ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .005)
+    ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .000)
     input("Press enter to continue".center(115) + '\n')
-    typing_effect(get_file(r"storyline/chapter_1/tunnel"), .005)
+    typing_effect(get_file(r"storyline//chapter_1/tunnel"), .000)
+    tunnel_options = {"1": "option1", "2": "option2", "3": "option3"}
+    tunnel_choice = input("\n")
+    while tunnel_choice not in tunnel_options.keys():
+        tunnel_choice = input("Please enter a\n[1]\n[2]\n[3]\n")
+    if tunnel_choice == tunnel_options["1"]:
+            # todo entrance_option_1()
+    elif tunnel_choice == tunnel_options["2"]:
+            # todo entrance_option_2()
+    elif tunnel_choice == tunnel_options["3"]:
+            # todo entrance_option_3
 
 
 # -----------------------------------------------------------------------------------------------------------------
-# ------------------------------Above is the First Step in the Tunnel to the Realm---------------------------------
+# ------------------------------------------Below are the 3 entrances ---------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------
+def entrance_option_1():
+    # todo
+
+def entrance_option_2():
+    #todo
+
+def entrance_option_1():
+    # todo
+
+# -----------------------------------------------------------------------------------------------------------------
+# --------------------------------Above is the First Step in the Tunnel to the Realm-------------------------------
 # -----------------------------------------------------------------------------------------------------------------
 
-
 # -----------------------------------------------------------------------------------------------------------------
-# --------------------------------above is the First Step in the Tunnel to the Realm-----------------------------------
+# --------------------------------Below is the First Step in the Tunnel to the Realm-------------------------------
 # -----------------------------------------------------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -223,5 +245,5 @@ def crypto():
 # -----------------------------------------------------------------------------------------------------------------
 # --------------------------------------here is where the functions run-------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------
-
-chapter_1()
+print(os.getcwd())
+tunnel()
