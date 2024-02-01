@@ -67,7 +67,7 @@ def intro_screen():
     print()
     typing_effect("-" * 115, .005)
     time.sleep(.75)
-    print()
+    print("\n"*8)
     input("Press Enter to Continue...".center(115, " ") + "\n")
     print("\n")
     # todo un-comment this ^

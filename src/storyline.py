@@ -17,7 +17,7 @@ def user_stats():
     os.system('cls')
     print("\n" * 2)
     print("-" * 115)
-    print(("You are a " + player_type + " player").center(115))
+    print(("You are a " + player_type).center(115))
     print("-" * 115)
     print(('Inventory:' + str(inventory)).center(115))
     print("-" * 115)
@@ -28,8 +28,8 @@ def user_stats():
     print(("Your Sanity is at " + str(stats["sanity"]) + "%").center(115))
     print("-" * 115)
     print("\n\n")
-    print('-'*115)
-    input("press enter to continue...".center(115, " "))
+    input("press enter to continue...".center(115, " ") + '\n')
+    print('-' * 115)
     os.system("cls")
 
 
@@ -69,35 +69,36 @@ player_type = "[blank]"
 def intro():
     os.system("cls")
     typing_effect(get_file(r".\storyline\intro"), .005)
-    print("\n")
+    print("\n" * 4)
     input("Press enter to play the game".center(115, "-") + "\n")
+    user_stats()
     set_and_setting()
 
 
 def set_and_setting():
     global player_type
     os.system("cls")
-    typing_effect(get_file(r"storyline\chapter_1\setting and setup"), 0)
+    typing_effect(get_file(r"storyline\chapter_1\setting and setup"), .005)
     # todo more text and more options
-    player_type_options = ['sailor', 'scout', 'smuggler', 'scavver']
-    player_type = input("please enter one of the following:\n[1] sailor\n[2] scout\n[3]smuggler\n[4]scavver\n")
+    # this ought to ensure a proper answer
+    # a dictionary would have been good, now that I think of it.
+    player_type_options = ['1', '2', '3', '4']
+    player_type = input("please enter one of the following:\n[1] sailor\n[2] scout\n[3] smuggler\n[4] scavver\n")
     while player_type not in player_type_options:
-        player_type = input("please enter one of the following:\n [1] sailor\n[2] scout\n[3]smuggler\n[4]scavver\n")
+        player_type = input("please enter one of the following:\n[1] sailor\n[2] scout\n[3] smuggler\n[4] scavver\n")
     # this is where the player will choose what they want to play as
     logging.debug("the player type is %s", player_type)
     player_type = player_type.lower().strip()
-    if player_type == 1:
-        player_type = player_type_options[0]
-    elif player_type == player_type_options[1]:
-        player_type = player_type_options[1]
-    elif player_type == player_type_options[2]:
-        player_type = player_type_options[2]
-    elif player_type == player_type_options[3]:
-        player_type = player_type_options[3]
-    else:
-        print("\nPlease type one of the options and try again\n")
-        input("press enter to continue".center(115, " "))
-    chapter_1()
+    if player_type == "1":
+        player_type = 'sailor'
+    elif player_type == "2":
+        player_type = 'scout'
+    elif player_type == "3":
+        player_type = "smuggler"
+    elif player_type == "4":
+        player_type = 'scavver'
+
+    user_stats()
 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -113,16 +114,14 @@ def chapter_1():
     os.system("cls")
     typing_effect("""The Smokestacks are the colloquially named shanty-apartments residing above 
     The Foundry, the city's blazing furnace of manufactury. The choking smog is a perennial feat
-    ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", 0)
-    input("Press enter to continue".center(115))
-    typing_effect(get_file(r"storyline/chapter_1/chapter_1"), 0)
-
+    ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .005)
+    input("Press enter to continue".center(115) + '\n')
+    typing_effect(get_file(r"storyline/chapter_1/chapter_1"), .005)
 
 
 # -----------------------------------------------------------------------------------------------------------------
 # --------------------------------above is the first step to enter into the game-----------------------------------
 # -----------------------------------------------------------------------------------------------------------------
-
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -137,7 +136,6 @@ def random_event():
         broken_down()
     elif choice == 2:
         crypto()
-
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -212,6 +210,7 @@ def crypto():
     os.system("cls")
     user_stats()
 
+
 # -----------------------------------------------------------------------------------------------------------------
 # ----------------------------Above are the functions within the random events ------------------------------------
 # -----------------------------------------------------------------------------------------------------------------
@@ -221,5 +220,6 @@ def crypto():
 # --------------------------------------here is where the functions run-------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------
 intro_screen()
-
 intro()
+while True:
+    random_event()
