@@ -45,30 +45,30 @@ def text_regex(text):
     # will return a list of strings
 
 
-def intro_screen(wait):
+def intro_screen():
     # this is the fancy little intro screen
-    typing_effect("-" * 110, wait)
+    typing_effect("-" * 115, .005)
     print()
-    typing_effect("-" * 110, wait)
+    typing_effect("-" * 115, .005)
     print()
-    typing_effect("-" * 110, wait)
-    typing_effect("""
-        *        #####                       #####                                           *
-                #     # #####   ##   #####  #     #   ##   # #       ####  #####    *
-       *        #         #    #  #  #    # #        #  #  # #      #    # #    #          
-   *             #####    #   #    # #    #  #####  #    # # #      #    # #    #               *
-                      #   #   ###### #####        # ###### # #      #    # #####         *
-          *     #     #   #   #    # #   #  #     # #    # # #      #    # #   #            
-                 #####    #   #    # #    #  #####  #    # # ######  ####  #    # """.center(110, " "), 0)
+    typing_effect("-" * 115, .005)
+    typing_effect("""  
+             #####  #######    #    ######   #####     #    ### #       ####### ######  
+            #     #    #      # #   #     # #     #   # #    #  #       #     # #     # 
+            #          #     #   #  #     # #        #   #   #  #       #     # #     # 
+             #####     #    #     # ######   #####  #     #  #  #       #     # ######  
+                  #    #    ####### #   #         # #######  #  #       #     # #   #   
+            #     #    #    #     # #    #  #     # #     #  #  #       #     # #    #  
+             #####     #    #     # #     #  #####  #     # ### ####### ####### #     # """, .005)
     print("\n")
-    typing_effect("-" * 110, wait)
+    typing_effect("-" * 115, .005)
     print()
-    typing_effect("-" * 110, wait)
+    typing_effect("-" * 115, .005)
     print()
-    typing_effect("-" * 110, wait)
+    typing_effect("-" * 115, .005)
     time.sleep(.75)
     print()
-    input("Press Enter to Continue...".center(110, " ") + "\n")
+    input("Press Enter to Continue...".center(115, " ") + "\n")
     print("\n")
     # todo un-comment this ^
 
