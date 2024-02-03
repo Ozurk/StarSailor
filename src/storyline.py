@@ -123,23 +123,26 @@ def tunnel():
     while tunnel_choice not in tunnel_options.keys():
         tunnel_choice = input("Please enter a\n[1]\n[2]\n[3]\n")
     if tunnel_choice == tunnel_options["1"]:
-            # todo entrance_option_1()
+        print("option 1 ")
+        # todo entrance_option_1()
     elif tunnel_choice == tunnel_options["2"]:
-            # todo entrance_option_2()
+        print("Option 2")
+        # todo entrance_option_2()
     elif tunnel_choice == tunnel_options["3"]:
-            # todo entrance_option_3
+        print("option 3")
+        # todo entrance_option_3
 
 
 # -----------------------------------------------------------------------------------------------------------------
 # ------------------------------------------Below are the 3 entrances ---------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------
-def entrance_option_1():
+# def entrance_option_1():
     # todo
 
-def entrance_option_2():
+# def entrance_option_2():
     #todo
 
-def entrance_option_1():
+# def entrance_option_1():
     # todo
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -246,4 +249,5 @@ def crypto():
 # --------------------------------------here is where the functions run-------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------
 print(os.getcwd())
-tunnel()
+intro_screen()
+intro()
