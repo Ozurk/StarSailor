@@ -45,33 +45,6 @@ def text_regex(text):
     # will return a list of strings
 
 
-def intro_screen():
-    # this is the fancy little intro screen
-    typing_effect("-" * 115, .005)
-    print()
-    typing_effect("-" * 115, .005)
-    print()
-    typing_effect("-" * 115, .005)
-    typing_effect("""  
-             #####  #######    #    ######   #####     #    ### #       ####### ######  
-            #     #    #      # #   #     # #     #   # #    #  #       #     # #     # 
-            #          #     #   #  #     # #        #   #   #  #       #     # #     # 
-             #####     #    #     # ######   #####  #     #  #  #       #     # ######  
-                  #    #    ####### #   #         # #######  #  #       #     # #   #   
-            #     #    #    #     # #    #  #     # #     #  #  #       #     # #    #  
-             #####     #    #     # #     #  #####  #     # ### ####### ####### #     # """, .005)
-    print("\n")
-    typing_effect("-" * 115, .005)
-    print()
-    typing_effect("-" * 115, .005)
-    print()
-    typing_effect("-" * 115, .005)
-    time.sleep(.75)
-    print("\n"*8)
-    input("Press Enter to Continue...".center(115, " ") + "\n")
-    print("\n")
-    # todo un-comment this ^
-
 
 def one_or_two():
     user_input = input("\n Enter [1] or [2]\n")
