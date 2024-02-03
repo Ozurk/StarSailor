@@ -14,7 +14,7 @@ import re
 
 
 def get_file(file_path):
-    file = open(file_path, "r", encoding='utf-8')
+    file = open(file_path, "r")
     text = file.read()
     text = text.strip()
     file.close()
