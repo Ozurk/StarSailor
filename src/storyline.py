@@ -3,6 +3,7 @@ import os
 from random import randint
 from functions import *
 import pprint
+
 sleep_time = 0.2
 
 
@@ -77,7 +78,7 @@ def intro():
 def set_and_setting():
     global player_type
     os.system("cls")
-    typing_effect(get_file(r"storyline\chapter_1\setting and setup"), .005)
+    typing_effect(get_file(r"storyline/setup\setting and setup"), .005)
     # todo more text and more options
     # this ought to ensure a proper answer
     # a dictionary would have been good, now that I think of it.
@@ -117,7 +118,7 @@ def tunnel():
     The Foundry, the city's blazing furnace of manufactury. The choking smog is a perennial feat
     ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .000)
     input("Press enter to continue".center(115) + '\n')
-    typing_effect(get_file(r"storyline//chapter_1/tunnel"), .000)
+    typing_effect(get_file(r"storyline/setup/tunnel"), .000)
     tunnel_options = {"1": "option1", "2": "option2", "3": "option3"}
     tunnel_choice = input("\n")
     while tunnel_choice not in tunnel_options.keys():
@@ -137,13 +138,13 @@ def tunnel():
 # ------------------------------------------Below are the 3 entrances ---------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------
 # def entrance_option_1():
-    # todo
+# todo
 
 # def entrance_option_2():
-    #todo
+# todo
 
 # def entrance_option_1():
-    # todo
+# todo
 
 # -----------------------------------------------------------------------------------------------------------------
 # --------------------------------Above is the First Step in the Tunnel to the Realm-------------------------------
