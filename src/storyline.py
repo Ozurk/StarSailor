@@ -89,14 +89,11 @@ def set_and_setting():
     global player_type
     os.system("cls")
     typing_effect(get_file(r"storyline\chapter_1\setting and setup"), .005)
-    # todo more text and more options
-    # this ought to ensure a proper answer
-    # a dictionary would have been good, now that I think of it.
     player_type_options = ['1', '2', '3', '4']
+    # make this a dictionary
     player_type = input("please enter one of the following:\n[1] sailor\n[2] scout\n[3] smuggler\n[4] scavver\n")
     while player_type not in player_type_options:
         player_type = input("please enter one of the following:\n[1] sailor\n[2] scout\n[3] smuggler\n[4] scavver\n")
-    # this is where the player will choose what they want to play as
     logging.debug("the player type is %s", player_type)
     player_type = player_type.lower().strip()
     if player_type == "1":
@@ -109,8 +106,6 @@ def set_and_setting():
         player_type = 'scavver'
     user_stats()
     tunnel()
-
-
 
 
 def tunnel():
@@ -136,7 +131,6 @@ def tunnel():
         # todo entrance_option_3
 
 
-
 # def entrance_option_1():
 # todo
 
@@ -155,7 +149,6 @@ def random_event():
         broken_down()
     elif choice == 2:
         crypto()
-
 
 
 def jury_duty():
@@ -219,8 +212,5 @@ def broken_down():
         user_stats()
 
 
-
-
 while True:
     broken_down()
-

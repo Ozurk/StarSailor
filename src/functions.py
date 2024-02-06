@@ -36,14 +36,12 @@ def one_or_two():
         one_or_two()
 
 
-def yes_or_no(user_input):
-    list = ['yes', 'no']
-    while user_input.lower().strip() not in list:
-        user_input = input("Please enter\n[yes]\nor\n[no]")
-    if user_input == "yes":
-        return user_input
-    if user_input == "no":
-        return user_input
+def yes_or_no(yes_or_no_input):
+    options = ['yes', 'no']
+    while yes_or_no_input.lower().strip() not in options:
+        yes_or_no_input = input("Please enter\n[yes]\nor\n[no]")
+    if yes_or_no_input == "yes":
+        return yes_or_no_input
+    if yes_or_no_input == "no":
+        return yes_or_no_input
 
-
-yes_or_no(input("type in yes or no here"))
