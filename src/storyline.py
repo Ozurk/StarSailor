@@ -238,6 +238,7 @@ def jury_duty():
     input('Press Enter to Continue'.center(115))
     os.system("cls")
     stats["sanity"] -= 10
+    stats["money"] += 10
     user_stats()
 
 
