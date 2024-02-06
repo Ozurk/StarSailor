@@ -3,27 +3,12 @@ import time
 import re
 
 
-# ------------------------------------------------------------------------------------------------------------------
-# -------------------------------------------------Variables--------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------
-
-
-# -----------------------------------------------------------------------------------------------------------------
-# ---------------------------------This is what gets and print the text files--------------------------------------
-# -----------------------------------------------------------------------------------------------------------------
-
-
 def get_file(file_path):
     file = open(file_path, "r")
     text = file.read()
     text = text.strip()
     file.close()
     return text
-
-
-# -----------------------------------------------------------------------------------------------------------------
-# ---------------------------------This is what types strings out -------------------------------------------------
-# -----------------------------------------------------------------------------------------------------------------
 
 
 def typing_effect(string, wait_time):
@@ -33,44 +18,11 @@ def typing_effect(string, wait_time):
         time.sleep(wait_time)  # this controls the speed of the game
 
 
-# -----------------------------------------------------------------------------------------------------------------
-# ---------------------------------This is what prints out the stats ----------------------------------------------
-# -----------------------------------------------------------------------------------------------------------------
-
-
 def text_regex(text):
     alphabet_regex = re.compile("[a-zA-Z]+")
     mo = alphabet_regex.findall(text)
     return mo
     # will return a list of strings
-
-
-def intro_screen():
-    # this is the fancy little intro screen
-    typing_effect("-" * 115, .005)
-    print()
-    typing_effect("-" * 115, .005)
-    print()
-    typing_effect("-" * 115, .005)
-    typing_effect("""  
-             #####  #######    #    ######   #####     #    ### #       ####### ######  
-            #     #    #      # #   #     # #     #   # #    #  #       #     # #     # 
-            #          #     #   #  #     # #        #   #   #  #       #     # #     # 
-             #####     #    #     # ######   #####  #     #  #  #       #     # ######  
-                  #    #    ####### #   #         # #######  #  #       #     # #   #   
-            #     #    #    #     # #    #  #     # #     #  #  #       #     # #    #  
-             #####     #    #     # #     #  #####  #     # ### ####### ####### #     # """, .005)
-    print("\n")
-    typing_effect("-" * 115, .005)
-    print()
-    typing_effect("-" * 115, .005)
-    print()
-    typing_effect("-" * 115, .005)
-    time.sleep(.75)
-    print("\n"*8)
-    input("Press Enter to Continue...".center(115, " ") + "\n")
-    print("\n")
-    # todo un-comment this ^
 
 
 def one_or_two():
@@ -82,3 +34,14 @@ def one_or_two():
     else:
         print("You must enter 1 or 2")
         one_or_two()
+
+
+def yes_or_no(yes_or_no_input):
+    options = ['yes', 'no']
+    while yes_or_no_input.lower().strip() not in options:
+        yes_or_no_input = input("Please enter\n[yes]\nor\n[no]")
+    if yes_or_no_input == "yes":
+        return yes_or_no_input
+    if yes_or_no_input == "no":
+        return yes_or_no_input
+
