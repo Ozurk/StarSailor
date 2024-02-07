@@ -48,6 +48,7 @@ def intro_screen():
 
 
 def user_stats():
+    # todo make this into a for loop
     time.sleep(sleep_time)
     os.system('cls')
     print("\n" * 2)
@@ -131,14 +132,14 @@ def tunnel():
         # todo entrance_option_3
 
 
-# def entrance_option_1():
-# todo
 
-# def entrance_option_2():
-# todo
+# todo def entrance_option_1():
 
-# def entrance_option_1():
-# todo
+
+# todo def entrance_option_2():
+
+
+# tododef entrance_option_1():
 
 def random_event():
     os.system("cls")
