@@ -2,22 +2,117 @@ import logging
 import os
 from random import randint
 from functions import *
-import pprint
+from random import randint
+import pyautogui
+
+
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 sleep_time = 0.2
+stats = {"money": 1, "sanity": 100, "food": 100}
+inventory = {}
+player_type = "[blank]"
 
 
 def supervisor():
     user_stats()
-    if stats["money"] <= 0:
-        # todo beg
-        print("time to beg")
-    elif stats["sanity"] <= 0:
-        # todo insanity
-        print("")
-    elif stats["food"] <= 0:
-        # End Game Screen
-        print("You died of starvation")
+    if stats["food"] <= 0:
+        starvation()
+    if stats["sanity"] <= 0:
+        print('you lost your mind')
+
+
+def insane():
+    print("you lost your mind")
+    input("press enter to continue...\n")
+    while True:
+        try:
+            logging.debug(os.getcwd())
+            pyautogui.screenshot(r"..\pictures\screenshot.png")
+            cmd_x = pyautogui.locateCenterOnScreen(r"..\pictures\closeout_cmd.png", grayscale=True)
+            logging.debug(cmd_x)
+            print(cmd_x)
+            pyautogui.moveTo(cmd_x[0], cmd_x[1], 3)
+            time.sleep(.25)
+            pyautogui.click()
+
+
+        except pyautogui.ImageNotFoundException:
+            print('Try Resizing the CMD window')
+
+
+
+
+insane()
+
+def starvation():
+    os.system("cls")
+    print("-" * 150)
+    print("-" * 150)
+    print("It appears you have no food...".center(150, " "))
+    if stats['money'] < 1000:
+        beg()
+    print("-" * 150)
+    print("-" * 150)
+    print('you can roll the dice begging for food [1]'.center(150, " "))
+    print("-" * 150)
+    if stats["money"] > 1000:
+        print("or you can visit the vending machine to buy some more food [2]".center(150, " "))
+    print("-" * 150)
+    print("-" * 150)
+    one_or_two()
+    print("-" * 150)
+
+
+def vending_machine():
+    os.system("cls")
+    print("welcome to the vending machine!\n")
+    print("you have: " + str(stats["money"]) + " PD\n\n")
+    print("1000 PD for 10 food\n")
+    food_quantity = stats["money"] // 1000
+    print("you can buy up to: [" + str(food_quantity) + ']\n')
+    food_number = number_regex(input("enter the the amount of food you want to purchase".center(150, '-') + "\n"))
+    stats["money"] -= (food_number * 1000)
+    stats["food"] += (food_number * 10)
+    time.sleep(2)
+    print('thank you for visiting :)'.center(150, ' '))
+    supervisor()
+
+
+def beg():
+    print("-" * 115)
+    print("-" * 115)
+    print("You ran out of food and money, and you are loosing your sanity quickly...")
+    input("you are sitting outside of the rest-stop with a sign begging for money.")
+    print("-" * 115)
+    while stats["money"] < 1000:
+        spinner(randint(1, 5))
+        d10_die = randint(1, 30)
+        if d10_die == 1:
+            input("The stranger was kind and gave you 1000 PD, you can now visit the vending machine.")
+            stats["money"] += 1000
+            vending_machine()
+        elif d10_die == 10:
+            input("The stranger killed you")
+            # todo death
+        elif 11 < d10_die < 20:
+            donation = randint(1, 300)
+            print('The stranger gave you ' + str(donation) + " PD")
+            stats['money'] += donation
+            if stats["sanity"] < 100:
+                stats["sanity"] += 1
+            print("you have " + str(stats["money"]) + " PD")
+            print("your sanity is at " + str(stats["sanity"]) + "%")
+        else:
+            print("The stranger passed by, pretending not to notice you")
+            stats["sanity"] -= 5
+            print("you have " + str(stats["money"]) + " PD")
+            print("your sanity is at " + str(stats["sanity"]) + "%")
+        if stats["sanity"] < 0:
+            print("you lost your mind...")
+            # todo death
+    vending_machine()
 
 
 def intro_screen():
@@ -48,33 +143,15 @@ def intro_screen():
 
 
 def user_stats():
-    # todo make this into a for loop
-    time.sleep(sleep_time)
-    os.system('cls')
-    print("\n" * 2)
     print("-" * 115)
-    print(("You are a " + player_type).center(115))
-    print("-" * 115)
-    print(('Inventory:' + str(inventory)).center(115))
-    print("-" * 115)
-    print(("Your Food Level is at " + str(stats["food"]) + "%").center(115))
-    print("-" * 115)
-    print(("You have " + str(stats["money"]) + " Platinum Disks").center(115))
-    print("-" * 115)
-    print(("Your Sanity is at " + str(stats["sanity"]) + "%").center(115))
-    print("-" * 115)
+    print(('You are playing as: ' + player_type).center(115, " "))
+    for items in items_list:
+        print("-" * 115)
+        print(((items_list[iteration]) + ": " + str(stats[items_list[iteration]])).center(115, " "))
+        print("-" * 115)
+        iteration += 1
     print("\n\n")
-    input("press enter to continue...".center(115, " ") + '\n')
-    print('-' * 115)
-    os.system("cls")
-
-
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-logging.debug("start of file")
-
-stats = {"money": 10000, "sanity": 100, "food": 100}
-inventory = {}
-player_type = "[blank]"
+    input("press enter to contiue".center(115, "-") + "\n")
 
 
 def intro():
@@ -212,6 +289,3 @@ def broken_down():
     elif user_choose.lower().strip() == "no":
         user_stats()
 
-
-while True:
-    broken_down()

@@ -45,3 +45,23 @@ def yes_or_no(yes_or_no_input):
     if yes_or_no_input == "no":
         return yes_or_no_input
 
+
+def number_regex(number):
+    numberregex = re.compile(r"\d+")
+    mo = numberregex.findall(number)
+    return int(mo[0])
+
+
+def spinner(load_time):
+    for iteration in range(load_time * 5):
+        sys.stdout.write('\rwaiting |')
+        time.sleep(.05)
+        sys.stdout.write('\rwaiting /')
+        time.sleep(.05)
+        sys.stdout.write('\rwaiting -')
+        time.sleep(.05)
+        sys.stdout.write('\rwaiting \\')
+        time.sleep(.05)
+    sys.stdout.write('\r')
+
+
