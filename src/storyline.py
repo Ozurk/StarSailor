@@ -4,20 +4,43 @@ from random import randint
 from functions import *
 import pprint
 
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
 sleep_time = 0.2
+stats = {"money": 10000, "sanity": 100, "food": 100}
+inventory = {}
+player_type = "[blank]"
 
 
 def supervisor():
     user_stats()
-    if stats["money"] <= 0:
-        # todo beg
-        print("time to beg")
-    elif stats["sanity"] <= 0:
-        # todo insanity
-        print("")
-    elif stats["food"] <= 0:
-        # End Game Screen
-        print("You died of starvation")
+
+
+def starvation():
+    os.system("cls")
+    print("It appears you ran out of food...\n")
+    print("The only place to get food around here is the vending machine in the rest stop\nYou can pay 1000 for 10 food"
+          "or you can beg for food from passerby\n")
+    # if input == etc etc
+
+
+def vending_machine():
+    os.system("cls")
+    print("welcome to the vending machine!\n")
+    print("you have: " + str(stats["money"]) + " PD\n")
+    food_purchase = input('10 packs of food cost 1000 PD\n\n\nhow much would you like '
+                          'to purchase?\n[hint: enter a number]\n')
+    food_number = number_regex(food_purchase)
+    if len(food_number()) < 1:
+        input("please enter a number")
+        vending_machine()
+    stats["money"] -= food_number * 1000
+    stats["food"] += food_number * 10
+    time.sleep(2)
+    print('thank you for visiting :)')
+    supervisor()
+
+
 
 
 def intro_screen():
@@ -48,32 +71,18 @@ def intro_screen():
 
 
 def user_stats():
-    time.sleep(sleep_time)
-    os.system('cls')
-    print("\n" * 2)
+    items_list = ["food", 'money', 'sanity']
+    iteration = 0
     print("-" * 115)
-    print(("You are a " + player_type).center(115))
-    print("-" * 115)
-    print(('Inventory:' + str(inventory)).center(115))
-    print("-" * 115)
-    print(("Your Food Level is at " + str(stats["food"]) + "%").center(115))
-    print("-" * 115)
-    print(("You have " + str(stats["money"]) + " Platinum Disks").center(115))
-    print("-" * 115)
-    print(("Your Sanity is at " + str(stats["sanity"]) + "%").center(115))
-    print("-" * 115)
+    print(('You are playing as: ' + player_type).center(115, " "))
+    for items in items_list:
+        print("-" * 115)
+        print(((items_list[iteration]) + ": " + str(stats[items_list[iteration]])).center(115, " "))
+        print("-" * 115)
+        iteration += 1
     print("\n\n")
-    input("press enter to continue...".center(115, " ") + '\n')
-    print('-' * 115)
-    os.system("cls")
-
-
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-logging.debug("start of file")
-
-stats = {"money": 10000, "sanity": 100, "food": 100}
-inventory = {}
-player_type = "[blank]"
+    input("press enter to contiue".center(115, "-") + "\n")
+    os.system('cls')
 
 
 def intro():
@@ -212,5 +221,5 @@ def broken_down():
         user_stats()
 
 
-while True:
-    broken_down()
+
+vending_machine()

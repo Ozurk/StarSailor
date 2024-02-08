@@ -45,3 +45,9 @@ def yes_or_no(yes_or_no_input):
     if yes_or_no_input == "no":
         return yes_or_no_input
 
+def number_regex(number):
+    numberregex = re.compile("d+")
+    mo = numberregex.findall(number)
+    return mo
+
+print(number_regex("5"))
