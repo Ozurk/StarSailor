@@ -143,8 +143,6 @@ def intro_screen():
 
 
 def user_stats():
-    items_list = ["food", 'money', 'sanity']
-    iteration = 0
     print("-" * 115)
     print(('You are playing as: ' + player_type).center(115, " "))
     for items in items_list:
@@ -211,14 +209,14 @@ def tunnel():
         # todo entrance_option_3
 
 
-# def entrance_option_1():
-# todo
 
-# def entrance_option_2():
-# todo
+# todo def entrance_option_1():
 
-# def entrance_option_1():
-# todo
+
+# todo def entrance_option_2():
+
+
+# tododef entrance_option_1():
 
 def random_event():
     os.system("cls")
