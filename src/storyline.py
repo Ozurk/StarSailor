@@ -5,8 +5,6 @@ from functions import *
 from random import randint
 import pyautogui
 
-
-
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 sleep_time = 0.2
@@ -26,25 +24,24 @@ def supervisor():
 def insane():
     print("you lost your mind")
     input("press enter to continue...\n")
-    while True:
+    counter = 0
+    while counter != 5:
         try:
-            logging.debug(os.getcwd())
             pyautogui.screenshot(r"..\pictures\screenshot.png")
             cmd_x = pyautogui.locateCenterOnScreen(r"..\pictures\closeout_cmd.png", grayscale=True)
-            logging.debug(cmd_x)
             print(cmd_x)
             pyautogui.moveTo(cmd_x[0], cmd_x[1], 3)
             time.sleep(.25)
             pyautogui.click()
-
-
         except pyautogui.ImageNotFoundException:
-            print('Try Resizing the CMD window')
-
-
+            print("You are trying to close the instance of your game")
+            counter += 1
+    input("There was a cool way the game was suppose to work, but it did not work properly...\n press enter to quit")
+    quit("goodbye...")
 
 
 insane()
+
 
 def starvation():
     os.system("cls")
@@ -289,3 +286,5 @@ def broken_down():
     elif user_choose.lower().strip() == "no":
         user_stats()
 
+
+beg()
