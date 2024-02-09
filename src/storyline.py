@@ -121,10 +121,6 @@ def beg():
 
 
 def user_stats():
-    items_list = ["food", 'money', 'sanity']
-    iteration = 0
-    print("-" * 175)
-    print(('You are playing as: ' + player_variable).center(terminal_width, " "))
     for items in items_list:
         print("-" * 175)
         print(((items_list[iteration]) + ": " + str(stats[items_list[iteration]])).center(terminal_width, " "))
@@ -153,10 +149,7 @@ def tunnel():
     The Smokestacks are the colloquially named shanty-apartments residing above 
     The Foundry, the city's blazing furnace of manufactury. The choking smog is a perennial feat
     ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .000)
-    input("Press enter to continue".center(terminal_width) + '\n')
-    typing_effect(get_file(r"storyline/setup/tunnel"), .000)
-    location_1()
-
+    location(1)
 
 def random_event():
     os.system("cls")
