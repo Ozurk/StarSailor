@@ -1,6 +1,7 @@
 import sys
 import time
 import re
+
 import shutil
 
 terminal_width = shutil.get_terminal_size().columns
@@ -20,7 +21,8 @@ def intro_screen():
              #####     #    #     # ######   #####  #     #  #  #       #     # ######  
                   #    #    ####### #   #         # #######  #  #       #     # #   #   
             #     #    #    #     # #    #  #     # #     #  #  #       #     # #    #  
-             #####     #    #     # #     #  #####  #     # ### ####### ####### #     # """.center(terminal_width), .005)
+             #####     #    #     # #     #  #####  #     # ### ####### ####### #     # """.center(terminal_width),
+                  .005)
     print("\n")
     typing_effect("-" * terminal_width, .005)
     print()
@@ -34,11 +36,18 @@ def intro_screen():
 
 
 def get_file(file_path):
-    file = open(file_path, "r", encoding="utf-8")
-    text = file.read()
-    text = text.strip()
-    file.close()
-    return text
+    try:
+        file = open(file_path, "r")
+        text = file.read()
+        text = text.strip()
+        file.close()
+        return text
+    except UnicodeDecodeError:
+        file = open(file_path, "r", encoding="utf-8")
+        text = file.read()
+        text = text.strip()
+        file.close()
+        return text
 
 
 def typing_effect(string, wait_time):
@@ -96,13 +105,19 @@ def spinner(load_time):
 
 
 def one_through_3():
-    user_input = input("\n Enter \n[1]\n[2]\n[3]\n")
-    if user_input.strip() == "1":
-        return int(user_input)
-    elif user_input.strip() == "2":
-        return int(user_input)
-    elif user_input.strip() == "3":
-        return int(user_input)
-    else:
-        input("You must enter 1, 2, or 3\n\npress enter to retry")
-        one_through_3()
+    options = ["1", '2', '3']
+    user_input = ''
+    while user_input not in options:
+        user_input = input("\n Enter \n[1]\n[2]\n[3]\n")
+        if user_input.strip() == "1":
+            return int(user_input)
+        elif user_input.strip() == "2":
+            return int(user_input)
+        elif user_input.strip() == "3":
+            return int(user_input)
+        else:
+            input("You must enter 1, 2, or 3\n\npress enter to retry")
+            
+
+
+
