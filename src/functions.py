@@ -2,10 +2,13 @@ import sys
 import time
 import re
 import shutil
+
 terminal_width = shutil.get_terminal_size().columns
+
+
 def intro_screen():
     # this is the fancy little intro screen
-    typing_effect("-" * 115, .005)
+    typing_effect("-" * terminal_width, .005)
     print()
     typing_effect("-" * terminal_width, .005)
     print()
@@ -17,7 +20,7 @@ def intro_screen():
              #####     #    #     # ######   #####  #     #  #  #       #     # ######  
                   #    #    ####### #   #         # #######  #  #       #     # #   #   
             #     #    #    #     # #    #  #     # #     #  #  #       #     # #    #  
-             #####     #    #     # #     #  #####  #     # ### ####### ####### #     # """, .005)
+             #####     #    #     # #     #  #####  #     # ### ####### ####### #     # """.center(terminal_width), .005)
     print("\n")
     typing_effect("-" * terminal_width, .005)
     print()

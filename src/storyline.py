@@ -123,12 +123,12 @@ def beg():
 def user_stats():
     items_list = ["food", 'money', 'sanity']
     iteration = 0
-    print("-" * 175)
+    print("-" * terminal_width)
     print(('You are playing as: ' + player_variable).center(terminal_width, " "))
     for items in items_list:
-        print("-" * 175)
+        print("-" * terminal_width)
         print(((items_list[iteration]) + ": " + str(stats[items_list[iteration]])).center(terminal_width, " "))
-        print("-" * 175)
+        print("-" * terminal_width)
         iteration += 1
     print("\n\n")
 
@@ -401,5 +401,5 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-
-location_1()
+intro_screen()
+intro()
