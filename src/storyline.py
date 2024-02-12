@@ -5,13 +5,14 @@ import shutil
 from functions import *
 from random import randint
 import pyautogui
-terminal_width = shutil.get_terminal_size().columns
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 sleep_time = 0.00
 stats = {"money": 10000, "sanity": 100, "food": 100}
 inventory = {}
 player_variable = "[blank]"
+
+terminal_width = shutil.get_terminal_size().columns
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -79,7 +80,8 @@ def vending_machine():
     print("100 PD for 10 food\n")
     food_quantity = stats["money"] // 1000
     print("you can buy up to: [" + str(food_quantity) + ']\n')
-    food_number = number_regex(input("enter the the amount of food you want to purchase".center(terminal_width, '-') + "\n"))
+    food_number = number_regex(
+        input("enter the the amount of food you want to purchase".center(terminal_width, '-') + "\n"))
     stats["money"] -= (food_number * 100)
     stats["food"] += (food_number * 1)
     time.sleep(2)
@@ -91,7 +93,7 @@ def beg():
     print("-" * terminal_width)
     print("You ran out of food and money, and you are loosing your sanity quickly...")
     input("you are sitting outside of the rest-stop with a sign begging for money.")
-    print("-" * 175)
+    print("-" * terminal_width)
     while stats["money"] < 100:
         spinner(randint(1, 5))
         d10_die = randint(1, 30)
@@ -135,7 +137,7 @@ def user_stats():
 
 def intro():
     os.system("cls")
-    typing_effect(get_file(r".\storyline\intro"), .005)
+    typing_effect(get_file(r".\storyline\intro"), sleep_time)
     print("\n" * 4)
     input("Press enter to play the game".center(terminal_width, "-") + "\n")
     set_and_setting()
@@ -143,7 +145,7 @@ def intro():
 
 def set_and_setting():
     os.system("cls")
-    typing_effect(get_file(r"storyline\setup\setting and setup"), .005)
+    typing_effect(get_file(r"storyline\setup\setting and setup"), sleep_time)
     tunnel()
 
 
@@ -153,7 +155,9 @@ def tunnel():
     The Smokestacks are the colloquially named shanty-apartments residing above 
     The Foundry, the city's blazing furnace of manufactury. The choking smog is a perennial feat
     ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .000)
-    location(1)
+    typing_effect(get_file(r"src/storyline/setup/tunnel"))
+    heavens_forge()
+
 
 def random_event():
     os.system("cls")
@@ -238,19 +242,20 @@ def task_1():
     print("this is task 1")
     input("return to location_1")
     # todo rename this
-    location_1()
+    heavens_forge()
 
 
-def location_1():
+def heavens_forge():
     supervisor()
-    typing_effect(get_file(r"storyline/location_1/location1"), sleep_time)
+    typing_effect(get_file(r"storyline/location_1/Heaven's Forge"), sleep_time)
+    print("You have 3 options:\n[1] do task 1\n[2] Go to location 7\n[3] go to twilight isles")
     choice = one_through_3()
     if choice == 1:
         task_1()
     elif choice == 2:
         location_7()
     elif choice == 3:
-        location_2()
+        twilight_isles()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -261,20 +266,20 @@ def location_1():
 def task_2():
     supervisor()
     print("this is task 2")
-    input('return to location 2')
+    input('return to twilight isles')
     task_2()
 
 
-def location_2():
+def twilight_isles():
     supervisor()
-    typing_effect(get_file(r"storyline/location_2/location2"), sleep_time)
+    typing_effect(get_file(r"storyline/location_2/Twilight Isles"), sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_2()
     elif choice == 2:
         location_3()
     elif choice == 3:
-        location_1()
+        heavens_forge()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -298,7 +303,7 @@ def location_3():
     elif choice == 2:
         location_4()
     elif choice == 3:
-        location_2()
+        twilight_isles()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -392,11 +397,12 @@ def location_7():
     if choice == 1:
         task_7()
     elif choice == 2:
-        location_1()
+        heavens_forge()
     elif choice == 3:
         location_6()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+
 intro_screen()
 intro()
