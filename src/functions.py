@@ -1,28 +1,49 @@
 import sys
 import time
 import re
-
+import pyautogui
+import os
 import shutil
+input('please set the terminal to full screen then press enter...\n')
+def full_screen():
+    # todo work on this
+    counter = 0
+    while counter != 3:
+        try:
+            pyautogui.screenshot(r"..\pictures\screenshot_for_maximize.png")
+            cmd_maximize = pyautogui.locateCenterOnScreen(r"..\pictures\cmd_maximize_png.png", grayscale=False)
+            print(cmd_maximize)
+            pyautogui.moveTo(cmd_maximize[0], cmd_maximize[1], 3)
+            time.sleep(.25)
+            pyautogui.click()
+        except pyautogui.ImageNotFoundException:
+            print("Attempting Operation")
+            counter += 1
+    os.system('cls')
+    input("If it was not done automatically, please maximize the terminal window\n")
+
 
 terminal_width = shutil.get_terminal_size().columns
 
 
 def intro_screen():
+    starsailor_sign = ['\n  #####  #######    #    ######   #####     #    ### #       ####### ######  ',
+                       '\n #     #    #      # #   #     # #     #   # #    #  #       #     # #     # ',
+                       '\n #          #     #   #  #     # #        #   #   #  #       #     # #     # ',
+                       '\n  #####     #    #     # ######   #####  #     #  #  #       #     # ######  ',
+                       '\n       #    #    ####### #   #         # #######  #  #       #     # #   #   ',
+                       '\n #     #    #    #     # #    #  #     # #     #  #  #       #     # #    #  ',
+                       '\n  #####     #    #     # #     #  #####  #     # ### ####### ####### #     # ']
     # this is the fancy little intro screen
     typing_effect("-" * terminal_width, .005)
     print()
     typing_effect("-" * terminal_width, .005)
     print()
     typing_effect("-" * terminal_width, .005)
-    typing_effect("""  
-             #####  #######    #    ######   #####     #    ### #       ####### ######  
-            #     #    #      # #   #     # #     #   # #    #  #       #     # #     # 
-            #          #     #   #  #     # #        #   #   #  #       #     # #     # 
-             #####     #    #     # ######   #####  #     #  #  #       #     # ######  
-                  #    #    ####### #   #         # #######  #  #       #     # #   #   
-            #     #    #    #     # #    #  #     # #     #  #  #       #     # #    #  
-             #####     #    #     # #     #  #####  #     # ### ####### ####### #     # """.center(terminal_width),
-                  .005)
+    round_number = 0
+    for iterations in starsailor_sign:
+        typing_effect(starsailor_sign[round_number].center(terminal_width, " "), .005)
+        round_number += 1
     print("\n")
     typing_effect("-" * terminal_width, .005)
     print()
@@ -117,7 +138,6 @@ def one_through_3():
             return int(user_input)
         else:
             input("You must enter 1, 2, or 3\n\npress enter to retry")
-            
 
 
-
+intro_screen()
