@@ -4,7 +4,20 @@ import re
 import pyautogui
 import os
 import shutil
+
+
+def typing_effect(string, wait_time):
+    for letter in string:
+        sys.stdout.write(letter)
+        sys.stdout.flush()
+        time.sleep(wait_time)  # this controls the speed of the game
+
+
 input('please set the terminal to full screen then press enter...\n')
+intro_speed = .00001
+os.system("cls")
+
+
 def full_screen():
     # todo work on this
     counter = 0
@@ -24,34 +37,43 @@ def full_screen():
 
 
 terminal_width = shutil.get_terminal_size().columns
+intro_screen_character = input("type a single character then press enter".center(terminal_width) + "\n")
+
+
+def intro_striper(number_of_rows):
+    for stripes in range(number_of_rows):
+        typing_effect(intro_screen_character * terminal_width, intro_speed)
+        print()
+        typing_effect("+" * terminal_width, intro_speed)
+        print()
+        typing_effect(intro_screen_character * terminal_width, intro_speed)
+        print()
+
+
 
 
 def intro_screen():
-    starsailor_sign = ['\n  #####  #######    #    ######   #####     #    ### #       ####### ######  ',
-                       '\n #     #    #      # #   #     # #     #   # #    #  #       #     # #     # ',
-                       '\n #          #     #   #  #     # #        #   #   #  #       #     # #     # ',
-                       '\n  #####     #    #     # ######   #####  #     #  #  #       #     # ######  ',
-                       '\n       #    #    ####### #   #         # #######  #  #       #     # #   #   ',
-                       '\n #     #    #    #     # #    #  #     # #     #  #  #       #     # #    #  ',
-                       '\n  #####     #    #     # #     #  #####  #     # ### ####### ####### #     # ']
+    starsailor_sign = ['-----------------------------------------------------------------------------',
+                       '  #####  #######    #    ######   #####     #    ### #       ####### ######  ',
+                       ' #     #    #      # #   #     # #     #   # #    #  #       #     # #     # ',
+                       ' #          #     #   #  #     # #        #   #   #  #       #     # #     # ',
+                       '  #####     #    #     # ######   #####  #     #  #  #       #     # ######  ',
+                       '       #    #    ####### #   #         # #######  #  #       #     # #   #   ',
+                       ' #     #    #    #     # #    #  #     # #     #  #  #       #     # #    #  ',
+                       '  #####     #    #     # #     #  #####  #     # ### ####### ####### #     # ',
+                       '-----------------------------------------------------------------------------']
     # this is the fancy little intro screen
-    typing_effect("-" * terminal_width, .005)
-    print()
-    typing_effect("-" * terminal_width, .005)
-    print()
-    typing_effect("-" * terminal_width, .005)
+    intro_striper(6)
     round_number = 0
-    for iterations in starsailor_sign:
-        typing_effect(starsailor_sign[round_number].center(terminal_width, " "), .005)
-        round_number += 1
     print("\n")
-    typing_effect("-" * terminal_width, .005)
-    print()
-    typing_effect("-" * terminal_width, .005)
-    print()
-    typing_effect("-" * terminal_width, .005)
+    for iterations in starsailor_sign:
+        typing_effect(starsailor_sign[round_number].center(terminal_width, ":") + "\n", intro_speed)
+        round_number += 1
+
+    print("\n")
+    intro_striper(6)
     time.sleep(.75)
-    print("\n" * 8)
+    print('\n\n')
     input("Press Enter to Continue...".center(terminal_width, " ") + "\n")
     print("\n")
 
@@ -69,13 +91,6 @@ def get_file(file_path):
         text = text.strip()
         file.close()
         return text
-
-
-def typing_effect(string, wait_time):
-    for letter in string:
-        sys.stdout.write(letter)
-        sys.stdout.flush()
-        time.sleep(wait_time)  # this controls the speed of the game
 
 
 def text_regex(text):
