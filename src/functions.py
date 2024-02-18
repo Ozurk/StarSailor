@@ -13,7 +13,6 @@ def typing_effect(string, wait_time):
         time.sleep(wait_time)  # this controls the speed of the game
 
 
-input('please set the terminal to full screen then press enter...\n')
 intro_speed = .00001
 os.system("cls")
 
@@ -153,4 +152,3 @@ def one_through_3():
             input("You must enter 1, 2, or 3\n\npress enter to retry")
 
 
-intro_screen()

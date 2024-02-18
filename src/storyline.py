@@ -38,7 +38,7 @@ def insane():
             pyautogui.screenshot(r"..\pictures\screenshot.png")
             cmd_x = pyautogui.locateCenterOnScreen(r"..\pictures\closeout_cmd.png", grayscale=True)
             print(cmd_x)
-            pyautogui.moveTo(cmd_x[0], cmd_x[1], 3)
+            pyautogui.moveTo(cmd_x[0], cmd_x[1], 4)
             time.sleep(.25)
             pyautogui.click()
         except pyautogui.ImageNotFoundException:
@@ -145,7 +145,7 @@ def intro():
 
 def set_and_setting():
     os.system("cls")
-    typing_effect(get_file(r"storyline\setup\setting and setup"), sleep_time)
+    typing_effect(get_file(r".\storyline\setup\setting and setup"), sleep_time)
     tunnel()
 
 
@@ -155,19 +155,21 @@ def tunnel():
     The Smokestacks are the colloquially named shanty-apartments residing above 
     The Foundry, the city's blazing furnace of manufactury. The choking smog is a perennial feat
     ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .000)
-    typing_effect(get_file(r"src/storyline/setup/tunnel"))
+    typing_effect(get_file(r".\storyline\setup\tunnel"), .001)
     heavens_forge()
 
 
 def random_event():
     os.system("cls")
-    choice = randint(0, 2)
+    choice = randint(0, 3)
     if choice == 0:
         jury_duty()
     elif choice == 1:
         broken_down()
     elif choice == 2:
         crypto()
+    elif choice == 3:
+        rems_event()
 
 
 def jury_duty():
@@ -175,11 +177,12 @@ def jury_duty():
             Despite all efforts, you can not wiggle out of this one...\n
             You lose a little bit of your mind...''', 0)
     print('\n')
-    print("-" * 175)
+    print("-" * terminal_width)
     input('Press Enter to Continue'.center(terminal_width))
     os.system("cls")
     stats["sanity"] -= 10
     stats["money"] += 10
+    supervisor()
 
 
 def crypto():
@@ -188,18 +191,19 @@ def crypto():
     print("\n")
     typing_effect("+ 1750 platinum disks".center(terminal_width), 0)
     print('\n')
-    print("-" * 175)
+    print("-" * terminal_width)
     print("\n")
     input('Press Enter to Continue'.center(terminal_width))
     stats["money"] += 1000
     os.system("cls")
+    supervisor()
 
 
 def broken_down():
     typing_effect("There is a ship broken-down along the side of Desmos 9, do you wan"
                   "t to help it?".center(terminal_width), 0)
     print('\n')
-    print("-" * 175)
+    print("-".center(terminal_width, "-"))
     user_choose = yes_or_no("\ny[yes]\nor[no]\n")
     if user_choose.lower().strip() == "yes":
         dice_roll = randint(1, 6)
@@ -208,13 +212,13 @@ def broken_down():
             logging.debug("the number 6 option is running")
             typing_effect("The ship was very grateful.\nAll they needed was a quick jump.", 0)
             typing_effect("They rewarded you handsomely...\n + 5000 platinum disks\n", 0)
-            print("-" * 175)
+            print("-" * terminal_width)
             input('Press Enter to Continue'.center(terminal_width) + "\n")
             stats["money"] += 5000
             os.system("cls")
         elif dice_roll == 1:
             typing_effect("The ship was full of pirates. It was a trap, they took half of everything\n", 0)
-            print("-" * 175)
+            print("-" * terminal_width)
             input('Press Enter to Continue'.center(terminal_width))
             os.system('cls')
             stats["food"] *= .5
@@ -222,7 +226,13 @@ def broken_down():
             stats["money"] *= .5
         else:
             typing_effect("""The ship did not want your help..\n you continue on...\n""", 0)
-            print("-" * 175)
+            print("-" * terminal_width)
+    supervisor()
+
+
+def rems_event():
+    supervisor()
+    print("this is rems event...")
 
 
 def death():
@@ -404,5 +414,7 @@ def location_7():
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-intro_screen()
-intro()
+while True:
+    random_event()
+    supervisor()
+
