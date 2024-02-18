@@ -27,6 +27,7 @@ def supervisor():
         beg()
     if randint(1, 5) == 1:
         random_event()
+    input("Press enter to continue...".center(terminal_width) + "\n")
 
 
 def insane():
@@ -155,8 +156,56 @@ def tunnel():
     The Smokestacks are the colloquially named shanty-apartments residing above 
     The Foundry, the city's blazing furnace of manufactury. The choking smog is a perennial feat
     ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .000)
-    typing_effect(get_file(r".\storyline\setup\tunnel"), .001)
+    typing_effect(get_file(r".\storyline\setup\tunnel"), sleep_time)
     heavens_forge()
+
+
+def number_and_length_validator(sin_input):
+    os.system("cls")
+    while True:
+        if not sin_input.isalnum():
+            print("This SIN is invalid, try again")
+            number_and_length_validator(input("Please enter a S-I-N (no dashes)".center(terminal_width) + "\n\n\n"))
+        if len(sin_input) < 15:
+            print("This S-I-N is invalid\nLENGTH ERROR")
+            number_and_length_validator(input("Please enter a S-I-N (no dashes)".center(terminal_width) + "\n\n\n"))
+        elif len(sin_input) > 15:
+            print("This S-I-N is invalid\nLENGTH ERROR")
+            number_and_length_validator(input("Please enter a S-I-N (no dashes)".center(terminal_width) + "\n\n\n"))
+        else:
+            return sin_input
+
+
+def even_and_odd_validation():
+    print("even and odd")
+
+
+def rems_event():
+    os.system("cls")
+    typing_effect("Your ships registration has expired", sleep_time)
+    input("\n")
+    time.sleep(1)
+    typing_effect("You must report to the nearest BMV to update your registration.\nThe nearest "
+                  "spaceship certified BMV is in Flagstaff Arizona, USA, Earth, Solar System,"
+                  " Milky Way Galaxy.\n\n", sleep_time)
+    input("Press Enter to Go to The BMV".center(terminal_width) + "\n")
+    supervisor()
+    typing_effect("you arrived at BMV Flagstaff 48 minutes ago, the line"
+                  " seems to be crawling by...\n\n\n", sleep_time)
+    # spinner(8)
+    typing_effect("\nFinally, your number is called "
+                  "and you confidently approach the clerk's desk and sit down.\n\n\n", sleep_time)
+    # spinner(6)
+    typing_effect("you are informed you must provide a 16 digit \"SPACESHIP IDENTIFICATION NUMBER\"\n", sleep_time)
+    typing_effect("\n\n\nAfter a quick trip to the ship, you find that the \"S-I-N\" has been covered up by a"
+                  "quantum-bonded-cedar skid plate.", sleep_time)
+    typing_effect("\nYou curse yourself for buying a used 1"
+                  "876 pirate ship from the shady vendor on desmos-9\n", sleep_time)
+    print("You must now provide a phony S-I-N that passes the validation tests.".center(terminal_width))
+    print("\n")
+    print('There are some criteria that must be met, but you can\'t seem to remember them!'.center(terminal_width))
+    print("Press enter to continue...".center(terminal_width) + "\n")
+    number_and_length_validator(input("Please enter a S-I-N (no dashes)".center(terminal_width) + "\n\n\n"))
 
 
 def random_event():
@@ -228,11 +277,6 @@ def broken_down():
             typing_effect("""The ship did not want your help..\n you continue on...\n""", 0)
             print("-" * terminal_width)
     supervisor()
-
-
-def rems_event():
-    supervisor()
-    print("this is rems event...")
 
 
 def death():
@@ -415,6 +459,4 @@ def location_7():
 # ----------------------------------------------------------------------------------------------------------------------
 
 while True:
-    random_event()
-    supervisor()
-
+    number_and_length_validator("input")
