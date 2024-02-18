@@ -50,8 +50,6 @@ def intro_striper(number_of_rows):
         print()
 
 
-
-
 def intro_screen():
     starsailor_sign = ['-----------------------------------------------------------------------------',
                        '  #####  #######    #    ######   #####     #    ### #       ####### ######  ',
@@ -102,9 +100,9 @@ def text_regex(text):
 
 def one_or_two():
     user_input = input("\n Enter [1] or [2]\n")
-    if user_input == "1":
+    if user_input.strip() == "1":
         return int(user_input)
-    elif user_input == "2":
+    elif user_input.strip() == "2":
         return int(user_input)
     else:
         print("You must enter 1 or 2")
@@ -114,7 +112,7 @@ def one_or_two():
 def yes_or_no(yes_or_no_input):
     options = ['yes', 'no']
     while yes_or_no_input.lower().strip() not in options:
-        yes_or_no_input = input("Please enter\n[yes]\nor\n[no]")
+        yes_or_no_input = input("Please enter\n[yes]\nor\n[no]\n")
     if yes_or_no_input == "yes":
         return yes_or_no_input
     if yes_or_no_input == "no":
