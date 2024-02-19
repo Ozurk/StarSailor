@@ -8,7 +8,7 @@ import pyautogui
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 sleep_time = 0.00
-stats = {"money": 10000, "sanity": 100, "food": 100}
+stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
 inventory = {}
 player_variable = "[blank]"
 
@@ -160,24 +160,37 @@ def tunnel():
     heavens_forge()
 
 
-def number_and_length_validator(sin_input):
+def ssin_validtator(ssin_input):
+    ssin_input = input("Please Enter 16 digits. No spaces or dashes\n[****-****-****-****]")
+   
+    even_and_odd_validation(number_validation(length_validation(ssin_input.strip())))
+
     os.system("cls")
-    while True:
-        if not sin_input.isalnum():
-            print("This SIN is invalid, try again")
-            number_and_length_validator(input("Please enter a S-I-N (no dashes)".center(terminal_width) + "\n\n\n"))
-        if len(sin_input) < 15:
-            print("This S-I-N is invalid\nLENGTH ERROR")
-            number_and_length_validator(input("Please enter a S-I-N (no dashes)".center(terminal_width) + "\n\n\n"))
-        elif len(sin_input) > 15:
-            print("This S-I-N is invalid\nLENGTH ERROR")
-            number_and_length_validator(input("Please enter a S-I-N (no dashes)".center(terminal_width) + "\n\n\n"))
-        else:
-            return sin_input
+
+def number_validation(length_validation):
+    if not length_validation.isallnum():
+        input("This is not a valid input. Try Again\n #VALUE\n")
+        ssin_validtator()
+    else:
+        return int(length_validation)
+
+def length_validation(ssin):
+    if len(ssin) != 15:
+        print("This entry is invalid\nError 411\n")
+        input("press enter to try again\n")
+        stats["sanity"] -= .5
+        ssin_validtator
+    else:
+        return ssin
+    
+    
+
+def even_and_odd_validation(number_validation):
+    for number in range(number_validation):
+        print(number)
 
 
-def even_and_odd_validation():
-    print("even and odd")
+    
 
 
 def rems_event():
@@ -205,7 +218,7 @@ def rems_event():
     print("\n")
     print('There are some criteria that must be met, but you can\'t seem to remember them!'.center(terminal_width))
     print("Press enter to continue...".center(terminal_width) + "\n")
-    number_and_length_validator(input("Please enter a S-I-N (no dashes)".center(terminal_width) + "\n\n\n"))
+    ssin_validtator()
 
 
 def random_event():
