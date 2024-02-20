@@ -161,6 +161,7 @@ def tunnel():
 
 
 def ssin_validtator(ssin_input):
+    supervisor()
     ssin_input = input("Please Enter 16 digits. No spaces or dashes\n[****-****-****-****]")
     ssin_success = even_and_odd_validation(number_validation(length_validation(ssin_input.strip())))
     os.system("cls")
@@ -189,11 +190,26 @@ def even_and_odd_validation(number):
     for digits in odd_numbers:
         if float(digits) % 2 == 0:
             stats["sanity"] -= .5
+            print("The number you entered was not valid.\n"
+                  "The number that caused an error was: " + even_digits)
+            print("[" + number + "]")
+            stats["sanity"] * .99
+            print("\nYou lost a little bit of sanity")
+            ssin_validtator()
 
     even_numbers = number[1::2]
     for even_digits in even_numbers:
         if float(even_digits) % 2 != 0:
-            print("The")
+            print("The number you entered was not valid.\n"
+                  "The number that caused an error was: " + even_digits)
+            print("[" + number + "]")
+            stats["sanity"] * .99
+            print("\nYou lost a little bit of sanity")
+            ssin_validtator()
+            
+    return number
+
+    
 
 
 
@@ -206,7 +222,6 @@ def rems_event():
                   "spaceship certified BMV is in Flagstaff Arizona, USA, Earth, Solar System,"
                   " Milky Way Galaxy.\n\n", sleep_time)
     input("Press Enter to Go to The BMV".center(terminal_width) + "\n")
-    supervisor()
     typing_effect("you arrived at BMV Flagstaff 48 minutes ago, the line"
                   " seems to be crawling by...\n\n\n", sleep_time)
     # spinner(8)
