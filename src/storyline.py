@@ -162,10 +162,9 @@ def tunnel():
 
 def ssin_validtator(ssin_input):
     ssin_input = input("Please Enter 16 digits. No spaces or dashes\n[****-****-****-****]")
-   
-    even_and_odd_validation(number_validation(length_validation(ssin_input.strip())))
-
+    ssin_success = even_and_odd_validation(number_validation(length_validation(ssin_input.strip())))
     os.system("cls")
+
 
 def number_validation(length_validation):
     if not length_validation.isallnum():
@@ -173,6 +172,7 @@ def number_validation(length_validation):
         ssin_validtator()
     else:
         return int(length_validation)
+
 
 def length_validation(ssin):
     if len(ssin) != 15:
@@ -182,15 +182,19 @@ def length_validation(ssin):
         ssin_validtator
     else:
         return ssin
-    
-    
-
-def even_and_odd_validation(number_validation):
-    for number in range(number_validation):
-        print(number)
 
 
-    
+def even_and_odd_validation(number):
+    odd_numbers = number[::2]
+    for digits in odd_numbers:
+        if float(digits) % 2 == 0:
+            stats["sanity"] -= .5
+
+    even_numbers = number[1::2]
+    for even_digits in even_numbers:
+        if float(even_digits) % 2 != 0:
+            print("The")
+
 
 
 def rems_event():
@@ -471,5 +475,4 @@ def location_7():
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-while True:
-    number_and_length_validator("input")
+even_and_odd_validation("123434895384390123456")
