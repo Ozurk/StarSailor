@@ -133,6 +133,7 @@ def user_stats():
         print(((items_list[iteration]) + ": " + str(stats[items_list[iteration]])).center(terminal_width, " "))
         print("-" * terminal_width)
         iteration += 1
+    print(("Inventory: " + str(inventory)).center(terminal_width))
     print("\n\n")
 
 
@@ -160,27 +161,30 @@ def tunnel():
     heavens_forge()
 
 
-def ssin_validtator(ssin_input):
+def ssin_validtator():
     supervisor()
-    ssin_input = input("Please Enter 16 digits. No spaces or dashes\n[****-****-****-****]")
+    ssin_input = input("Please Enter 16 digits. No spaces or dashes\n[****-****-****-****]\n")
     ssin_success = even_and_odd_validation(number_validation(length_validation(ssin_input.strip())))
+    inventory["ssid"] = ssin_success
+    typing_effect("\n Thank you for visiting the Flagstaff BMV\n Have a nice day :)", sleep_time)
     os.system("cls")
 
 
-def number_validation(length_validation):
-    if not length_validation.isallnum():
+def number_validation(length_validation_input):
+    if not length_validation_input.isalnum():
         input("This is not a valid input. Try Again\n #VALUE\n")
+        stats["sanity"] *= .99
         ssin_validtator()
     else:
-        return int(length_validation)
+        return length_validation_input
 
 
 def length_validation(ssin):
-    if len(ssin) != 15:
+    if len(ssin) != 16:
         print("This entry is invalid\nError 411\n")
         input("press enter to try again\n")
-        stats["sanity"] -= .5
-        ssin_validtator
+        stats["sanity"] *= .99
+        ssin_validtator()
     else:
         return ssin
 
@@ -188,13 +192,15 @@ def length_validation(ssin):
 def even_and_odd_validation(number):
     odd_numbers = number[::2]
     for digits in odd_numbers:
+        # TODO fix the number validator
         if float(digits) % 2 == 0:
             stats["sanity"] -= .5
             print("The number you entered was not valid.\n"
-                  "The number that caused an error was: " + even_digits)
-            print("[" + number + "]")
-            stats["sanity"] * .99
-            print("\nYou lost a little bit of sanity")
+                  "The number that caused an error was: " + digits)
+            input("\n[" + number + "]")
+            stats["sanity"] *= .99
+            input("\nYou lost a little bit of sanity...")
+
             ssin_validtator()
 
     even_numbers = number[1::2]
@@ -202,15 +208,12 @@ def even_and_odd_validation(number):
         if float(even_digits) % 2 != 0:
             print("The number you entered was not valid.\n"
                   "The number that caused an error was: " + even_digits)
-            print("[" + number + "]")
-            stats["sanity"] * .99
+            input("\n[" + number + "]")
+            stats["sanity"] *= .99
             print("\nYou lost a little bit of sanity")
             ssin_validtator()
-            
+
     return number
-
-    
-
 
 
 def rems_event():
@@ -490,4 +493,4 @@ def location_7():
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-even_and_odd_validation("123434895384390123456")
+ssin_validtator()
