@@ -154,11 +154,8 @@ def set_and_setting():
 
 def tunnel():
     os.system("cls")
-    typing_effect("""
-    The Smokestacks are the colloquially named shanty-apartments residing above 
-    The Foundry, the city's blazing furnace of manufactury. The choking smog is a perennial feat
-    ure of your lodgings, but doesn't it seem particularly thick this evening?\n\n""", .000)
     typing_effect(get_file(r".\storyline\setup\tunnel"), sleep_time)
+    input("Press enter to continue...\n")
     heavens_forge()
 
 
@@ -231,7 +228,7 @@ def rems_event():
     input("\n")
     time.sleep(1)
     typing_effect("You must report to the nearest BMV to update your registration.\nThe nearest "
-                  "spaceship certified BMV is in Flagstaff Arizona, USA, Earth, Solar System,"
+                  "spaceship certified BMV is in Flagstaff Arizona, USA, Wormwood Planet, Solar System,"
                   " Milky Way Galaxy.\n\n", sleep_time)
     input("Press Enter to Go to The BMV".center(terminal_width) + "\n")
     typing_effect("you arrived at BMV Flagstaff 48 minutes ago, the line"
@@ -345,7 +342,7 @@ def task_1():
 
 def heavens_forge():
     supervisor()
-    typing_effect(get_file(r"storyline/location_1/Heaven's Forge"), sleep_time)
+    typing_effect(get_file(r"storyline/location_1/Chevron II"), sleep_time)
     print("You have 3 options:\n[1] do task 1\n[2] Go to location 7\n[3] go to twilight isles")
     choice = one_through_3()
     if choice == 1:
@@ -370,7 +367,7 @@ def task_2():
 
 def twilight_isles():
     supervisor()
-    typing_effect(get_file(r"storyline/location_2/Twilight Isles"), sleep_time)
+    typing_effect(get_file(r"storyline/location_2/SweetRain Planet"), sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_2()
@@ -394,7 +391,7 @@ def task_3():
 
 def location_3():
     supervisor()
-    typing_effect(get_file(r"storyline/location_3/location3"), sleep_time)
+    typing_effect(get_file(r"storyline/location_3/Duramen"), sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_3()
@@ -418,7 +415,7 @@ def task_4():
 
 def location_4():
     supervisor()
-    typing_effect(get_file(r"storyline/location_4/location4"), sleep_time)
+    typing_effect(get_file(r"storyline/location_4/Wormwood Planet"), sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_4()
@@ -442,7 +439,7 @@ def task_5():
 
 def location_5():
     supervisor()
-    typing_effect(get_file(r"storyline/location_5/location5"), sleep_time)
+    typing_effect(get_file(r"storyline/location_5/Mars"), sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_5()
@@ -466,7 +463,7 @@ def task_6():
 
 def location_6():
     supervisor()
-    typing_effect(get_file(r"storyline/location_6/location6"), sleep_time)
+    typing_effect(get_file(r"storyline/location_6/Cobatiania"), sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_6()
@@ -490,7 +487,7 @@ def task_7():
 
 def location_7():
     supervisor()
-    typing_effect(get_file(r"storyline/location_7/location7"), sleep_time)
+    typing_effect(get_file(r"storyline/location_7/B-IRS"), sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_7()
