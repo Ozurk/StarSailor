@@ -4,7 +4,7 @@ from random import randint
 import pyautogui
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-sleep_time = 0.00
+sleep_time = 0.03
 
 
 class Player:
@@ -15,6 +15,7 @@ class Player:
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
 
 
+input("maximize window\n")
 terminal_width = shutil.get_terminal_size().columns
 
 
@@ -162,6 +163,7 @@ def tunnel():
 
 
 def ssin_validtator():
+    supervisor()
     os.system("cls")
     ssin = input("Please Enter 16 digits.\n").strip()
     even_and_odd_validation(number_validation(length_validation(ssin)))
@@ -175,6 +177,7 @@ def number_validation(length_validation_input):
     else:
         print("\nThe value you entered is invalid\n #VALUE")
         time.sleep(3)
+        Player.stats["sanity"] *= .99
         ssin_validtator()
         pass
 
@@ -183,7 +186,7 @@ def length_validation(ssin):
     try:
         if len(ssin) != 16:
             print("This entry is invalid\nError 411\n")
-            time.sleep(3)
+            time.sleep(2)
             Player.stats["sanity"] *= .99
             ssin_validtator()
             pass
@@ -213,9 +216,9 @@ def even_and_odd_validation(number):
         if float(even_digits) % 2 != 0:
             print("The number you entered was not valid.\n"
                   "The number that caused an error was: " + even_digits + "\n")
-            time.sleep(3)
+            time.sleep(4)
             print("\n[" + number + "]")
-            time.sleep(3)
+            time.sleep(2)
             Player.stats["sanity"] *= .99
             print("\nYou lost a little bit of sanity")
             ssin_validtator()
@@ -227,28 +230,34 @@ def even_and_odd_validation(number):
 def rems_event():
     Player.gameplay = False
     os.system("cls")
-    typing_effect("Your ships registration has expired", sleep_time)
-    input("\n")
-    time.sleep(1)
+    typing_effect("Your ships registration has expired\n", sleep_time)
+    time.sleep(2)
     typing_effect("You must report to the nearest BMV to update your registration.\nThe nearest "
                   "spaceship certified BMV is in Flagstaff Arizona, USA, Earth, Solar System,"
-                  " Milky Way Galaxy.\n\n", sleep_time)
+                  " Milky Way Galaxy.\n", sleep_time)
+    print("\n\n")
     input("Press Enter to continue".center(terminal_width) + "\n")
+
     typing_effect("you arrived at BMV Flagstaff 48 minutes ago, the line"
                   " seems to be crawling by...\n", sleep_time)
-    # spinner(8)
-    typing_effect("\nFinally, your number is called "
-                  "and you confidently approach the clerk's desk and sit down.\n", sleep_time)
-    # spinner(6)
-    typing_effect("you are informed you must provide a 16 digit \"SPACESHIP IDENTIFICATION NUMBER\"", sleep_time)
-    typing_effect("\nAfter a quick trip to the ship, you find that the \"S-I-N\" has been covered up by a"
-                  " quantum-bonded-cedar skid plate.", sleep_time)
-    typing_effect("\nYou curse yourself for buying a used 1"
-                  "876 pirate ship from the shady vendor on Desmos-9\n", sleep_time)
+
+    spinner(6)
+    os.system("cls")
+    typing_effect("\nFinally, your number is called. "
+                  "you approach the clerk's desk and sit down.\n", sleep_time)
+    time.sleep(4)
+    os.system("cls")
+    typing_effect("You are informed you must provide a 16 digit \"SPACESHIP IDENTIFICATION NUMBER\"", sleep_time)
+    typing_effect("\nYou do not have the original bill of sale for the ship"
+                  " and heavens know that every board on this ship has been replaced. The original SSIN "
+                  "is nowhere to be found.\n\n", sleep_time)
+    time.sleep(4)
+    os.system("cls")
     print("You must now provide an SSIN that passes the validation tests.".center(terminal_width))
     print("\n")
     print('There are some criteria that must be met, but you can\'t seem to remember them!'.center(terminal_width))
-    print("Press enter to continue...".center(terminal_width) + "\n")
+    print("\n")
+    input("Press enter to continue...".center(terminal_width) + "\n")
     ssin_validtator()
     Player.gameplay = True
 

@@ -127,13 +127,13 @@ def number_regex(number):
 def spinner(load_time):
     for iteration in range(load_time * 5):
         sys.stdout.write('\rwaiting |')
-        time.sleep(.05)
+        time.sleep(.1)
         sys.stdout.write('\rwaiting /')
-        time.sleep(.05)
+        time.sleep(.1)
         sys.stdout.write('\rwaiting -')
-        time.sleep(.05)
+        time.sleep(.1)
         sys.stdout.write('\rwaiting \\')
-        time.sleep(.05)
+        time.sleep(.1)
     sys.stdout.write('\r')
 
 
