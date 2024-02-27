@@ -10,7 +10,9 @@ sleep_time = 0.00
 class Player:
     stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
     inventory = {}
-    player_variable = "[blank]"
+    gameplay = True
+    planets_visited = {"chevron_ii": False, "Sweetrain Planet": False, "Duramen": False,
+                       "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
 
 
 terminal_width = shutil.get_terminal_size().columns
@@ -20,14 +22,15 @@ terminal_width = shutil.get_terminal_size().columns
 def supervisor():
     os.system("cls")
     user_stats()
-    if Player.stats["food"] <= 0:
-        starvation()
-    if Player.stats["sanity"] <= 0:
-        insane()
-    if Player.stats['money'] <= 0:
-        beg()
-    # if randint(1, 5) == 1:
-    # random_event()
+    if Player.gameplay:
+        if Player.stats["food"] <= 0:
+            starvation()
+        if Player.stats["sanity"] <= 0:
+            insane()
+        if Player.stats['money'] <= 0:
+            beg()
+        if randint(1, 5) == 1:
+            random_event()
     input("Press enter to continue...".center(terminal_width) + "\n")
 
 
@@ -128,7 +131,6 @@ def user_stats():
     items_list = ["food", 'money', 'sanity']
     iteration = 0
     print("-" * terminal_width)
-    print(('You are playing as: ' + Player.player_variable).center(terminal_width, " "))
     for items in items_list:
         print("-" * terminal_width)
         print(((items_list[iteration]) + ": " + str(Player.stats[items_list[iteration]])).center(terminal_width, " "))
@@ -156,7 +158,7 @@ def tunnel():
     os.system("cls")
     typing_effect(get_file(r".\storyline\setup\tunnel"), sleep_time)
     input("Press enter to continue...\n")
-    heavens_forge()
+    chevron_ii()
 
 
 def ssin_validtator():
@@ -223,30 +225,32 @@ def even_and_odd_validation(number):
 
 
 def rems_event():
+    Player.gameplay = False
     os.system("cls")
     typing_effect("Your ships registration has expired", sleep_time)
     input("\n")
     time.sleep(1)
     typing_effect("You must report to the nearest BMV to update your registration.\nThe nearest "
-                  "spaceship certified BMV is in Flagstaff Arizona, USA, Wormwood Planet, Solar System,"
+                  "spaceship certified BMV is in Flagstaff Arizona, USA, Earth, Solar System,"
                   " Milky Way Galaxy.\n\n", sleep_time)
-    input("Press Enter to Go to The BMV".center(terminal_width) + "\n")
+    input("Press Enter to continue".center(terminal_width) + "\n")
     typing_effect("you arrived at BMV Flagstaff 48 minutes ago, the line"
-                  " seems to be crawling by...\n\n\n", sleep_time)
+                  " seems to be crawling by...\n", sleep_time)
     # spinner(8)
     typing_effect("\nFinally, your number is called "
-                  "and you confidently approach the clerk's desk and sit down.\n\n\n", sleep_time)
+                  "and you confidently approach the clerk's desk and sit down.\n", sleep_time)
     # spinner(6)
-    typing_effect("you are informed you must provide a 16 digit \"SPACESHIP IDENTIFICATION NUMBER\"\n", sleep_time)
-    typing_effect("\n\n\nAfter a quick trip to the ship, you find that the \"S-I-N\" has been covered up by a"
-                  "quantum-bonded-cedar skid plate.", sleep_time)
+    typing_effect("you are informed you must provide a 16 digit \"SPACESHIP IDENTIFICATION NUMBER\"", sleep_time)
+    typing_effect("\nAfter a quick trip to the ship, you find that the \"S-I-N\" has been covered up by a"
+                  " quantum-bonded-cedar skid plate.", sleep_time)
     typing_effect("\nYou curse yourself for buying a used 1"
-                  "876 pirate ship from the shady vendor on desmos-9\n", sleep_time)
-    print("You must now provide a phony S-I-N that passes the validation tests.".center(terminal_width))
+                  "876 pirate ship from the shady vendor on Desmos-9\n", sleep_time)
+    print("You must now provide an SSIN that passes the validation tests.".center(terminal_width))
     print("\n")
     print('There are some criteria that must be met, but you can\'t seem to remember them!'.center(terminal_width))
     print("Press enter to continue...".center(terminal_width) + "\n")
     ssin_validtator()
+    Player.gameplay = True
 
 
 def random_event():
@@ -337,10 +341,10 @@ def task_1():
     print("this is task 1")
     input("return to location_1")
     # todo rename this
-    heavens_forge()
+    chevron_ii()
 
 
-def heavens_forge():
+def chevron_ii():
     supervisor()
     typing_effect(get_file(r"storyline/location_1/Chevron II"), sleep_time)
     print("You have 3 options:\n[1] do task 1\n[2] Go to location 7\n[3] go to twilight isles")
@@ -350,7 +354,7 @@ def heavens_forge():
     elif choice == 2:
         location_7()
     elif choice == 3:
-        twilight_isles()
+        planet_sweetrain()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -365,7 +369,7 @@ def task_2():
     task_2()
 
 
-def twilight_isles():
+def planet_sweetrain():
     supervisor()
     typing_effect(get_file(r"storyline/location_2/SweetRain Planet"), sleep_time)
     choice = one_through_3()
@@ -374,7 +378,7 @@ def twilight_isles():
     elif choice == 2:
         location_3()
     elif choice == 3:
-        heavens_forge()
+        chevron_ii()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -398,7 +402,7 @@ def location_3():
     elif choice == 2:
         location_4()
     elif choice == 3:
-        twilight_isles()
+        planet_sweetrain()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -492,7 +496,7 @@ def location_7():
     if choice == 1:
         task_7()
     elif choice == 2:
-        heavens_forge()
+        chevron_ii()
     elif choice == 3:
         location_6()
 
