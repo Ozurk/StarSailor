@@ -163,12 +163,13 @@ def tunnel():
 
 
 def ssin_validtator():
-    supervisor()
-    os.system("cls")
-    ssin = input("Please Enter 16 digits.\n").strip()
-    even_and_odd_validation(number_validation(length_validation(ssin)))
-    Player.inventory["ssid"] = even_and_odd_validation(number_validation(length_validation(ssin)))
-    input("Thank you for visiting Flagstaff AZ BMV\nHave a great day")
+    while True:
+        supervisor()
+        os.system("cls")
+        ssin = input("Please Enter 16 digits.\n").strip()
+        if length_validation(ssin) !=
+
+        input("Thank you for visiting Flagstaff AZ BMV\nHave a great day")
 
 
 def number_validation(length_validation_input):
@@ -178,23 +179,20 @@ def number_validation(length_validation_input):
         print("\nThe value you entered is invalid\n #VALUE")
         time.sleep(3)
         Player.stats["sanity"] *= .99
-        ssin_validtator()
-        pass
 
 
 def length_validation(ssin):
     try:
-        if len(ssin) != 16:
+        if len(ssin) == 16:
+            logging.debug(" len validator ssin is %s", ssin)
+            return ssin
+        else:
             print("This entry is invalid\nError 411\n")
             time.sleep(2)
             Player.stats["sanity"] *= .99
-            ssin_validtator()
-            pass
-        else:
-            logging.debug(" len validator ssin is %s", ssin)
-            return ssin
     except AttributeError:
         pass
+
 
 
 def even_and_odd_validation(number):
@@ -209,8 +207,7 @@ def even_and_odd_validation(number):
             Player.stats["sanity"] *= .99
             print("\nYou lost a little bit of sanity...")
             time.sleep(3)
-            ssin_validtator()
-            pass
+            return
     even_numbers = number[1::2]
     for even_digits in even_numbers:
         if float(even_digits) % 2 != 0:
@@ -221,8 +218,7 @@ def even_and_odd_validation(number):
             time.sleep(2)
             Player.stats["sanity"] *= .99
             print("\nYou lost a little bit of sanity")
-            ssin_validtator()
-            pass
+            return
     logging.debug("the even/odd validator return value is %s", number)
     return number
 
