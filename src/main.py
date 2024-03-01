@@ -163,9 +163,9 @@ def tunnel():
 
 
 def ssin_validtator():
+    Player.gameplay = False
     while True:
-        supervisor()
-        os.system("cls")
+        print("Sanity: " + str(Player.stats["sanity"]))
         ssin = input("Please Enter 16 digits.\n").strip()
         length_return = length_validation(ssin)
         if length_return is not None:
@@ -197,7 +197,7 @@ def length_validation(ssin):
             return ssin
         else:
             print("This entry is invalid\nError 411\n")
-            time.sleep(2)
+            time.sleep(1.2)
             Player.stats["sanity"] *= .99
     except AttributeError:
         pass
