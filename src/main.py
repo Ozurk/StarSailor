@@ -165,7 +165,7 @@ def tunnel():
     chevron_ii()
 
 
-def ssin_validtator():
+def ssin_validatator():
     Player.gameplay = False
     while True:
         print("-" * terminal_width)
@@ -258,7 +258,7 @@ def rems_event():
     print('There are some criteria that must be met, but you can\'t seem to remember them!'.center(terminal_width))
     print("\n")
     input("Press enter to continue...".center(terminal_width) + "\n")
-    ssin_validtator()
+    ssin_validatator()
     Player.gameplay = True
 
 
@@ -512,4 +512,4 @@ def location_7():
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-ssin_validtator()
+ssin_validatator()
