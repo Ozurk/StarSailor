@@ -166,6 +166,7 @@ def tunnel():
 
 
 def ssin_validtator():
+    Player.gameplay = False
     while True:
         print("-" * terminal_width)
         print("Sanity:" + str(Player.stats["sanity"]))
