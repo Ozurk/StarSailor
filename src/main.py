@@ -8,6 +8,9 @@ sleep_time = 0.03
 
 
 class Player:
+    def __init__(self):
+        pass
+
     stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
     inventory = {}
     gameplay = True
@@ -164,8 +167,9 @@ def tunnel():
 
 def ssin_validtator():
     while True:
-        supervisor()
-        os.system("cls")
+        print("-" * terminal_width)
+        print(Player.stats["sanity"])
+        print("-" * terminal_width)
         ssin = input("Please Enter 16 digits.\n").strip()
         length_return = length_validation(ssin)
         if length_return is not None:
@@ -184,7 +188,7 @@ def number_validation(length_validation_input):
             return length_validation_input
         else:
             print("\nThe value you entered is invalid\n #VALUE")
-            time.sleep(3)
+            time.sleep(1)
             Player.stats["sanity"] *= .99
     except AttributeError:
         pass
@@ -197,7 +201,7 @@ def length_validation(ssin):
             return ssin
         else:
             print("This entry is invalid\nError 411\n")
-            time.sleep(2)
+            time.sleep(1)
             Player.stats["sanity"] *= .99
     except AttributeError:
         pass
@@ -212,19 +216,19 @@ def even_and_odd_validation(number):
                 print("The number you entered was not valid.\n"
                       "The number that caused an error was: " + digits + "\n")
                 print("\n[" + number + "]")
-                time.sleep(3)
+                time.sleep(1)
                 Player.stats["sanity"] *= .99
                 print("\nYou lost a little bit of sanity...")
-                time.sleep(3)
+                time.sleep(1)
                 return
         even_numbers = number[1::2]
         for even_digits in even_numbers:
             if float(even_digits) % 2 != 0:
                 print("The number you entered was not valid.\n"
                       "The number that caused an error was: " + even_digits + "\n")
-                time.sleep(4)
+                time.sleep(1)
                 print("\n[" + number + "]")
-                time.sleep(2)
+                time.sleep(1)
                 Player.stats["sanity"] *= .99
                 print("\nYou lost a little bit of sanity")
                 return
@@ -518,4 +522,5 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+
 ssin_validtator()
