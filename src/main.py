@@ -9,10 +9,36 @@ sleep_time = 0.03
 
 class Player:
     stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
-    inventory = {}
+    inventory = {"oranges": 6}
     gameplay = True
     planets_visited = {"chevron_ii": False, "Sweetrain Planet": False, "Duramen": False,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
+
+
+class Ship:
+    inventory = {"oranges": 5}
+    health = 100.0
+    crew = {}
+    type = ""
+
+    def __init__(self):
+        pass
+
+
+def change_inventory():
+    user_choice = input("Would you like to add or remove an item from the ships inventory?\n[yes]\n[no]\n")
+    if user_choice.lower().strip() == "yes":
+        user_choice = input("Would you like to \nadd[0]\n or\nremove[1]\nan item from the ships inventory?")
+        if user_choice.strip().lower() == "0":
+            add_ship_inventory()
+
+
+def add_ship_inventory():
+    user_choice = input("\nWhat would you like to add?\n")
+    user_choice_quantity = input("how much would you like to add")
+    if int(user_choice_quantity) <= Player.inventory[user_choice]:
+        Player.inventory[user_choice] -= int(user_choice_quantity)
+        Ship.inventory[user_choice] += int(user_choice_quantity)
 
 
 input("maximize window\n")
@@ -518,4 +544,7 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-ssin_validtator()
+change_inventory()
+
+supervisor()
+print(Ship.inventory)
