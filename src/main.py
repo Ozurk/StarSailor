@@ -381,14 +381,14 @@ def death():
 def task_1():
     supervisor()
     print("this is task 1")
-    input("return to location_1")
+    input("return to Heaven's Forge")
     # todo rename this
     chevron_ii()
 
 
 def chevron_ii():
     supervisor()
-    typing_effect(get_file(r"storyline/location_1/Chevron II"), sleep_time)
+    typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Intro"), sleep_time)
     print("You have 3 options:\n[1] do task 1\n[2] Go to location 7\n[3] go to twilight isles")
     choice = one_through_3()
     if choice == 1:
@@ -413,7 +413,7 @@ def task_2():
 
 def planet_sweetrain():
     supervisor()
-    typing_effect(get_file(r"storyline/location_2/SweetRain Planet"), sleep_time)
+    typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles intro"), sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_2()
