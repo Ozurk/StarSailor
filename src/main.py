@@ -11,6 +11,9 @@ class DeveloperControls:
 
 
 class Player:
+    def __init__(self):
+        pass
+
     stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
     inventory = {"oranges": 6}
     gameplay = True
@@ -199,11 +202,13 @@ def tunnel():
     chevron_ii()
 
 
-def ssin_validtator():
+def ssin_validatator():
     Player.gameplay = False
     while True:
-        print("Sanity: " + str(Player.stats["sanity"]))
-        ssin = input("Please Enter 16 digits.\n").strip()
+        print("-" * terminal_width)
+        print("Sanity:" + str(Player.stats["sanity"]))
+        print("-" * terminal_width)
+        ssin = input("Please Enter 8 digits.\n").strip()
         length_return = length_validation(ssin)
         if length_return is not None:
             number_return = number_validation(length_return)
@@ -211,7 +216,7 @@ def ssin_validtator():
                 ssin_return = even_and_odd_validation(number_return)
                 if ssin_return is not None:
                     Player.inventory["SSIN"] = ssin_return
-                    logging.debug("this is the end of the ssin validator")
+                    break
                 # I hope this is a good excuse for nested If statements
 
 
@@ -221,7 +226,6 @@ def number_validation(length_validation_input):
             return length_validation_input
         else:
             print("\nThe value you entered is invalid\n #VALUE")
-            time.sleep(3)
             Player.stats["sanity"] *= .99
     except AttributeError:
         pass
@@ -229,12 +233,10 @@ def number_validation(length_validation_input):
 
 def length_validation(ssin):
     try:
-        if len(ssin) == 16:
-            logging.debug(" len validator ssin is %s", ssin)
+        if len(ssin) == 8:
             return ssin
         else:
             print("This entry is invalid\nError 411\n")
-            time.sleep(1.2)
             Player.stats["sanity"] *= .99
     except AttributeError:
         pass
@@ -242,32 +244,23 @@ def length_validation(ssin):
 
 def even_and_odd_validation(number):
     try:
-        odd_numbers = number[::2]
+        odd_numbers = number[1::2]
         for digits in odd_numbers:
             if float(digits) % 2 == 0:
                 Player.stats["sanity"] -= .5
                 print("The number you entered was not valid.\n"
                       "The number that caused an error was: " + digits + "\n")
-                print("\n[" + number + "]")
-                time.sleep(3)
                 Player.stats["sanity"] *= .99
-                print("\nYou lost a little bit of sanity...")
-                time.sleep(3)
                 return
-        even_numbers = number[1::2]
+        even_numbers = number[::2]
         for even_digits in even_numbers:
             if float(even_digits) % 2 != 0:
                 print("The number you entered was not valid.\n"
                       "The number that caused an error was: " + even_digits + "\n")
-                time.sleep(4)
-                print("\n[" + number + "]")
-                time.sleep(2)
                 Player.stats["sanity"] *= .99
-                print("\nYou lost a little bit of sanity")
                 return
     except TypeError:
         pass
-    logging.debug("the even/odd validator return value is %s", number)
     return number
 
 
@@ -302,7 +295,7 @@ def rems_event():
     print('There are some criteria that must be met, but you can\'t seem to remember them!'.center(terminal_width))
     print("\n")
     input("Press enter to continue...".center(terminal_width) + "\n")
-    ssin_validtator()
+    ssin_validatator()
     Player.gameplay = True
 
 
@@ -555,7 +548,3 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-change_inventory()
-
-supervisor()
-print(Ship.inventory)
