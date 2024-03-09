@@ -4,7 +4,10 @@ from random import randint
 import pyautogui
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-sleep_time = 0.03
+
+
+class DeveloperControls:
+    sleep_time = 0.03  # delay between letters in typing effect
 
 
 class Player:
@@ -29,19 +32,27 @@ class Ship:
 
 
 def change_inventory():
-    user_choice = input("Would you like to add or remove an item from the ships inventory?\n[yes]\n[no]\n")
-    if user_choice.lower().strip() == "yes":
-        user_choice = input("Would you like to \nadd[0]\n or\nremove[1]\nan item from the ships inventory?")
-        if user_choice.strip().lower() == "0":
-            add_ship_inventory()
+    user_choice = yes_or_no(input("Transfer items to or from ship inventory?\n[yes]\n[no]\n"))
+    if user_choice == 'yes':
+        add_ship_inventory()
+    elif user_choice == 'no':
+        pass
 
 
 def add_ship_inventory():
-    user_choice = input("\nWhat would you like to add?\n")
-    user_choice_quantity = input("how much would you like to add")
-    if int(user_choice_quantity) <= Player.inventory[user_choice]:
-        Player.inventory[user_choice] -= int(user_choice_quantity)
-        Ship.inventory[user_choice] += int(user_choice_quantity)
+    while True:
+        user_choice = input("\nWhat would you like to add to your ship's inventory?\n".lower().strip())
+        user_choice_quantity = input("how many would you like to add to the ships inventory\n?")
+        try:
+            if int(user_choice_quantity) <= Player.inventory[user_choice]:
+                Player.inventory[user_choice] -= int(user_choice_quantity)
+                Ship.inventory[user_choice] += int(user_choice_quantity)
+                supervisor()
+                break
+            else:
+                print("\nyou can only transfer the amount of [" + user_choice + "]s that are in your inventory.\n")
+        except TypeError:
+            print("please enter a number\n")
 
 
 input("maximize window\n")
@@ -172,7 +183,7 @@ def user_stats():
 
 def intro():
     os.system("cls")
-    typing_effect(get_file(r".\storyline\intro"), sleep_time)
+    typing_effect(get_file(r".\storyline\intro"), DeveloperControls.sleep_time)
     print("\n" * 4)
     input("Press enter to play the game".center(terminal_width, "-") + "\n")
     set_and_setting()
@@ -180,13 +191,13 @@ def intro():
 
 def set_and_setting():
     os.system("cls")
-    typing_effect(get_file(r".\storyline\setup\setting and setup"), sleep_time)
+    typing_effect(get_file(r".\storyline\setup\setting and setup"), DeveloperControls.sleep_time)
     tunnel()
 
 
 def tunnel():
     os.system("cls")
-    typing_effect(get_file(r".\storyline\setup\tunnel"), sleep_time)
+    typing_effect(get_file(r".\storyline\setup\tunnel"), DeveloperControls.sleep_time)
     input("Press enter to continue...\n")
     chevron_ii()
 
@@ -256,27 +267,27 @@ def even_and_odd_validation(number):
 def rems_event():
     Player.gameplay = False
     os.system("cls")
-    typing_effect("Your ships registration has expired\n", sleep_time)
+    typing_effect("Your ships registration has expired\n", DeveloperControls.sleep_time)
     time.sleep(2)
     typing_effect("You must report to the nearest BMV to update your registration.\nThe nearest "
                   "spaceship certified BMV is in Flagstaff Arizona, USA, Earth, Solar System,"
-                  " Milky Way Galaxy.\n", sleep_time)
+                  " Milky Way Galaxy.\n", DeveloperControls.sleep_time)
     print("\n\n")
     input("Press Enter to continue".center(terminal_width) + "\n")
 
     typing_effect("you arrived at BMV Flagstaff 48 minutes ago, the line"
-                  " seems to be crawling by...\n", sleep_time)
+                  " seems to be crawling by...\n", DeveloperControls.sleep_time)
 
     spinner(6)
     os.system("cls")
     typing_effect("\nFinally, your number is called. "
-                  "you approach the clerk's desk and sit down.\n", sleep_time)
+                  "you approach the clerk's desk and sit down.\n", DeveloperControls.sleep_time)
     time.sleep(4)
     os.system("cls")
-    typing_effect("You are informed you must provide a 16 digit \"SPACESHIP IDENTIFICATION NUMBER\"", sleep_time)
-    typing_effect("\nYou do not have the original bill of sale for the ship."
-                  " Heavens know that every board on this ship has been replaced. The original SSIN "
-                  "is nowhere to be found.\n\n", sleep_time)
+    typing_effect("You are informed you must provide a 16 digit \"SPACESHIP IDENTIFICATION NUMBER\"", DeveloperControls.sleep_time)
+    typing_effect("\nYou do not have the original bill of sale for the ship"
+                  " and heavens know that every board on this ship has been replaced. The original SSIN "
+                  "is nowhere to be found.\n\n", DeveloperControls.sleep_time)
     time.sleep(4)
     os.system("cls")
     print("You must now provide an SSIN that passes the validation tests.".center(terminal_width))
@@ -360,7 +371,7 @@ def broken_down():
 
 
 def death():
-    typing_effect(get_file(r"storyline\endgame\death"), sleep_time)
+    typing_effect(get_file(r"storyline\endgame\death"), DeveloperControls.sleep_time)
     input("Press Enter to quit...".center(terminal_width, "-"))
     quit()
     # todo add a better death screen
@@ -374,14 +385,14 @@ def death():
 def task_1():
     supervisor()
     print("this is task 1")
-    input("return to location_1")
+    input("return to Heaven's Forge")
     # todo rename this
     chevron_ii()
 
 
 def chevron_ii():
     supervisor()
-    typing_effect(get_file(r"storyline/location_1/Chevron II"), sleep_time)
+    typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Intro"), DeveloperControls.sleep_time)
     print("You have 3 options:\n[1] do task 1\n[2] Go to location 7\n[3] go to twilight isles")
     choice = one_through_3()
     if choice == 1:
@@ -406,7 +417,7 @@ def task_2():
 
 def planet_sweetrain():
     supervisor()
-    typing_effect(get_file(r"storyline/location_2/SweetRain Planet"), sleep_time)
+    typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles intro"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_2()
@@ -430,7 +441,7 @@ def task_3():
 
 def location_3():
     supervisor()
-    typing_effect(get_file(r"storyline/location_3/Duramen"), sleep_time)
+    typing_effect(get_file(r"storyline/location_3/Duramen"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_3()
@@ -454,7 +465,7 @@ def task_4():
 
 def location_4():
     supervisor()
-    typing_effect(get_file(r"storyline/location_4/Wormwood Planet"), sleep_time)
+    typing_effect(get_file(r"storyline/location_4/Wormwood Planet"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_4()
@@ -478,7 +489,7 @@ def task_5():
 
 def location_5():
     supervisor()
-    typing_effect(get_file(r"storyline/location_5/Mars"), sleep_time)
+    typing_effect(get_file(r"storyline/location_5/Mars"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_5()
@@ -502,7 +513,7 @@ def task_6():
 
 def location_6():
     supervisor()
-    typing_effect(get_file(r"storyline/location_6/Cobatiania"), sleep_time)
+    typing_effect(get_file(r"storyline/location_6/Cobatiania"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_6()
@@ -526,7 +537,7 @@ def task_7():
 
 def location_7():
     supervisor()
-    typing_effect(get_file(r"storyline/location_7/B-IRS"), sleep_time)
+    typing_effect(get_file(r"storyline/location_7/B-IRS"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_7()
