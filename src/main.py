@@ -55,7 +55,6 @@ def add_ship_inventory():
             print("please enter a number\n")
 
 
-input("maximize window\n")
 terminal_width = shutil.get_terminal_size().columns
 
 
@@ -199,7 +198,7 @@ def tunnel():
     os.system("cls")
     typing_effect(get_file(r".\storyline\setup\tunnel"), DeveloperControls.sleep_time)
     input("Press enter to continue...\n")
-    chevron_ii()
+    heavens_forge()
 
 
 def ssin_validatator():
@@ -284,7 +283,8 @@ def rems_event():
                   "you approach the clerk's desk and sit down.\n", DeveloperControls.sleep_time)
     time.sleep(4)
     os.system("cls")
-    typing_effect("You are informed you must provide a 16 digit \"SPACESHIP IDENTIFICATION NUMBER\"", DeveloperControls.sleep_time)
+    typing_effect("You are informed you must provide a 16 digit \"SPACESHIP IDENTIFICATION NUMBER\"",
+                  DeveloperControls.sleep_time)
     typing_effect("\nYou do not have the original bill of sale for the ship"
                   " and heavens know that every board on this ship has been replaced. The original SSIN "
                   "is nowhere to be found.\n\n", DeveloperControls.sleep_time)
@@ -384,13 +384,13 @@ def death():
 
 def task_1():
     supervisor()
-    print("this is task 1")
+    typing_effect(get_file(r"storyline/Heaven's Forge/Task1"), DeveloperControls.sleep_time)
     input("return to Heaven's Forge")
     # todo rename this
-    chevron_ii()
+    heavens_forge()
 
 
-def chevron_ii():
+def heavens_forge():
     supervisor()
     typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Intro"), DeveloperControls.sleep_time)
     print("You have 3 options:\n[1] do task 1\n[2] Go to location 7\n[3] go to twilight isles")
@@ -424,7 +424,7 @@ def planet_sweetrain():
     elif choice == 2:
         location_3()
     elif choice == 3:
-        chevron_ii()
+        heavens_forge()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -542,9 +542,14 @@ def location_7():
     if choice == 1:
         task_7()
     elif choice == 2:
-        chevron_ii()
+        heavens_forge()
     elif choice == 3:
         location_6()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+
+
+intro_screen()
+intro()
+rems_event()
