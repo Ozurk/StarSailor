@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 
 
 class DeveloperControls:
-    sleep_time = 0.03  # delay between letters in typing effect
+    sleep_time = 0.00  # delay between letters in typing effect
 
 
 class Player:
@@ -17,7 +17,7 @@ class Player:
     stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
     inventory = {"oranges": 6}
     gameplay = True
-    planets_visited = {"chevron_ii": False, "Sweetrain Planet": False, "Duramen": False,
+    planets_visited = {"chevron_ii": False, "Sweetrain Planet": False, "Acropolis": False,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
 
 
@@ -434,14 +434,22 @@ def planet_sweetrain():
 
 def task_3():
     supervisor()
-    print("this is task 3")
-    input('return to location 3')
+    typing_effect(get_file(r"storyline/location_3/loamstone"), DeveloperControls.sleep_time)
+    print("""IN FUTURE VISITS TO ACROPOLIS, YOU MAY NOW TRAVEL TO LOAMSTONE!
+    The Reticent Rancher will allow you to gather your own mushrooms, where you may brave the dark and spores to refill your
+    galley. You will net +10 Food for -2 Sanity. This deal is useful if you're sound of mind but low on foodstuffs.
+
+    [1] Return to the plow wagon - Back to city, your crew, your ship.
+    [2] Harvest Some Mushrooms
+    """)
+    Player.inventory['dreamcap'] = 1
+    input('')
     location_3()
 
 
 def location_3():
     supervisor()
-    typing_effect(get_file(r"storyline/location_3/Duramen"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r"storyline/location_3/Acropolis"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_3()
@@ -549,7 +557,4 @@ def location_7():
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-
-intro_screen()
 intro()
-rems_event()

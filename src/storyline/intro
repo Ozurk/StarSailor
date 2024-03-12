@@ -1,28 +1,32 @@
-Greetings!
-Welcome to StarSailor!
+Greetings, Welcome to StarSailor!
 
-Once this game is started, you can interact with it in a variety of ways.
-Whenever prompted to make a choice, type the characters within the [brackets]
-then press enter:
-For example, you want to chose the shiny dagger:
+I hope you are doing well.
 
-   "There are two knives for sale, a shiny dagger and a matte black butterfly knife"
-   "[1] Shiny dagger"
-   "[2] Matte black butterfly knife"
-   "[3] neither"
+Although this is just a "simple text-based adventure game", there are a few things that you should be aware of.
+[You] are Captain [TODO]. You are the Captain of [TODO].
+Here in StarSailor, there are a handful of 'vital signs'.
+The first of which is food.
 
-   1    **enter**
+Food:
+This is a class of substances which can be absorbed by the body to promote continuation of life.
+You have [100] food.
+    If you run out of food, you will have to exchange money for food. If you have money, you are temporarily safe
+from starvation. However, it is wise to find a good source of food. Most moves in the game require [1] food.
 
-"you purchased the shiny dagger"
+Money:
+Money, is the liquid asset of StarSailor, it can be exchanged for other resources. However, be aware, the rates may change
+from place to place.
+    Platinum Disks are the universally accepted currency in [TODO].
+Be aware of losing all of your money, you may be forced to beg for money to buy food. That is a dangerous place to be.
 
-After each screen, your stats will appear
-you have resources named
-[food]
-[money]
-[sanity]
-do not run out of any of them.
+Sanity:
+When soaring through space, sanity is a precious resource. This is the only killer in StarSailor. Sanity is lost whenever
+you are trying something and failing consistently. Sometimes, the loss will be linear, sometime exponential, so be very careful.
 
-If you run out of food, you will die..
-when entering any text, be exact as you can be, try to avoid typos
+Inventory:
 
-Good luck!!
+This is a your set of belongings. You may be granted or barred access to locations depending on the contents of your inventory.
+There is no limit to what your satchel can hold.
+
+
+
