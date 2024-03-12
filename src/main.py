@@ -17,7 +17,7 @@ class Player:
     stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
     inventory = {"oranges": 6}
     gameplay = True
-    planets_visited = {"chevron_ii": False, "Sweetrain Planet": False, "Duramen": False,
+    planets_visited = {"chevron_ii": False, "Sweetrain Planet": False, "Acropolis": False,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
 
 
@@ -384,7 +384,7 @@ def death():
 
 def task_1():
     supervisor()
-    typing_effect(get_file(r"storyline/Heaven's Forge/Task1"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r"storyline/Heaven's Forge/LightWelder"), DeveloperControls.sleep_time)
     input("return to Heaven's Forge")
     # todo rename this
     heavens_forge()
@@ -441,7 +441,7 @@ def task_3():
 
 def location_3():
     supervisor()
-    typing_effect(get_file(r"storyline/location_3/Duramen"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r"storyline/Acropolis/Acropolis"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
         task_3()
