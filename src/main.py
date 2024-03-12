@@ -17,7 +17,7 @@ class Player:
     stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
     inventory = {"oranges": 6}
     gameplay = True
-    planets_visited = {"chevron_ii": False, "Sweetrain Planet": False, "Acropolis": False,
+    planets_visited = {"heavens forge": False, "twilight isles": False, "Acropolis": False,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
 
 
@@ -202,40 +202,38 @@ def tunnel():
 
 
 def ssin_validatator():
-    Player.gameplay = False
+    print("-" * terminal_width)
+    print("Sanity:" + str(Player.stats["sanity"]))
+    print("-" * terminal_width)
+    ssin = input("Please Enter 8 digits.\n").strip()
+    if len(ssin) != 8:
+        input("The number you entered is not long enough.\nPlease try again...\n")
+        return
+    if not ssin.isdigit():
+        print("The text you provided raised a #VALUE error.\nPlease try again...\n")
+        return
+    odd_numbers = ssin[1::2]
+    for digits in odd_numbers:
+        if float(digits) % 2 == 0:
+            Player.stats["sanity"] -= .5
+            print("The number you entered was not valid.\n"
+                  "The number that caused an error was: " + digits + "\n")
+            Player.stats["sanity"] *= .99
+            return
+    even_numbers = ssin[::2]
+    for even_digits in even_numbers:
+        if float(even_digits) % 2 != 0:
+            print("The number you entered was not valid.\n"
+                  "The number that caused an error was: " + even_digits + "\n")
+            Player.stats["sanity"] *= .99
+            return
+    return ssin
+
+
+def ssin_function():
     while True:
-        print("-" * terminal_width)
-        print("Sanity:" + str(Player.stats["sanity"]))
-        print("-" * terminal_width)
-        ssin = input("Please Enter 8 digits.\n").strip()
-        if len(ssin) != 8:
-            input("The number you entered is not long enough.\nPlease try again...\n")
-            return
-        elif not ssin.isdigit():
-            print("The text you provided raised a #VALUE error.\nPlease try again...\n")
-            return
-        odd_numbers = ssin[1::2]
-        for digits in odd_numbers:
-            if float(digits) % 2 == 0:
-                Player.stats["sanity"] -= .5
-                print("The number you entered was not valid.\n"
-                      "The number that caused an error was: " + digits + "\n")
-                Player.stats["sanity"] *= .99
-                return
-        even_numbers = ssin[::2]
-        for even_digits in even_numbers:
-            if float(even_digits) % 2 != 0:
-                print("The number you entered was not valid.\n"
-                      "The number that caused an error was: " + even_digits + "\n")
-                Player.stats["sanity"] *= .99
-                return
-        typing_effect("\nThank you for visiting the Flagstaff BMV.\n Have a great day!", DeveloperControls.sleep_time)
-        input("\nPress enter to continue...")
-
-
-
-
-
+        if ssin_validatator() is not None:
+            break
 
 
 def rems_event():
@@ -270,7 +268,8 @@ def rems_event():
     print('There are some criteria that must be met, but you can\'t seem to remember them!'.center(terminal_width))
     print("\n")
     input("Press enter to continue...".center(terminal_width) + "\n")
-    ssin_validatator()
+    ssin_function()
+    print("Thank you for visiting BMV flagstaff Arizona.\nHave a nice day...\n")
     Player.gameplay = True
 
 
@@ -531,4 +530,4 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-ssin_validatator()
+ssin_function()
