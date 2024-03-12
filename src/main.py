@@ -7,7 +7,10 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 
 
 class DeveloperControls:
-    sleep_time = 0.03  # delay between letters in typing effect
+    sleep_time = 0.00  # delay between letters in typing effect
+    def __init__(self):
+        pass
+
 
 
 class Player:
@@ -434,8 +437,16 @@ def planet_sweetrain():
 
 def task_3():
     supervisor()
-    print("this is task 3")
-    input('return to location 3')
+    typing_effect(get_file(r"storyline/location_3/loamstone"), DeveloperControls.sleep_time)
+    print("""IN FUTURE VISITS TO ACROPOLIS, YOU MAY NOW TRAVEL TO LOAMSTONE!
+    The Reticent Rancher will allow you to gather your own mushrooms, where you may brave the dark and spores to refill your
+    galley. You will net +10 Food for -2 Sanity. This deal is useful if you're sound of mind but low on foodstuffs.
+
+    [1] Return to the plow wagon - Back to city, your crew, your ship.
+    [2] Harvest Some Mushrooms
+    """)
+    Player.inventory['dreamcap'] = 1
+    input('')
     location_3()
 
 
@@ -549,7 +560,4 @@ def location_7():
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-
-intro_screen()
 intro()
-rems_event()
