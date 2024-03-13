@@ -211,42 +211,13 @@ def ssin_validatator():
         print("Sanity:" + str(Player.stats["sanity"]))
         print("-" * terminal_width)
         ssin = input("Please Enter 8 digits.\n").strip()
-        length_return = length_validation(ssin)
-        if length_return is not None:
-            number_return = number_validation(length_return)
-            if number_return is not None:
-                ssin_return = even_and_odd_validation(number_return)
-                if ssin_return is not None:
-                    Player.inventory["SSIN"] = ssin_return
-                    break
-                # I hope this is a good excuse for nested If statements
-
-
-def number_validation(length_validation_input):
-    try:
-        if length_validation_input.isdigit():
-            return length_validation_input
-        else:
-            print("\nThe value you entered is invalid\n #VALUE")
-            Player.stats["sanity"] *= .99
-    except AttributeError:
-        pass
-
-
-def length_validation(ssin):
-    try:
-        if len(ssin) == 8:
-            return ssin
-        else:
-            print("This entry is invalid\nError 411\n")
-            Player.stats["sanity"] *= .99
-    except AttributeError:
-        pass
-
-
-def even_and_odd_validation(number):
-    try:
-        odd_numbers = number[1::2]
+        if len(ssin) != 8:
+            input("The number you entered is not long enough.\nPlease try again...\n")
+            return
+        elif not ssin.isdigit():
+            print("The text you provided raised a #VALUE error.\nPlease try again...\n")
+            return
+        odd_numbers = ssin[1::2]
         for digits in odd_numbers:
             if float(digits) % 2 == 0:
                 Player.stats["sanity"] -= .5
@@ -254,16 +225,20 @@ def even_and_odd_validation(number):
                       "The number that caused an error was: " + digits + "\n")
                 Player.stats["sanity"] *= .99
                 return
-        even_numbers = number[::2]
+        even_numbers = ssin[::2]
         for even_digits in even_numbers:
             if float(even_digits) % 2 != 0:
                 print("The number you entered was not valid.\n"
                       "The number that caused an error was: " + even_digits + "\n")
                 Player.stats["sanity"] *= .99
                 return
-    except TypeError:
-        pass
-    return number
+        typing_effect("\nThank you for visiting the Flagstaff BMV.\n Have a great day!", DeveloperControls.sleep_time)
+        input("\nPress enter to continue...")
+
+
+
+
+
 
 
 def rems_event():
@@ -559,5 +534,4 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-
-intro()
+ssin_validatator()
