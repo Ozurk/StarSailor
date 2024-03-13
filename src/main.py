@@ -18,44 +18,10 @@ class Player:
         pass
 
     stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
-    inventory = {"oranges": 6}
+    inventory = {}
     gameplay = True
-    planets_visited = {"chevron_ii": False, "Sweetrain Planet": False, "Acropolis": False,
+    planets_visited = {"heavens forge": False, "twilight isles": False, "acropolis": False, "loamstone": True,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
-
-
-class Ship:
-    inventory = {"oranges": 5}
-    health = 100.0
-    crew = {}
-    type = ""
-
-    def __init__(self):
-        pass
-
-
-def change_inventory():
-    user_choice = yes_or_no(input("Transfer items to or from ship inventory?\n[yes]\n[no]\n"))
-    if user_choice == 'yes':
-        add_ship_inventory()
-    elif user_choice == 'no':
-        pass
-
-
-def add_ship_inventory():
-    while True:
-        user_choice = input("\nWhat would you like to add to your ship's inventory?\n".lower().strip())
-        user_choice_quantity = input("how many would you like to add to the ships inventory\n?")
-        try:
-            if int(user_choice_quantity) <= Player.inventory[user_choice]:
-                Player.inventory[user_choice] -= int(user_choice_quantity)
-                Ship.inventory[user_choice] += int(user_choice_quantity)
-                supervisor()
-                break
-            else:
-                print("\nyou can only transfer the amount of [" + user_choice + "]s that are in your inventory.\n")
-        except TypeError:
-            print("please enter a number\n")
 
 
 terminal_width = shutil.get_terminal_size().columns
@@ -75,6 +41,13 @@ def supervisor():
         if randint(1, 5) == 1:
             random_event()
     input("Press enter to continue...".center(terminal_width) + "\n")
+
+
+def gameplay_speed(location):
+    if Player.planets_visited[location]:
+        DeveloperControls.sleep_time = .00
+    else:
+        DeveloperControls.sleep_time = .03
 
 
 def insane():
@@ -179,7 +152,7 @@ def user_stats():
         print(((items_list[iteration]) + ": " + str(Player.stats[items_list[iteration]])).center(terminal_width, " "))
         print("-" * terminal_width)
         iteration += 1
-    print(("Player.inventory: " + str(Player.inventory)).center(terminal_width))
+    print(("Inventory: " + str(Player.inventory)).center(terminal_width))
     print("\n\n")
 
 
@@ -194,7 +167,16 @@ def intro():
 def set_and_setting():
     os.system("cls")
     typing_effect(get_file(r".\storyline\setup\setting and setup"), DeveloperControls.sleep_time)
-    tunnel()
+    input("\n")
+    typing_effect("A vendor is selling a basket of [grapes] and a [ruby]\n"
+                  "Which do you want to purchase\n", DeveloperControls.sleep_time)
+    user_input = input()
+    while user_input != 'ruby':
+        print("\nRemember, you want to purchase [ruby]\n")
+        user_input = input("What do you want to purchase?\n")
+    Player.inventory['ruby'] = 1
+    print("a ruby has been added to your inventory\n")
+    supervisor()
 
 
 def tunnel():
@@ -205,40 +187,38 @@ def tunnel():
 
 
 def ssin_validatator():
-    Player.gameplay = False
+    print("-" * terminal_width)
+    print("Sanity:" + str(Player.stats["sanity"]))
+    print("-" * terminal_width)
+    ssin = input("Please Enter 8 digits.\n").strip()
+    if len(ssin) != 8:
+        input("The number you entered is not long enough.\nPlease try again...\n")
+        return
+    if not ssin.isdigit():
+        print("The text you provided raised a #VALUE error.\nPlease try again...\n")
+        return
+    odd_numbers = ssin[1::2]
+    for digits in odd_numbers:
+        if float(digits) % 2 == 0:
+            Player.stats["sanity"] -= .5
+            print("The number you entered was not valid.\n"
+                  "The number that caused an error was: " + digits + "\n")
+            Player.stats["sanity"] *= .99
+            return
+    even_numbers = ssin[::2]
+    for even_digits in even_numbers:
+        if float(even_digits) % 2 != 0:
+            print("The number you entered was not valid.\n"
+                  "The number that caused an error was: " + even_digits + "\n")
+            Player.stats["sanity"] *= .99
+            return
+    return ssin
+
+
+def ssin_function():
     while True:
-        print("-" * terminal_width)
-        print("Sanity:" + str(Player.stats["sanity"]))
-        print("-" * terminal_width)
-        ssin = input("Please Enter 8 digits.\n").strip()
-        if len(ssin) != 8:
-            input("The number you entered is not long enough.\nPlease try again...\n")
-            return
-        elif not ssin.isdigit():
-            print("The text you provided raised a #VALUE error.\nPlease try again...\n")
-            return
-        odd_numbers = ssin[1::2]
-        for digits in odd_numbers:
-            if float(digits) % 2 == 0:
-                Player.stats["sanity"] -= .5
-                print("The number you entered was not valid.\n"
-                      "The number that caused an error was: " + digits + "\n")
-                Player.stats["sanity"] *= .99
-                return
-        even_numbers = ssin[::2]
-        for even_digits in even_numbers:
-            if float(even_digits) % 2 != 0:
-                print("The number you entered was not valid.\n"
-                      "The number that caused an error was: " + even_digits + "\n")
-                Player.stats["sanity"] *= .99
-                return
-        typing_effect("\nThank you for visiting the Flagstaff BMV.\n Have a great day!", DeveloperControls.sleep_time)
-        input("\nPress enter to continue...")
-
-
-
-
-
+        if ssin_validatator() is not None:
+            break
 
 
 def rems_event():
@@ -273,7 +253,8 @@ def rems_event():
     print('There are some criteria that must be met, but you can\'t seem to remember them!'.center(terminal_width))
     print("\n")
     input("Press enter to continue...".center(terminal_width) + "\n")
-    ssin_validatator()
+    ssin_function()
+    print("Thank you for visiting BMV flagstaff Arizona.\nHave a nice day...\n")
     Player.gameplay = True
 
 
@@ -370,6 +351,8 @@ def task_1():
 
 def heavens_forge():
     supervisor()
+    gameplay_speed("heavens forge")
+    Player.planets_visited["heavens forge"] = True
     typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Intro"), DeveloperControls.sleep_time)
     print("You have 3 options:\n[1] do task 1\n[2] Go to location 7\n[3] go to twilight isles")
     choice = one_through_3()
@@ -378,7 +361,7 @@ def heavens_forge():
     elif choice == 2:
         location_7()
     elif choice == 3:
-        planet_sweetrain()
+        twilight_isles()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -393,8 +376,10 @@ def task_2():
     task_2()
 
 
-def planet_sweetrain():
+def twilight_isles():
     supervisor()
+    gameplay_speed("twilight isles")
+    Player.planets_visited["twilight isles"] = True
     typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles intro"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
@@ -434,7 +419,10 @@ def location_3():
     elif choice == 2:
         location_4()
     elif choice == 3:
-        planet_sweetrain()
+        twilight_isles()
+
+def loamstone():
+    pass
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -534,4 +522,4 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-ssin_validatator()
+intro()
