@@ -15,44 +15,10 @@ class Player:
         pass
 
     stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
-    inventory = {"oranges": 6}
+    inventory = {}
     gameplay = True
-    planets_visited = {"heavens forge": False, "twilight isles": False, "Acropolis": False,
+    planets_visited = {"heavens forge": False, "twilight isles": False, "acropolis": False, "loamstone": True,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
-
-
-class Ship:
-    inventory = {"oranges": 5}
-    health = 100.0
-    crew = {}
-    type = ""
-
-    def __init__(self):
-        pass
-
-
-def change_inventory():
-    user_choice = yes_or_no(input("Transfer items to or from ship inventory?\n[yes]\n[no]\n"))
-    if user_choice == 'yes':
-        add_ship_inventory()
-    elif user_choice == 'no':
-        pass
-
-
-def add_ship_inventory():
-    while True:
-        user_choice = input("\nWhat would you like to add to your ship's inventory?\n".lower().strip())
-        user_choice_quantity = input("how many would you like to add to the ships inventory\n?")
-        try:
-            if int(user_choice_quantity) <= Player.inventory[user_choice]:
-                Player.inventory[user_choice] -= int(user_choice_quantity)
-                Ship.inventory[user_choice] += int(user_choice_quantity)
-                supervisor()
-                break
-            else:
-                print("\nyou can only transfer the amount of [" + user_choice + "]s that are in your inventory.\n")
-        except TypeError:
-            print("please enter a number\n")
 
 
 terminal_width = shutil.get_terminal_size().columns
@@ -72,6 +38,13 @@ def supervisor():
         if randint(1, 5) == 1:
             random_event()
     input("Press enter to continue...".center(terminal_width) + "\n")
+
+
+def gameplay_speed(location):
+    if Player.planets_visited[location]:
+        DeveloperControls.sleep_time = .00
+    else:
+        DeveloperControls.sleep_time = .03
 
 
 def insane():
@@ -176,7 +149,7 @@ def user_stats():
         print(((items_list[iteration]) + ": " + str(Player.stats[items_list[iteration]])).center(terminal_width, " "))
         print("-" * terminal_width)
         iteration += 1
-    print(("Player.inventory: " + str(Player.inventory)).center(terminal_width))
+    print(("Inventory: " + str(Player.inventory)).center(terminal_width))
     print("\n\n")
 
 
@@ -191,7 +164,16 @@ def intro():
 def set_and_setting():
     os.system("cls")
     typing_effect(get_file(r".\storyline\setup\setting and setup"), DeveloperControls.sleep_time)
-    tunnel()
+    input("\n")
+    typing_effect("A vendor is selling a basket of [grapes] and a [ruby]\n"
+                  "Which do you want to purchase\n", DeveloperControls.sleep_time)
+    user_input = input()
+    while user_input != 'ruby':
+        print("\nRemember, you want to purchase [ruby]\n")
+        user_input = input("What do you want to purchase?\n")
+    Player.inventory['ruby'] = 1
+    print("a ruby has been added to your inventory\n")
+    supervisor()
 
 
 def tunnel():
@@ -366,6 +348,8 @@ def task_1():
 
 def heavens_forge():
     supervisor()
+    gameplay_speed("heavens forge")
+    Player.planets_visited["heavens forge"] = True
     typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Intro"), DeveloperControls.sleep_time)
     print("You have 3 options:\n[1] do task 1\n[2] Go to location 7\n[3] go to twilight isles")
     choice = one_through_3()
@@ -374,7 +358,7 @@ def heavens_forge():
     elif choice == 2:
         location_7()
     elif choice == 3:
-        planet_sweetrain()
+        twilight_isles()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -389,8 +373,10 @@ def task_2():
     task_2()
 
 
-def planet_sweetrain():
+def twilight_isles():
     supervisor()
+    gameplay_speed("twilight isles")
+    Player.planets_visited["twilight isles"] = True
     typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles intro"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
@@ -430,7 +416,10 @@ def location_3():
     elif choice == 2:
         location_4()
     elif choice == 3:
-        planet_sweetrain()
+        twilight_isles()
+
+def loamstone():
+    pass
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -530,4 +519,4 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-ssin_function()
+intro()
