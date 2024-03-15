@@ -5,9 +5,9 @@ import pyautogui
 import os
 import shutil
 
-# input("maximize window\n")
+input("maximize window\n")
 terminal_width = shutil.get_terminal_size().columns
-# intro_screen_character = input("type a single character then press enter".center(terminal_width) + "\n")
+intro_screen_character = input("type a single character then press enter".center(terminal_width) + "\n")
 
 
 def typing_effect(string, wait_time):

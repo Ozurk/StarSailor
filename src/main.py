@@ -8,9 +8,9 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 
 class DeveloperControls:
     sleep_time = 0.00  # delay between letters in typing effect
+
     def __init__(self):
         pass
-
 
 
 class Player:
@@ -40,7 +40,13 @@ def supervisor():
             beg()
         if randint(1, 5) == 1:
             random_event()
-    input("Press enter to continue...".center(terminal_width) + "\n")
+    sprvzr_txt = "Enter [help] for instructions or press enter to continue".center(terminal_width, " ") + "\n"
+    if input(sprvzr_txt) == 'help':
+        print(get_file(r"storyline\setup\Setup and Help"))
+        input("Press enter to continue\n")
+    else:
+        return
+
 
 
 def gameplay_speed(location):
@@ -89,8 +95,6 @@ def starvation():
         beg()
     elif user_picks == 2:
         vending_machine()
-    else:
-        print("Please report this to Hunter if you see this...Something has malfunctioned...")
     print("-" * terminal_width)
 
 
@@ -152,7 +156,8 @@ def user_stats():
         print(((items_list[iteration]) + ": " + str(Player.stats[items_list[iteration]])).center(terminal_width, " "))
         print("-" * terminal_width)
         iteration += 1
-    print(("Inventory: " + str(Player.inventory)).center(terminal_width))
+    print(("Inventory: " + str(Player.inventory)).center(terminal_width, " "))
+    print("-" * terminal_width)
     print("\n\n")
 
 
@@ -166,7 +171,8 @@ def intro():
 
 def set_and_setting():
     os.system("cls")
-    typing_effect(get_file(r".\storyline\setup\setting and setup"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r".\storyline\setup\Setup and Help"), DeveloperControls.sleep_time)
+    print("Here is a little example: For this exercise, you need to purchase the [ruby]. Got it?")
     input("\n")
     typing_effect("A vendor is selling a basket of [grapes] and a [ruby]\n"
                   "Which do you want to purchase\n", DeveloperControls.sleep_time)
@@ -421,6 +427,7 @@ def location_3():
     elif choice == 3:
         twilight_isles()
 
+
 def loamstone():
     pass
 
@@ -522,4 +529,4 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-intro()
+supervisor()

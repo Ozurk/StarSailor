@@ -1,26 +1,19 @@
 Greetings, Welcome to StarSailor!
 
-I hope you are doing well.
 
-Although this is just a "simple text-based adventure game", there are a few things that you should be aware of.
-[You] are Captain [TODO]. You are the Captain of [TODO].
-Here in StarSailor, there are a handful of 'vital signs'.
 
 Food:
-This is a class of substances which can be absorbed by the body to promote continuation of life.
-You have [100] food.
-    If you run out of food, you will have to exchange money for food. If you have money, you are temporarily safe
-from starvation. However, it is wise to find a good constant source of food. Most moves in the game require [1] food.
+If you run out of food, you will have to exchange money for food.
+Most moves in the game require [1] food.
 
 Money:
-Money, is the liquid asset of StarSailor, it can be exchanged for other resources. However, be aware, the rates may change
-from place to place.
-    Platinum Disks are the universally accepted currency in [TODO].
-Be aware of losing all of your money, you may be forced to beg for money to buy food. That is a dangerous place to be.
+
+Be aware of losing all of your money, you may be forced to beg for money. That is a dangerous place to be.
 
 Sanity:
-When soaring through space, sanity is a precious resource. Sanity is lost whenever
-you are trying something and failing consistently. Sometimes, the loss will be linear, sometime exponential, so be very careful.
+
+Sanity is a precious resource.
+Be very careful.
 Things become bleak when sanity is lost.
 
 Inventory:
