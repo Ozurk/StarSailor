@@ -3,7 +3,12 @@ from functions import *
 from random import randint
 import pyautogui
 
+# ---------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------Settings and Controls-------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
+
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+terminal_width = shutil.get_terminal_size().columns
 
 
 class DeveloperControls:
@@ -24,10 +29,21 @@ class Player:
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
 
 
-terminal_width = shutil.get_terminal_size().columns
+def user_stats():
+    items_list = ["food", 'money', 'sanity']
+    iteration = 0
+    print("-" * terminal_width)
+    for items in items_list:
+        print("-" * terminal_width)
+        print(
+            ((items_list[iteration]) + ": " + str(Player.stats[items_list[iteration]])).center(terminal_width, " "))
+        print("-" * terminal_width)
+        iteration += 1
+    print(("Inventory: " + str(Player.inventory)).center(terminal_width, " "))
+    print("-" * terminal_width)
+    print("\n\n")
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 def supervisor():
     os.system("cls")
     user_stats()
@@ -48,13 +64,16 @@ def supervisor():
         return
 
 
-
 def gameplay_speed(location):
     if Player.planets_visited[location]:
         DeveloperControls.sleep_time = .00
     else:
         DeveloperControls.sleep_time = .03
 
+
+# ---------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------Consequences and Menu----------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 
 def insane():
     print("you lost your mind")
@@ -147,18 +166,9 @@ def beg():
     vending_machine()
 
 
-def user_stats():
-    items_list = ["food", 'money', 'sanity']
-    iteration = 0
-    print("-" * terminal_width)
-    for items in items_list:
-        print("-" * terminal_width)
-        print(((items_list[iteration]) + ": " + str(Player.stats[items_list[iteration]])).center(terminal_width, " "))
-        print("-" * terminal_width)
-        iteration += 1
-    print(("Inventory: " + str(Player.inventory)).center(terminal_width, " "))
-    print("-" * terminal_width)
-    print("\n\n")
+# ---------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------Intro, Setup and Menu-------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 
 
 def intro():
@@ -190,6 +200,24 @@ def tunnel():
     typing_effect(get_file(r".\storyline\setup\tunnel"), DeveloperControls.sleep_time)
     input("Press enter to continue...\n")
     heavens_forge()
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------Random Events-----------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+def random_event():
+    os.system("cls")
+    choice = randint(0, 3)
+    if choice == 0:
+        jury_duty()
+    elif choice == 1:
+        broken_down()
+    elif choice == 2:
+        crypto()
+    elif choice == 3:
+        rems_event()
 
 
 def ssin_validatator():
@@ -262,19 +290,6 @@ def rems_event():
     ssin_function()
     print("Thank you for visiting BMV flagstaff Arizona.\nHave a nice day...\n")
     Player.gameplay = True
-
-
-def random_event():
-    os.system("cls")
-    choice = randint(0, 3)
-    if choice == 0:
-        jury_duty()
-    elif choice == 1:
-        broken_down()
-    elif choice == 2:
-        crypto()
-    elif choice == 3:
-        rems_event()
 
 
 def jury_duty():
