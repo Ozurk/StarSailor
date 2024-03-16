@@ -4,6 +4,7 @@ import re
 import pyautogui
 import os
 import shutil
+import pandas
 
 input("maximize window\n")
 terminal_width = shutil.get_terminal_size().columns
@@ -37,9 +38,6 @@ def full_screen():
             counter += 1
     os.system('cls')
     input("If it was not done automatically, please maximize the terminal window\n")
-
-
-
 
 
 def intro_striper(number_of_rows):
@@ -155,3 +153,8 @@ def one_through_3():
             input("You must enter 1, 2, or 3\n\npress enter to retry")
 
 
+def table_printer(file_path):
+    pandas.read_csv(file_path)
+
+
+table_printer(r"src\tables\setup.csv")

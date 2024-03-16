@@ -177,6 +177,44 @@ def beg():
     vending_machine()
 
 
+def death():
+    typing_effect(get_file(r"storyline\endgame\death"), DeveloperControls.sleep_time)
+    input("Press Enter to quit...".center(terminal_width, "-"))
+    quit()
+    # todo add a better death screen
+
+
+def broken_down():
+    typing_effect("There is a ship broken-down along the side of Desmos 9, do you wan"
+                  "t to help it?".center(terminal_width), 0)
+    print('\n')
+    print("-".center(terminal_width, "-"))
+    user_choose = yes_or_no("\ny[yes]\nor[no]\n")
+    if user_choose.lower().strip() == "yes":
+        dice_roll = randint(1, 6)
+        logging.debug("the dice roll is %s", dice_roll)
+        if dice_roll == 6:
+            logging.debug("the number 6 option is running")
+            typing_effect("The ship was very grateful.\nAll they needed was a quick jump.", 0)
+            typing_effect("They rewarded you handsomely...\n + 5000 platinum disks\n", 0)
+            print("-" * terminal_width)
+            input('Press Enter to Continue'.center(terminal_width) + "\n")
+            Player.stats["money"] += 5000
+            os.system("cls")
+        elif dice_roll == 1:
+            typing_effect("The ship was full of pirates. It was a trap, they took half of everything\n", 0)
+            print("-" * terminal_width)
+            input('Press Enter to Continue'.center(terminal_width))
+            os.system('cls')
+            Player.stats["food"] *= .5
+            Player.stats["sanity"] *= .5
+            Player.stats["money"] *= .5
+        else:
+            typing_effect("""The ship did not want your help..\n you continue on...\n""", 0)
+            print("-" * terminal_width)
+    supervisor()
+
+
 # ---------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------Intro, Setup and Menu-------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
@@ -186,23 +224,28 @@ def intro():
     os.system("cls")
     typing_effect(get_file(r".\storyline\intro"), DeveloperControls.sleep_time)
     print("\n" * 4)
-    input("Press enter to play the game".center(terminal_width, "-") + "\n")
     set_and_setting()
 
 
 def set_and_setting():
     os.system("cls")
     typing_effect(get_file(r".\storyline\setup\Setup and Help"), DeveloperControls.sleep_time)
-    print("Here is a little example: For this exercise, you need to purchase the [ruby]. Got it?")
+    time.sleep(3)
+    print("\n")
+    print("-" * terminal_width)
+    input("\n\nBefore you start, lets do a little training\n")
+    os.system("cls")
+    print("\nFor this exercise, you must purchase the [ruby]. Got it?")
     input("\n")
-    typing_effect("A vendor is selling a basket of [grapes] and a [ruby]\n"
-                  "Which do you want to purchase\n", DeveloperControls.sleep_time)
+    typing_effect("A merchant is selling", DeveloperControls.sleep_time)
+    sale_item("Basket of Grapes")
     user_input = input()
     while user_input != 'ruby':
-        print("\n[Remember, you want to purchase [ruby]]\n")
+        print("\n[Remember, you must purchase the [ruby]]\n")
         time.sleep(1)
         user_input = input("What do you want to purchase?\n")
     Player.inventory['ruby'] = 1
+    Player.stats["money"] -= 1000
     print("a ruby has been added to your inventory\n")
     supervisor()
 
@@ -329,44 +372,6 @@ def crypto():
     Player.stats["money"] += 1000
     os.system("cls")
     supervisor()
-
-
-def broken_down():
-    typing_effect("There is a ship broken-down along the side of Desmos 9, do you wan"
-                  "t to help it?".center(terminal_width), 0)
-    print('\n')
-    print("-".center(terminal_width, "-"))
-    user_choose = yes_or_no("\ny[yes]\nor[no]\n")
-    if user_choose.lower().strip() == "yes":
-        dice_roll = randint(1, 6)
-        logging.debug("the dice roll is %s", dice_roll)
-        if dice_roll == 6:
-            logging.debug("the number 6 option is running")
-            typing_effect("The ship was very grateful.\nAll they needed was a quick jump.", 0)
-            typing_effect("They rewarded you handsomely...\n + 5000 platinum disks\n", 0)
-            print("-" * terminal_width)
-            input('Press Enter to Continue'.center(terminal_width) + "\n")
-            Player.stats["money"] += 5000
-            os.system("cls")
-        elif dice_roll == 1:
-            typing_effect("The ship was full of pirates. It was a trap, they took half of everything\n", 0)
-            print("-" * terminal_width)
-            input('Press Enter to Continue'.center(terminal_width))
-            os.system('cls')
-            Player.stats["food"] *= .5
-            Player.stats["sanity"] *= .5
-            Player.stats["money"] *= .5
-        else:
-            typing_effect("""The ship did not want your help..\n you continue on...\n""", 0)
-            print("-" * terminal_width)
-    supervisor()
-
-
-def death():
-    typing_effect(get_file(r"storyline\endgame\death"), DeveloperControls.sleep_time)
-    input("Press Enter to quit...".center(terminal_width, "-"))
-    quit()
-    # todo add a better death screen
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -556,6 +561,5 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-intro_screen()
-intro()
 
+intro()
