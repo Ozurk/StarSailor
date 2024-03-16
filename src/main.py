@@ -1,4 +1,6 @@
 import logging
+import time
+
 from functions import *
 from random import randint
 import pyautogui
@@ -33,6 +35,15 @@ def user_stats():
     items_list = ["food", 'money', 'sanity']
     iteration = 0
     print("-" * terminal_width)
+    stats_sign = ["    ## ##   #### ##    ##     #### ##   ## ##",
+                  "   ##   ##  # ## ##     ##    # ## ##  ##   ##",
+                  "  ####       ##      ## ##     ##     #### ",
+                  "    #####     ##      ##  ##    ##      ##### ",
+                  "       ###    ##      ## ###    ##         ###",
+                  "   ##   ##    ##      ##  ##    ##     ##   ##",
+                  "    ## ##    ####    ###  ##   ####     ## ##"]
+    for sign_iteration in stats_sign:
+        print(sign_iteration.center(terminal_width, " "))
     for items in items_list:
         print("-" * terminal_width)
         print(
@@ -188,7 +199,8 @@ def set_and_setting():
                   "Which do you want to purchase\n", DeveloperControls.sleep_time)
     user_input = input()
     while user_input != 'ruby':
-        print("\nRemember, you want to purchase [ruby]\n")
+        print("\n[Remember, you want to purchase [ruby]]\n")
+        time.sleep(1)
         user_input = input("What do you want to purchase?\n")
     Player.inventory['ruby'] = 1
     print("a ruby has been added to your inventory\n")
@@ -544,4 +556,6 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-supervisor()
+intro_screen()
+intro()
+
