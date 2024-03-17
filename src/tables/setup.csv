@@ -1,2 +1,6 @@
-ITEM NAMEPRICE,,RESOURCE,AMOUNT
+ITEM NAME,PRICE,RESOURCE,AMOUNT
 basket of grapes,200,food,10
+ruby,1000,inventory,1
+bucket of grubs,30,food,70
+painting set,400,sanity,20
+file,30,inventory,5

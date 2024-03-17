@@ -1,6 +1,6 @@
 import logging
 import time
-
+import pandas
 from functions import *
 from random import randint
 import pyautogui
@@ -14,7 +14,7 @@ terminal_width = shutil.get_terminal_size().columns
 
 
 class DeveloperControls:
-    sleep_time = 0.00  # delay between letters in typing effect
+    sleep_time = 0.03  # delay between letters in typing effect
 
     def __init__(self):
         pass
@@ -35,8 +35,8 @@ def user_stats():
     items_list = ["food", 'money', 'sanity']
     iteration = 0
     print("-" * terminal_width)
-    stats_sign = ["    ## ##   #### ##    ##     #### ##   ## ##",
-                  "   ##   ##  # ## ##     ##    # ## ##  ##   ##",
+    stats_sign = ["    ## ##   #### ##    ###     #### ##   ## ##",
+                  "   ##   ##  # ## ##     ###    # ## ##  ##   ##",
                   "  ####       ##      ## ##     ##     #### ",
                   "    #####     ##      ##  ##    ##      ##### ",
                   "       ###    ##      ## ###    ##         ###",
@@ -224,6 +224,8 @@ def intro():
     os.system("cls")
     typing_effect(get_file(r".\storyline\intro"), DeveloperControls.sleep_time)
     print("\n" * 4)
+    input("press enter to proceed".center(terminal_width) + "\n"
+                                                            "")
     set_and_setting()
 
 
@@ -233,14 +235,17 @@ def set_and_setting():
     time.sleep(3)
     print("\n")
     print("-" * terminal_width)
-    input("\n\nBefore you start, lets do a little training\n")
+    input("\n\nBefore you start, lets do a little training\nPress enter to continue.")
     os.system("cls")
-    print("\nFor this exercise, you must purchase the [ruby]. Got it?")
+    print("\nFor this exercise, you must purchase the [ruby].")
     input("\n")
-    typing_effect("A merchant is selling", DeveloperControls.sleep_time)
-    sale_item("Basket of Grapes")
+    typing_effect("A merchant is selling some items. Select what you want to purchase,\n"
+                  "or press enter to skip \n", DeveloperControls.sleep_time)
+    print("-" * terminal_width)
+    table_printer("tables\\setup.csv")
     user_input = input()
-    while user_input != 'ruby':
+    user_input = user_input.strip()
+    while user_input != '1':
         print("\n[Remember, you must purchase the [ruby]]\n")
         time.sleep(1)
         user_input = input("What do you want to purchase?\n")
@@ -561,5 +566,5 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-
+intro_screen()
 intro()

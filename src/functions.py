@@ -5,7 +5,7 @@ import pyautogui
 import os
 import shutil
 import pandas
-
+print("\n" * 3)
 input("maximize window\n")
 terminal_width = shutil.get_terminal_size().columns
 intro_screen_character = input("type a single character then press enter".center(terminal_width) + "\n")
@@ -154,7 +154,9 @@ def one_through_3():
 
 
 def table_printer(file_path):
-    pandas.read_csv(file_path)
+    table = pandas.read_csv(file_path)
+    print(table)
 
 
-table_printer(r"src\tables\setup.csv")
+
+
