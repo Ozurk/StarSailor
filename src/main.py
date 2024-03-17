@@ -27,7 +27,7 @@ class Player:
     stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
     inventory = {}
     gameplay = True
-    planets_visited = {"heavens forge": False, "twilight isles": False, "acropolis": False, "loamstone": True,
+    planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False, "loamstone": True,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
 
 
@@ -70,7 +70,6 @@ def supervisor():
     sprvzr_txt = "Enter [help] for instructions or press enter to continue".center(terminal_width, " ") + "\n"
     if input(sprvzr_txt) == 'help':
         print(get_file(r"storyline\setup\Setup and Help"))
-        input("Press enter to continue\n")
     else:
         return
 
@@ -212,6 +211,7 @@ def broken_down():
         else:
             typing_effect("""The ship did not want your help..\n you continue on...\n""", 0)
             print("-" * terminal_width)
+            input("\n")
     supervisor()
 
 
@@ -221,12 +221,13 @@ def broken_down():
 
 
 def intro():
-    os.system("cls")
-    typing_effect(get_file(r".\storyline\intro"), DeveloperControls.sleep_time)
-    print("\n" * 4)
-    input("press enter to proceed".center(terminal_width) + "\n"
-                                                            "")
-    set_and_setting()
+    if not Player.planets_visited["intro"]:
+        os.system("cls")
+        typing_effect(get_file(r".\storyline\intro"), DeveloperControls.sleep_time)
+        print("\n" * 4)
+        input("press enter to proceed".center(terminal_width) + "\n"
+                                                                "")
+        set_and_setting()
 
 
 def set_and_setting():
@@ -252,6 +253,7 @@ def set_and_setting():
     Player.inventory['ruby'] = 1
     Player.stats["money"] -= 1000
     print("a ruby has been added to your inventory\n")
+    Player.planets_visited["intro"] = True
     supervisor()
 
 
@@ -397,7 +399,6 @@ def heavens_forge():
     gameplay_speed("heavens forge")
     Player.planets_visited["heavens forge"] = True
     typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Intro"), DeveloperControls.sleep_time)
-    print("You have 3 options:\n[1] do task 1\n[2] Go to location 7\n[3] go to twilight isles")
     choice = one_through_3()
     if choice == 1:
         task_1()
@@ -428,7 +429,7 @@ def twilight_isles():
     if choice == 1:
         task_2()
     elif choice == 2:
-        location_3()
+        acropolis()
     elif choice == 3:
         heavens_forge()
 
@@ -438,27 +439,29 @@ def twilight_isles():
 # ---------------------------------------------------------------------------------------------------------------------
 
 
-def task_3():
+def task_3_loamstone():
     supervisor()
     typing_effect(get_file(r"storyline/location_3/loamstone"), DeveloperControls.sleep_time)
-    print("""IN FUTURE VISITS TO ACROPOLIS, YOU MAY NOW TRAVEL TO LOAMSTONE!
-    The Reticent Rancher will allow you to gather your own mushrooms, where you may brave the dark and spores to refill your
-    galley. You will net +10 Food for -2 Sanity. This deal is useful if you're sound of mind but low on foodstuffs.
+    print("""IN FUTURE VISITS TO ACROPOLIS, YOU MAY NOW TRAVEL TO LOAMSTONE! The Reticent Rancher will allow you to 
+    gather your own mushrooms, where you may brave the dark and spores to refill your galley. You will net +10 Food 
+    for -2 Sanity. This deal is useful if you're sound of mind but low on foodstuffs.
 
     [1] Return to the plow wagon - Back to city, your crew, your ship.
     [2] Harvest Some Mushrooms
     """)
     Player.inventory['dreamcap'] = 1
     input('')
-    location_3()
+    acropolis()
 
 
-def location_3():
+def acropolis():
     supervisor()
+    gameplay_speed("acropolis")
+    Player.planets_visited['acropolis'] = True
     typing_effect(get_file(r"storyline/Acropolis/Acropolis"), DeveloperControls.sleep_time)
     choice = one_through_3()
     if choice == 1:
-        task_3()
+        task_3_loamstone()
     elif choice == 2:
         location_4()
     elif choice == 3:
@@ -490,7 +493,7 @@ def location_4():
     elif choice == 2:
         location_5()
     elif choice == 3:
-        location_3()
+        acropolis()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -568,3 +571,4 @@ def location_7():
 # ----------------------------------------------------------------------------------------------------------------------
 intro_screen()
 intro()
+heavens_forge()
