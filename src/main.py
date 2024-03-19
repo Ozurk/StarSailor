@@ -14,7 +14,7 @@ terminal_width = shutil.get_terminal_size().columns
 
 
 class DeveloperControls:
-    sleep_time = 0.03  # delay between letters in typing effect
+    sleep_time = 0.00  # delay between letters in typing effect
 
     def __init__(self):
         pass
@@ -24,10 +24,11 @@ class Player:
     def __init__(self):
         pass
 
-    stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
+    stats = {"money": 1000000, "sanity": 100.00, "food": 100.00}
     inventory = {}
     gameplay = True
-    planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False, "loamstone": True,
+    planets_visited = {"intro": False, "heavens forge": True, "twilight isles": False, "acropolis": False,
+                       "loamstone": True,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
 
 
@@ -65,7 +66,7 @@ def supervisor():
             insane()
         if Player.stats['money'] <= 0:
             beg()
-        if randint(1, 5) == 1:
+        if randint(1, 15) == 1:
             random_event()
     sprvzr_txt = "Enter [help] for instructions or press enter to continue".center(terminal_width, " ") + "\n"
     if input(sprvzr_txt) == 'help':
@@ -261,7 +262,7 @@ def tunnel():
     os.system("cls")
     typing_effect(get_file(r".\storyline\setup\tunnel"), DeveloperControls.sleep_time)
     input("Press enter to continue...\n")
-    heavens_forge()
+    heavens_forge_landing()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -382,30 +383,82 @@ def crypto():
 
 
 # ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------Pandas Functions-----------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+def item_getter(csv, row_choice):
+    table = pandas.read_csv(csv)
+    try:
+        table = table.drop("", axis=1)
+    except KeyError:
+        pass
+    row = table.iloc[int(row_choice)]
+    row = row.to_dict()
+    print("Purchase " + row["ITEM NAME"] + " for " + str(row["PRICE"]) + "PD?\n")
+    choose = yes_or_no(input("[yes] or [no]\n"))
+    if choose != "yes":
+        return
+    if row["PRICE"] <= Player.stats["money"]:
+        Player.stats['money'] -= int(row["PRICE"])
+        if row["RESOURCE"] == 'food':
+            Player.stats['food'] += int(row['AMOUNT'])
+        elif row['RESOURCE'] == 'sanity':
+            Player.stats['sanity'] += int(row['AMOUNT'])
+        elif row['RESOURCE'] == 'money':
+            Player.stats['money'] += int(row['AMOUNT'])
+        else:
+            Player.inventory[row["ITEM NAME"]] = 1
+        table = table.drop(row_choice, axis=0)
+        table.to_csv(csv)
+
+    else:
+        print("you do not have enough money to purchase this item.")
+
+# ---------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------location 1-----------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
 
 
+def heavens_forge_market():
+    market = pandas.read_csv(r"tables/heaven's forge market.csv")
+    try:
+        market = market.drop("Unnamed:", axis=1)
+    except KeyError:
+        pass
+    print(market)
+    user_input = input("\n enter the ID of the item you would like to purchase, or press enter to leave...\n")
+    item_getter(r"tables/heaven's forge market.csv", int(user_input.strip()))
+    heavens_forge_landing()
+
+
 def task_1():
     supervisor()
-    typing_effect(get_file(r"storyline/Heaven's Forge/LightWelder"), DeveloperControls.sleep_time)
-    input("return to Heaven's Forge")
-    # todo rename this
-    heavens_forge()
+    if Player.inventory['starpaint'] == 1:
+        typing_effect(get_file(r"storyline/Heaven's Forge/Lightwelder[starpaint]"), DeveloperControls.sleep_time)
+        Player.inventory['hardlight'] = True
+
+    else:
+        typing_effect(get_file(r"storyline/Heaven's Forge/LightWelder"), DeveloperControls.sleep_time)
+    input("return to Heaven's Forge Landing")
+    heavens_forge_landing()
 
 
-def heavens_forge():
+def heavens_forge_landing():
     supervisor()
     gameplay_speed("heavens forge")
     Player.planets_visited["heavens forge"] = True
-    typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Intro"), DeveloperControls.sleep_time)
-    choice = one_through_3()
+    typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Landing"), DeveloperControls.sleep_time)
+    choice = one_through_4()
+
     if choice == 1:
         task_1()
     elif choice == 2:
         location_7()
     elif choice == 3:
         twilight_isles()
+    elif choice == 4:
+        heavens_forge_market()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -425,13 +478,13 @@ def twilight_isles():
     gameplay_speed("twilight isles")
     Player.planets_visited["twilight isles"] = True
     typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles intro"), DeveloperControls.sleep_time)
-    choice = one_through_3()
+    choice = int(input("Enter a [1-3]"))
     if choice == 1:
         task_2()
     elif choice == 2:
         acropolis()
     elif choice == 3:
-        heavens_forge()
+        heavens_forge_landing()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -459,7 +512,7 @@ def acropolis():
     gameplay_speed("acropolis")
     Player.planets_visited['acropolis'] = True
     typing_effect(get_file(r"storyline/Acropolis/Acropolis"), DeveloperControls.sleep_time)
-    choice = one_through_3()
+    choice = int(input("Enter a [1-3]"))
     if choice == 1:
         task_3_loamstone()
     elif choice == 2:
@@ -487,7 +540,7 @@ def task_4():
 def location_4():
     supervisor()
     typing_effect(get_file(r"storyline/location_4/Wormwood Planet"), DeveloperControls.sleep_time)
-    choice = one_through_3()
+    choice = int(input("Enter a [1-3]"))
     if choice == 1:
         task_4()
     elif choice == 2:
@@ -511,7 +564,7 @@ def task_5():
 def location_5():
     supervisor()
     typing_effect(get_file(r"storyline/location_5/Mars"), DeveloperControls.sleep_time)
-    choice = one_through_3()
+    choice = int(input("Enter a [1-3]"))
     if choice == 1:
         task_5()
     elif choice == 2:
@@ -535,7 +588,7 @@ def task_6():
 def location_6():
     supervisor()
     typing_effect(get_file(r"storyline/location_6/Cobatiania"), DeveloperControls.sleep_time)
-    choice = one_through_3()
+    choice = int(input("Enter a [1-3]"))
     if choice == 1:
         task_6()
     elif choice == 2:
@@ -559,16 +612,15 @@ def task_7():
 def location_7():
     supervisor()
     typing_effect(get_file(r"storyline/location_7/B-IRS"), DeveloperControls.sleep_time)
-    choice = one_through_3()
+    choice = int(input("Enter a [1-3]"))
     if choice == 1:
         task_7()
     elif choice == 2:
-        heavens_forge()
+        heavens_forge_landing()
     elif choice == 3:
         location_6()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-intro_screen()
-intro()
-heavens_forge()
+
+heavens_forge_landing()

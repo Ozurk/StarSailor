@@ -5,6 +5,7 @@ import pyautogui
 import os
 import shutil
 import pandas
+
 print("\n" * 3)
 input("maximize window\n")
 terminal_width = shutil.get_terminal_size().columns
@@ -112,7 +113,7 @@ def one_or_two():
 def yes_or_no(yes_or_no_input):
     options = ['yes', 'no']
     while yes_or_no_input.lower().strip() not in options:
-        yes_or_no_input = input("Please enter\n[yes]\nor\n[no]\n")
+        yes_or_no_input = input("Please enter [yes] or [no]\n")
     if yes_or_no_input == "yes":
         return yes_or_no_input
     if yes_or_no_input == "no":
@@ -138,24 +139,28 @@ def spinner(load_time):
     sys.stdout.write('\r')
 
 
-def one_through_3():
-    options = ["1", '2', '3']
+def one_through_4():
+    options = ["1", '2', '3', '4']
     user_input = ''
     while user_input not in options:
-        user_input = input("\n Enter \n[1]\n[2]\n[3]\n")
+        user_input = input("\n \n")
         if user_input.strip() == "1":
             return int(user_input)
         elif user_input.strip() == "2":
             return int(user_input)
         elif user_input.strip() == "3":
             return int(user_input)
+        elif user_input.strip() == "4":
+            return int(user_input)
         else:
-            input("You must enter 1, 2, or 3\n\npress enter to retry")
+            input("")
 
 
 def table_printer(file_path):
     table = pandas.read_csv(file_path)
     print(table)
+
+
 
 
 
