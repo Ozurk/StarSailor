@@ -32,12 +32,6 @@ class Player:
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
 
 
-class Marketplace:
-    og_heavens_forge_market_table = pandas.read_csv(r"tables/heaven's forge market.csv")
-    twilight_isles_marketplace = pandas.read_csv("tables/twilight isles market.csv")
-    # todo make this work better.
-
-
 def user_stats():
     items_list = ["food", 'money', 'sanity']
     iteration = 0
@@ -424,10 +418,11 @@ def item_getter(df, row_choice):
 
 
 def heavens_forge_market():
-    print(Marketplace.heavens_forge_market_table)
+    heavens_forge_market_table = pandas.read_csv(r"tables/heaven's forge market.csv")
+    print(heavens_forge_market_table)
     user_input = input("\n enter the ID of the item you would like to purchase, or press enter to leave...\n")
-    new_df = item_getter(Marketplace.heavens_forge_market_table, int(user_input.strip()))
-    Marketplace.heavens_forge_market_table = new_df
+    new_df = item_getter(heavens_forge_market_table, int(user_input.strip()))
+    heavens_forge_market_table = new_df
     heavens_forge_landing()
 
 
@@ -473,11 +468,12 @@ def task_2():
 
 
 def twilight_isles_marketplace():
+    twilight_isles_market = pandas.read_csv("tables/twilight isles market.csv")
     print("Welcome to twilight isles marketplace!")
-    print(Marketplace.twilight_isles_marketplace)
+    print(twilight_isles_market)
     user_input = input("\n enter the ID of the item you would like to purchase, or press enter to leave...\n")
-    new_df = item_getter(Marketplace.heavens_forge_market_table, int(user_input.strip()))
-    Marketplace.twilight_isles_marketplace = new_df
+    new_df = item_getter(twilight_isles_market, int(user_input.strip()))
+    twilight_isles_market = new_df
     twilight_isles_landing()
 
 
