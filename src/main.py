@@ -27,7 +27,7 @@ class Player:
     stats = {"money": 1000000, "sanity": 100.00, "food": 100.00}
     inventory = {}
     gameplay = True
-    planets_visited = {"intro": False, "heavens forge": True, "twilight isles": True, "acropolis": False,
+    planets_visited = {"intro": True, "heavens forge": True, "twilight isles": True, "acropolis": False,
                        "loamstone": True,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
 
@@ -387,8 +387,12 @@ def crypto():
 # ---------------------------------------------------------------------------------------------------------------------
 
 
-def item_getter(df, row_choice):
-    table = df
+def item_getter(csv, row_choice):
+    table = pandas.read_csv(csv)
+    try:
+        table = table.drop("", axis=1)
+    except KeyError:
+        pass
     row = table.iloc[int(row_choice)]
     row = row.to_dict()
     print("Purchase " + row["ITEM NAME"] + " for " + str(row["PRICE"]) + "PD?\n")
@@ -405,12 +409,11 @@ def item_getter(df, row_choice):
             Player.stats['money'] += int(row['AMOUNT'])
         else:
             Player.inventory[row["ITEM NAME"]] = 1
-        df = table.drop(row_choice, axis=0)
-        return df
+        table = table.drop(row_choice, axis=0)
+        table.to_csv(csv, index=False)
+
     else:
         print("you do not have enough money to purchase this item.")
-        time.sleep(2)
-
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------location 1-----------------------------------------------------------
@@ -418,11 +421,14 @@ def item_getter(df, row_choice):
 
 
 def heavens_forge_market():
-    heavens_forge_market_table = pandas.read_csv(r"tables/heaven's forge market.csv")
-    print(heavens_forge_market_table)
+    market = pandas.read_csv(r"tables/heaven's forge market.csv")
+    try:
+        market = market.drop("Unnamed:", axis=1)
+    except KeyError:
+        pass
+    print(market)
     user_input = input("\n enter the ID of the item you would like to purchase, or press enter to leave...\n")
-    new_df = item_getter(heavens_forge_market_table, int(user_input.strip()))
-    heavens_forge_market_table = new_df
+    item_getter(r"tables/heaven's forge market.csv", int(user_input.strip()))
     heavens_forge_landing()
 
 
@@ -450,7 +456,7 @@ def heavens_forge_landing():
     elif choice == 2:
         location_7()
     elif choice == 3:
-        twilight_isles_landing()
+        twilight_isles()
     elif choice == 4:
         heavens_forge_market()
 
@@ -467,24 +473,14 @@ def task_2():
     task_2()
 
 
-def twilight_isles_marketplace():
-    twilight_isles_market = pandas.read_csv("tables/twilight isles market.csv")
-    print("Welcome to twilight isles marketplace!")
-    print(twilight_isles_market)
-    user_input = input("\n enter the ID of the item you would like to purchase, or press enter to leave...\n")
-    new_df = item_getter(twilight_isles_market, int(user_input.strip()))
-    twilight_isles_market = new_df
-    twilight_isles_landing()
-
-
-def twilight_isles_landing():
+def twilight_isles():
     supervisor()
     gameplay_speed("twilight isles")
     Player.planets_visited["twilight isles"] = True
-    typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles landing"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles intro"), DeveloperControls.sleep_time)
     choice = int(input("Enter a [1-3]"))
     if choice == 1:
-        twilight_isles_marketplace()
+        task_2()
     elif choice == 2:
         acropolis()
     elif choice == 3:
@@ -522,7 +518,7 @@ def acropolis():
     elif choice == 2:
         location_4()
     elif choice == 3:
-        twilight_isles_landing()
+        twilight_isles()
 
 
 def loamstone():
