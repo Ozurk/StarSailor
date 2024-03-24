@@ -19,7 +19,7 @@ def typing_effect(string, wait_time):
         time.sleep(wait_time)  # this controls the speed of the game
 
 
-intro_speed = .00001
+intro_speed = .001
 os.system("cls")
 
 

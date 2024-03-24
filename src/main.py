@@ -14,7 +14,7 @@ terminal_width = shutil.get_terminal_size().columns
 
 
 class DeveloperControls:
-    sleep_time = 0.00  # delay between letters in typing effect
+    sleep_time = 0.03  # delay between letters in typing effect
 
     def __init__(self):
         pass
@@ -27,8 +27,8 @@ class Player:
     stats = {"money": 1000000, "sanity": 100.00, "food": 100.00}
     inventory = {}
     gameplay = True
-    planets_visited = {"intro": True, "heavens forge": True, "twilight isles": True, "acropolis": True,
-                       "loamstone": True,
+    planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False,
+                       "loamstone": False,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False,
                        'navigator': False}
 
@@ -70,10 +70,10 @@ def supervisor():
         if randint(1, 15) == 1:
             random_event()
     sprvzr_txt = "Enter [help] for instructions or press enter to continue".center(terminal_width, " ") + "\n"
-    if input(sprvzr_txt) == 'help':
-        print(get_file(r"storyline\setup\Setup and Help"))
-    else:
-        return
+    # if input(sprvzr_txt) == 'help':
+        # print(get_file(r"storyline\setup\Setup and Help"))
+    # else:
+        # return
 
 
 def gameplay_speed(location):
@@ -462,6 +462,7 @@ def heavens_forge_landing():
     elif choice == 2:
         location_7()
     elif choice == 3:
+
         twilight_isles_landing()
     elif choice == 4:
         heavens_forge_market()
@@ -704,5 +705,6 @@ def location_7():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-
+intro_screen()
+intro()
 heavens_forge_landing()
