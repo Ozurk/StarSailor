@@ -161,7 +161,20 @@ def table_printer(file_path):
     print(table)
 
 
-
-
-
+def input_in_range(end_range, user_input):
+    while True:
+        loop_restarted = False
+        if loop_restarted:
+            user_input = input("Please enter a number in the given options")
+        try:
+            int(user_input)
+        except ValueError:
+            print("Please enter one of the given numerical values\n")
+            loop_restarted = True
+            continue
+        if user_input not in range(end_range):
+            print("This number is not in the available options\n")
+            loop_restarted = True
+            continue
+        return user_input
 

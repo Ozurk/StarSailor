@@ -388,12 +388,18 @@ def crypto():
 
 
 def item_getter(csv, row_choice):
+    try:
+        int(row_choice)
+    except ValueError:
+        print("Please only enter numbers\n")
+        return
+    if row_choice == "":
+        return
     table = pandas.read_csv(csv)
     try:
-        table = table.drop("", axis=1)
-    except KeyError:
-        pass
-    row = table.iloc[int(row_choice)]
+        row = table.iloc[int(row_choice)]
+    except IndexError:
+        print("Please enter the index number of the item you want to purchase.\n")
     row = row.to_dict()
     print("Purchase " + row["ITEM NAME"] + " for " + str(row["PRICE"]) + "PD?\n")
     choose = yes_or_no(input("[yes] or [no]\n"))
@@ -411,9 +417,10 @@ def item_getter(csv, row_choice):
             Player.inventory[row["ITEM NAME"]] = 1
         table = table.drop(row_choice, axis=0)
         table.to_csv(csv, index=False)
-
     else:
         print("you do not have enough money to purchase this item.")
+        time.sleep(2)
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------location 1-----------------------------------------------------------
@@ -422,13 +429,9 @@ def item_getter(csv, row_choice):
 
 def heavens_forge_market():
     market = pandas.read_csv(r"tables/heaven's forge market.csv")
-    try:
-        market = market.drop("Unnamed:", axis=1)
-    except KeyError:
-        pass
     print(market)
     user_input = input("\n enter the ID of the item you would like to purchase, or press enter to leave...\n")
-    item_getter(r"tables/heaven's forge market.csv", int(user_input.strip()))
+    item_getter(r"tables/heaven's forge market.csv", user_input.strip())
     heavens_forge_landing()
 
 
@@ -449,14 +452,14 @@ def heavens_forge_landing():
     gameplay_speed("heavens forge")
     Player.planets_visited["heavens forge"] = True
     typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Landing"), DeveloperControls.sleep_time)
-    choice = one_through_4()
+    choice = input_in_range(4, input())
 
     if choice == 1:
         task_1()
     elif choice == 2:
         location_7()
     elif choice == 3:
-        twilight_isles()
+        twilight_isles_landing()
     elif choice == 4:
         heavens_forge_market()
 
@@ -473,14 +476,22 @@ def task_2():
     task_2()
 
 
-def twilight_isles():
+def twilight_isles_market():
+    print("Welcome to to Twilight Isles Floating Market".center(terminal_width))
+    print("\n")
+    user_input = input("\n enter the ID of the item you would like to purchase, or press enter to leave...\n")
+    item_getter(r"tables/twilight isles market.csv", int(user_input.strip()))
+    twilight_isles_landing()
+
+
+def twilight_isles_landing():
     supervisor()
     gameplay_speed("twilight isles")
     Player.planets_visited["twilight isles"] = True
-    typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles intro"), DeveloperControls.sleep_time)
-    choice = int(input("Enter a [1-3]"))
+    typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles landing"), DeveloperControls.sleep_time)
+    choice = int(input())
     if choice == 1:
-        task_2()
+        twilight_isles_market()
     elif choice == 2:
         acropolis()
     elif choice == 3:
@@ -518,7 +529,7 @@ def acropolis():
     elif choice == 2:
         location_4()
     elif choice == 3:
-        twilight_isles()
+        twilight_isles_landing()
 
 
 def loamstone():
