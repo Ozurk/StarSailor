@@ -162,7 +162,7 @@ def table_printer(file_path):
 
 
 def number_validation(set_range):
-    user_input = input()
+    user_input = input("\n")
     try:
         int(user_input)
     except TypeError:

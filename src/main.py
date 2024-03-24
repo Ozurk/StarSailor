@@ -27,9 +27,10 @@ class Player:
     stats = {"money": 1000000, "sanity": 100.00, "food": 100.00}
     inventory = {}
     gameplay = True
-    planets_visited = {"intro": True, "heavens forge": True, "twilight isles": True, "acropolis": False,
+    planets_visited = {"intro": True, "heavens forge": True, "twilight isles": True, "acropolis": True,
                        "loamstone": True,
-                       "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False}
+                       "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False,
+                       'navigator': False}
 
 
 def user_stats():
@@ -439,7 +440,9 @@ def task_1():
     supervisor()
     if Player.inventory['starpaint'] == 1:
         typing_effect(get_file(r"storyline/Heaven's Forge/Lightwelder[starpaint]"), DeveloperControls.sleep_time)
+        input("Press enter to continue\n")
         Player.inventory['hardlight'] = True
+        Player.inventory.pop('starpaint', None)
 
     else:
         typing_effect(get_file(r"storyline/Heaven's Forge/LightWelder"), DeveloperControls.sleep_time)
@@ -473,6 +476,7 @@ def task_2():
     typing_effect(get_file(r"storyline/Twilight Isles/roasted navigator"), DeveloperControls.sleep_time)
     choice = int(number_validation(3))
     if choice == 1:
+        Player.planets_visited["navigator"] = True
         acropolis()
     elif choice == 2:
         twilight_isles_landing()
@@ -493,6 +497,7 @@ def twilight_isles_landing():
     gameplay_speed("twilight isles")
     Player.planets_visited["twilight isles"] = True
     typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles landing"), DeveloperControls.sleep_time)
+    print("\n")
     choice = number_validation(5)
     if choice == 1:
         twilight_isles_market()
@@ -509,37 +514,96 @@ def twilight_isles_landing():
 # ---------------------------------------------------------------------------------------------------------------------
 
 
-def task_3_loamstone():
-    supervisor()
-    typing_effect(get_file(r"storyline/location_3/loamstone"), DeveloperControls.sleep_time)
-    print("""IN FUTURE VISITS TO ACROPOLIS, YOU MAY NOW TRAVEL TO LOAMSTONE! The Reticent Rancher will allow you to 
-    gather your own mushrooms, where you may brave the dark and spores to refill your galley. You will net +10 Food 
-    for -2 Sanity. This deal is useful if you're sound of mind but low on foodstuffs.
-
-    [1] Return to the plow wagon - Back to city, your crew, your ship.
-    [2] Harvest Some Mushrooms
-    """)
-    Player.inventory['dreamcap'] = 1
-    input('')
-    acropolis()
-
-
 def acropolis():
     supervisor()
-    gameplay_speed("acropolis")
+    if not Player.planets_visited['navigator']:
+        print("\nYou can not find a way to safely land in Acropolis\n")
+        input("Press enter go back to Wormwood Planet\n")
+        location_4()
+    gameplay_speed('acropolis')
     Player.planets_visited['acropolis'] = True
     typing_effect(get_file(r"storyline/Acropolis/Acropolis"), DeveloperControls.sleep_time)
-    choice = int(input("Enter a [1-3]"))
+    choice = number_validation(4)
     if choice == 1:
-        task_3_loamstone()
+        loamstone()
     elif choice == 2:
         location_4()
     elif choice == 3:
         twilight_isles_landing()
+    else:
+        logging.debug("this is being executed @acropolis")
 
 
 def loamstone():
-    pass
+    supervisor()
+    if not Player.planets_visited['loamstone']:
+        typing_effect(get_file(r"storyline/location_3/loamstone"), DeveloperControls.sleep_time)
+        print("""IN FUTURE VISITS TO ACROPOLIS, YOU MAY NOW TRAVEL TO LOAMSTONE! The Reticent Rancher will allow you to 
+            gather your own mushrooms, where you may brave the dark and spores to refill your galley. You will trade Food 
+            for sanity. This deal is useful if you're sound of mind but low on foodstuffs.
+            Beware: not all mushrooms are equal.
+    
+            Press enter to continue.
+            """)
+        Player.inventory['dreamcap'] = 1
+        Player.planets_visited['loamstone'] = True
+        input('')
+    else:
+        print("Welcome to Loamstone!")
+    print("\nYou may\n[1]pick some mushrooms\n[2]return to acropolis")
+    choice = number_validation(3)
+    if choice == 1:
+        picking_mushrooms()
+    if choice == 2:
+        acropolis()
+
+
+def picking_mushrooms():
+    Player.gameplay = False
+    print("Welcome to the mushroom cave!\n")
+    print("Feel free to eat as many mushrooms as as you want"
+          " but it is wise to keep your eye on your sanity levels")
+    while True:
+        supervisor()
+        mushroom_picker(r"tables/picking mushrooms.csv")
+        print("\nenter [1] to return to Loamstone, press enter to pick more mushrooms.")
+        user_choice = input()
+        if user_choice == "1":
+            loamstone()
+            Player.gameplay = True
+
+
+def mushroom_picker(csv):
+    table = pandas.read_csv(csv)
+    print(table)
+    row_choice = input("Enter the index value of the mushroom you want to pick, or press enter to skip\n")
+    try:
+        int(row_choice)
+    except ValueError:
+        print("Please only enter numbers\n")
+        return
+    if row_choice == "":
+        return
+    try:
+        row = table.iloc[int(row_choice)]
+    except IndexError:
+        print("Please enter the index number of the mushroom you want to purchase.\n")
+    row_dict = row.to_dict()
+    print("Purchase " + row["ITEM NAME"] + " for " + str(row["PRICE(SANITY)"]) + " sanity?\n")
+    choose = yes_or_no(input("[yes] or [no]\n"))
+    if choose != "yes":
+        return
+    if row["PRICE(SANITY)"] <= Player.stats["sanity"]:
+        Player.stats['sanity'] -= int(row["PRICE(SANITY)"])
+        if row_dict["RESOURCE"] == 'food':
+            Player.stats['food'] += int(row['AMOUNT'])
+        else:
+            Player.inventory[row_dict["ITEM NAME"]] = 1
+        table = table.drop(int(row_choice), axis=0)
+        table.to_csv(csv, index=False)
+    else:
+        print("you do not have the mental fortitude to pick this mushroom")
+        time.sleep(2)
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -640,4 +704,4 @@ def location_7():
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-heavens_forge_landing()
+picking_mushrooms()
