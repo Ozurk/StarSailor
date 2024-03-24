@@ -415,7 +415,7 @@ def item_getter(csv, row_choice):
             Player.stats['money'] += int(row['AMOUNT'])
         else:
             Player.inventory[row["ITEM NAME"]] = 1
-        table = table.drop(row_choice, axis=0)
+        table = table.drop(int(row_choice), axis=0)
         table.to_csv(csv, index=False)
     else:
         print("you do not have enough money to purchase this item.")
@@ -452,8 +452,7 @@ def heavens_forge_landing():
     gameplay_speed("heavens forge")
     Player.planets_visited["heavens forge"] = True
     typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Landing"), DeveloperControls.sleep_time)
-    choice = input_in_range(4, input())
-
+    choice = number_validation(5)
     if choice == 1:
         task_1()
     elif choice == 2:
@@ -471,16 +470,21 @@ def heavens_forge_landing():
 
 def task_2():
     supervisor()
-    print("this is task 2")
-    input('return to twilight isles')
-    task_2()
+    typing_effect(get_file(r"storyline/Twilight Isles/roasted navigator"), DeveloperControls.sleep_time)
+    choice = int(number_validation(3))
+    if choice == 1:
+        acropolis()
+    elif choice == 2:
+        twilight_isles_landing()
 
 
 def twilight_isles_market():
     print("Welcome to to Twilight Isles Floating Market".center(terminal_width))
     print("\n")
-    user_input = input("\n enter the ID of the item you would like to purchase, or press enter to leave...\n")
-    item_getter(r"tables/twilight isles market.csv", int(user_input.strip()))
+    market = pandas.read_csv("tables/twilight isles market.csv")
+    print(market)
+    user_input = input("\nenter the ID of the item you would like to purchase, or press enter to leave...\n")
+    item_getter(r"tables/twilight isles market.csv", user_input.strip())
     twilight_isles_landing()
 
 
@@ -489,13 +493,15 @@ def twilight_isles_landing():
     gameplay_speed("twilight isles")
     Player.planets_visited["twilight isles"] = True
     typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles landing"), DeveloperControls.sleep_time)
-    choice = int(input())
+    choice = number_validation(5)
     if choice == 1:
         twilight_isles_market()
     elif choice == 2:
-        acropolis()
+        task_2()
     elif choice == 3:
         heavens_forge_landing()
+    elif choice == 4:
+        location_4()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
