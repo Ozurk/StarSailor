@@ -1,7 +1,11 @@
 ITEM NAME,PRICE(SANITY),RESOURCE,AMOUNT
 regular sparklecap,2,food,10
 regular sparklecap,2,food,10
+big sparklecap,4,food,20
+XL Sparklecap,4,food,25
+Golaiath Cave Fungus,4,food,30
 regular sparklecap,2,food,10
+small sparklecap,2,food,5
 big sparklecap,4,food,20
 XL Sparklecap,4,food,25
 Golaiath Cave Fungus,4,food,30

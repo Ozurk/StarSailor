@@ -44,8 +44,8 @@ def user_stats():
                   "       ###    ##      ## ###    ##         ###",
                   "   ##   ##    ##      ##  ##    ##     ##   ##",
                   "    ## ##    ####    ###  ##   ####     ## ##"]
-    for sign_iteration in stats_sign:
-        print(sign_iteration.center(terminal_width, " "))
+    # for sign_iteration in stats_sign:
+        # print(sign_iteration.center(terminal_width, " "))
     for items in items_list:
         print("-" * terminal_width)
         print(
@@ -429,6 +429,7 @@ def item_getter(csv, row_choice):
 
 
 def heavens_forge_market():
+    supervisor()
     market = pandas.read_csv(r"tables/heaven's forge market.csv")
     print(market)
     user_input = input("\n enter the ID of the item you would like to purchase, or press enter to leave...\n")
@@ -438,7 +439,7 @@ def heavens_forge_market():
 
 def task_1():
     supervisor()
-    if Player.inventory['starpaint'] == 1:
+    if 'starpaint' in Player.inventory.keys():
         typing_effect(get_file(r"storyline/Heaven's Forge/Lightwelder[starpaint]"), DeveloperControls.sleep_time)
         input("Press enter to continue\n")
         Player.inventory['hardlight'] = True
@@ -446,7 +447,7 @@ def task_1():
 
     else:
         typing_effect(get_file(r"storyline/Heaven's Forge/LightWelder"), DeveloperControls.sleep_time)
-    input("return to Heaven's Forge Landing")
+    input("\n")
     heavens_forge_landing()
 
 
@@ -704,4 +705,4 @@ def location_7():
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-picking_mushrooms()
+heavens_forge_landing()
