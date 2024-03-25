@@ -4,6 +4,7 @@ import pandas
 from functions import *
 from random import randint
 import pyautogui
+from reset_tables import reset_tables
 
 # ---------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------Settings and Controls-------------------------------------------------
@@ -14,7 +15,7 @@ terminal_width = shutil.get_terminal_size().columns
 
 
 class DeveloperControls:
-    sleep_time = 0.03  # delay between letters in typing effect
+    sleep_time = 0.001  # delay between letters in typing effect
 
     def __init__(self):
         pass
@@ -24,28 +25,19 @@ class Player:
     def __init__(self):
         pass
 
-    stats = {"money": 1000000, "sanity": 100.00, "food": 100.00}
+    stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
     inventory = {}
     gameplay = False
-    planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False,
-                       "loamstone": False,
-                       "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False,
-                       'navigator': False}
+    planets_visited = {"intro": False, "heavens forge": True, "twilight isles": True, "acropolis": True,
+                       "loamstone": True,
+                       "wormwood planet": True, "mars": True, "cobaltiania": True, "B-IRS": True, }
+    on_board = []
 
 
 def user_stats():
     items_list = ["food", 'money', 'sanity']
     iteration = 0
     print("-" * terminal_width)
-    stats_sign = ["    ## ##   #### ##    ###     #### ##   ## ##",
-                  "   ##   ##  # ## ##     ###    # ## ##  ##   ##",
-                  "  ####       ##      ## ##     ##     #### ",
-                  "    #####     ##      ##  ##    ##      ##### ",
-                  "       ###    ##      ## ###    ##         ###",
-                  "   ##   ##    ##      ##  ##    ##     ##   ##",
-                  "    ## ##    ####    ###  ##   ####     ## ##"]
-    # for sign_iteration in stats_sign:
-        # print(sign_iteration.center(terminal_width, " "))
     for items in items_list:
         print("-" * terminal_width)
         print(
@@ -54,26 +46,24 @@ def user_stats():
         iteration += 1
     print(("Inventory: " + str(Player.inventory)).center(terminal_width, " "))
     print("-" * terminal_width)
+    print(str(Player.on_board).center(terminal_width))
+    print("-" * terminal_width)
     print("\n\n")
 
 
 def supervisor():
     os.system("cls")
+    Player.stats['food'] -= 1
     user_stats()
     if Player.gameplay:
         if Player.stats["food"] <= 0:
             starvation()
-        if Player.stats["sanity"] <= 0:
+        if Player.stats['sanity'] <= 0:
             insane()
         if Player.stats['money'] <= 0:
             beg()
         if randint(1, 15) == 1:
             random_event()
-    sprvzr_txt = "Enter [help] for instructions or press enter to continue".center(terminal_width, " ") + "\n"
-    # if input(sprvzr_txt) == 'help':
-        # print(get_file(r"storyline\setup\Setup and Help"))
-    # else:
-        # return
 
 
 def gameplay_speed(location):
@@ -94,9 +84,6 @@ def insane():
     while True:
         pyautogui.moveRel(10, -10, .05)
         print("all work and no play makes Jack a dull boy.")
-
-
-insane()
 
 
 def starvation():
@@ -208,55 +195,6 @@ def broken_down():
             print("-" * terminal_width)
             input("\n")
     supervisor()
-
-
-# ---------------------------------------------------------------------------------------------------------------------
-# -----------------------------------------------Intro, Setup and Menu-------------------------------------------------
-# ---------------------------------------------------------------------------------------------------------------------
-
-
-def intro():
-    if not Player.planets_visited["intro"]:
-        os.system("cls")
-        typing_effect(get_file(r".\storyline\intro"), DeveloperControls.sleep_time)
-        print("\n" * 4)
-        input("press enter to proceed".center(terminal_width) + "\n"
-                                                                "")
-        set_and_setting()
-
-
-def set_and_setting():
-    os.system("cls")
-    typing_effect(get_file(r".\storyline\setup\Setup and Help"), DeveloperControls.sleep_time)
-    time.sleep(3)
-    print("\n")
-    print("-" * terminal_width)
-    input("\n\nBefore you start, lets do a little training\nPress enter to continue.")
-    os.system("cls")
-    print("\nFor this exercise, you must purchase the [ruby].")
-    input("\n")
-    typing_effect("A merchant is selling some items. Select what you want to purchase,\n"
-                  "or press enter to skip \n", DeveloperControls.sleep_time)
-    print("-" * terminal_width)
-    table_printer("tables\\setup.csv")
-    user_input = input()
-    user_input = user_input.strip()
-    while user_input != '1':
-        print("\n[Remember, you must purchase the [ruby]]\n")
-        time.sleep(1)
-        user_input = input("What do you want to purchase?\n")
-    Player.inventory['ruby'] = 1
-    Player.stats["money"] -= 1000
-    print("a ruby has been added to your inventory\n")
-    Player.planets_visited["intro"] = True
-    supervisor()
-
-
-def tunnel():
-    os.system("cls")
-    typing_effect(get_file(r".\storyline\setup\tunnel"), DeveloperControls.sleep_time)
-    input("Press enter to continue...\n")
-    heavens_forge_landing()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -394,26 +332,73 @@ def item_getter(csv, row_choice):
         row = table.iloc[int(row_choice)]
     except IndexError:
         print("Please enter the index number of the item you want to purchase.\n")
-    row = row.to_dict()
+    row_as_dict = row.to_dict()
     print("Purchase " + row["ITEM NAME"] + " for " + str(row["PRICE"]) + "PD?\n")
     choose = yes_or_no(input("[yes] or [no]\n"))
     if choose != "yes":
         return
     if row["PRICE"] <= Player.stats["money"]:
-        Player.stats['money'] -= int(row["PRICE"])
-        if row["RESOURCE"] == 'food':
-            Player.stats['food'] += int(row['AMOUNT'])
-        elif row['RESOURCE'] == 'sanity':
-            Player.stats['sanity'] += int(row['AMOUNT'])
-        elif row['RESOURCE'] == 'money':
-            Player.stats['money'] += int(row['AMOUNT'])
+        Player.stats['money'] -= int(row_as_dict["PRICE"])
+        if row_as_dict["RESOURCE"] == 'food':
+            Player.stats['food'] += int(row_as_dict['AMOUNT'])
+        elif row_as_dict['RESOURCE'] == 'sanity':
+            Player.stats['sanity'] += int(row_as_dict['AMOUNT'])
+        elif row_as_dict['RESOURCE'] == 'money':
+            Player.stats['money'] += int(row_as_dict['AMOUNT'])
         else:
-            Player.inventory[row["ITEM NAME"]] = 1
+            Player.inventory[row_as_dict["ITEM NAME"]] = row_as_dict["AMOUNT"]
         table = table.drop(int(row_choice), axis=0)
         table.to_csv(csv, index=False)
     else:
         print("you do not have enough money to purchase this item.")
         time.sleep(2)
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------Intro, Setup and Menu-------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+def intro():
+    if not Player.planets_visited["intro"]:
+        supervisor()
+        typing_effect(get_file(r".\storyline\intro"), DeveloperControls.sleep_time)
+        print("\n" * 4)
+        input("press enter to proceed".center(terminal_width) + "\n")
+        set_and_setting()
+
+
+def set_and_setting():
+    supervisor()
+    typing_effect(get_file(r".\storyline\setup\Setup and Help"), DeveloperControls.sleep_time)
+    print("\n")
+    print("-" * terminal_width)
+    input("\n\nBefore you start, lets do a little training\nPress enter to continue.")
+    supervisor()
+    print("\nFor this exercise, you must purchase the [ruby].")
+    time.sleep(2)
+    typing_effect("\nA merchant is selling some items. Select what you want to purchase,\n"
+                  "or press enter to skip \n", DeveloperControls.sleep_time)
+    print("-" * terminal_width)
+    table_printer("tables\\setup.csv")
+    user_input = input()
+    user_input = user_input.strip()
+    while user_input != '1':
+        print("\n[Remember, you must purchase the [ruby]]\n")
+        time.sleep(1)
+        user_input = input("\n")
+    Player.inventory['ruby'] = 1
+    Player.stats["money"] -= 1000
+    print("a ruby has been added to your inventory\n")
+    Player.planets_visited["intro"] = True
+
+
+def tunnel():
+    os.system("cls")
+    typing_effect(get_file(r".\storyline\setup\tunnel"), DeveloperControls.sleep_time)
+    input("Press enter to continue...\n")
+    Player.gameplay = True
+    heavens_forge_landing()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -468,18 +453,19 @@ def heavens_forge_landing():
 # ---------------------------------------------------------------------------------------------------------------------
 
 
-def task_2():
+def sun_seared_navigator():
     supervisor()
     typing_effect(get_file(r"storyline/Twilight Isles/roasted navigator"), DeveloperControls.sleep_time)
     choice = int(number_validation(3))
     if choice == 1:
-        Player.planets_visited["navigator"] = True
+        Player.on_board.append("Sun Seared Navigator")
         acropolis()
     elif choice == 2:
         twilight_isles_landing()
 
 
 def twilight_isles_market():
+    supervisor()
     print("Welcome to to Twilight Isles Floating Market".center(terminal_width))
     print("\n")
     market = pandas.read_csv("tables/twilight isles market.csv")
@@ -498,15 +484,15 @@ def twilight_isles_landing():
     print("\n")
     choice = number_validation(5)
     if choice == 1:
-        twilight_isles_market()
+        sun_seared_navigator()
     elif choice == 2:
-        task_2()
+        twilight_isles_market()
     elif choice == 3:
         Player.gameplay = True
         heavens_forge_landing()
     elif choice == 4:
         Player.gameplay = True
-        location_4()
+        wormwood_planet()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -517,10 +503,10 @@ def twilight_isles_landing():
 def acropolis():
     supervisor()
     Player.gameplay = False
-    if not Player.planets_visited['navigator']:
+    if "Sun Seared Navigator" not in Player.on_board:
         print("\nYou can not find a way to safely land in Acropolis\n")
         input("Press enter go back to Wormwood Planet\n")
-        location_4()
+        wormwood_planet()
     gameplay_speed('acropolis')
     Player.planets_visited['acropolis'] = True
     typing_effect(get_file(r"storyline/Acropolis/Acropolis"), DeveloperControls.sleep_time)
@@ -528,7 +514,8 @@ def acropolis():
     if choice == 1:
         loamstone()
     elif choice == 2:
-        location_4()
+        Player.gameplay = True
+        wormwood_planet()
     elif choice == 3:
         Player.gameplay = True
         twilight_isles_landing()
@@ -540,10 +527,10 @@ def loamstone():
     supervisor()
     if not Player.planets_visited['loamstone']:
         typing_effect(get_file(r"storyline/location_3/loamstone"), DeveloperControls.sleep_time)
-        print("""IN FUTURE VISITS TO ACROPOLIS, YOU MAY NOW TRAVEL TO LOAMSTONE! The Reticent Rancher will allow you to 
-            gather your own mushrooms, where you may brave the dark and spores to refill your galley. You will trade Food 
-            for sanity. This deal is useful if you're sound of mind but low on foodstuffs.
-            Beware: not all mushrooms are equal.
+        print("""IN FUTURE VISITS TO ACROPOLIS, YOU MAY NOW TRAVEL TO LOAMSTONE! The Reticent Rancher will allow you 
+        to gather your own mushrooms, where you may brave the dark and spores to refill your galley. You will trade 
+        Food for sanity. This deal is useful if you're sound of mind but low on foodstuffs. Beware: not all mushrooms 
+        are equal.
     
             Press enter to continue.
             """)
@@ -579,12 +566,12 @@ def mushroom_picker(csv):
     table = pandas.read_csv(csv)
     print(table)
     row_choice = input("Enter the index value of the mushroom you want to pick, or press enter to skip\n")
+    if row_choice == "":
+        return
     try:
         int(row_choice)
     except ValueError:
         print("Please only enter numbers\n")
-        return
-    if row_choice == "":
         return
     try:
         row = table.iloc[int(row_choice)]
@@ -617,10 +604,10 @@ def task_4():
     supervisor()
     print("this is task 4")
     input('return to location 4')
-    location_4()
+    wormwood_planet()
 
 
-def location_4():
+def wormwood_planet():
     supervisor()
     Player.gameplay = False
     typing_effect(get_file(r"storyline/location_4/Wormwood Planet"), DeveloperControls.sleep_time)
@@ -659,7 +646,7 @@ def location_5():
         location_6()
     elif choice == 3:
         Player.gameplay = True
-        location_4()
+        wormwood_planet()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
