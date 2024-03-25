@@ -92,7 +92,8 @@ def insane():
     input("press enter to continue...\n")
     # todo make a better inanity screen
     while True:
-        pyautogui.moveRel(10000, -10000, 15)
+        pyautogui.moveRel(10, -10, .05)
+        print("all work and no play makes Jack a dull boy.")
 
 
 insane()
