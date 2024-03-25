@@ -26,7 +26,7 @@ class Player:
 
     stats = {"money": 1000000, "sanity": 100.00, "food": 100.00}
     inventory = {}
-    gameplay = True
+    gameplay = False
     planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False,
                        "loamstone": False,
                        "wormwood planet": False, "mars": False, "cobaltiania": False, "B-IRS": False,
@@ -90,20 +90,12 @@ def gameplay_speed(location):
 def insane():
     print("you lost your mind")
     input("press enter to continue...\n")
-    counter = 0
-    while counter != 5:
-        try:
-            pyautogui.screenshot(r"..\pictures\screenshot.png")
-            cmd_x = pyautogui.locateCenterOnScreen(r"..\pictures\closeout_cmd.png", grayscale=True)
-            print(cmd_x)
-            pyautogui.moveTo(cmd_x[0], cmd_x[1], 4)
-            time.sleep(.25)
-            pyautogui.click()
-        except pyautogui.ImageNotFoundException:
-            print("You are trying to close the instance of your game")
-            counter += 1
-    input("There was a cool way the game was suppose to work, but it did not work properly...\n press enter to quit")
-    death()
+    # todo make a better inanity screen
+    while True:
+        pyautogui.moveRel(10000, -10000, 15)
+
+
+insane()
 
 
 def starvation():
@@ -453,6 +445,7 @@ def task_1():
 
 def heavens_forge_landing():
     supervisor()
+    Player.gameplay = False
     gameplay_speed("heavens forge")
     Player.planets_visited["heavens forge"] = True
     typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Landing"), DeveloperControls.sleep_time)
@@ -460,9 +453,10 @@ def heavens_forge_landing():
     if choice == 1:
         task_1()
     elif choice == 2:
+        Player.gameplay = True
         location_7()
     elif choice == 3:
-
+        Player.gameplay = True
         twilight_isles_landing()
     elif choice == 4:
         heavens_forge_market()
@@ -496,6 +490,7 @@ def twilight_isles_market():
 
 def twilight_isles_landing():
     supervisor()
+    Player.gameplay = False
     gameplay_speed("twilight isles")
     Player.planets_visited["twilight isles"] = True
     typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles landing"), DeveloperControls.sleep_time)
@@ -506,8 +501,10 @@ def twilight_isles_landing():
     elif choice == 2:
         task_2()
     elif choice == 3:
+        Player.gameplay = True
         heavens_forge_landing()
     elif choice == 4:
+        Player.gameplay = True
         location_4()
 
 
@@ -518,6 +515,7 @@ def twilight_isles_landing():
 
 def acropolis():
     supervisor()
+    Player.gameplay = False
     if not Player.planets_visited['navigator']:
         print("\nYou can not find a way to safely land in Acropolis\n")
         input("Press enter go back to Wormwood Planet\n")
@@ -531,6 +529,7 @@ def acropolis():
     elif choice == 2:
         location_4()
     elif choice == 3:
+        Player.gameplay = True
         twilight_isles_landing()
     else:
         logging.debug("this is being executed @acropolis")
@@ -622,13 +621,16 @@ def task_4():
 
 def location_4():
     supervisor()
+    Player.gameplay = False
     typing_effect(get_file(r"storyline/location_4/Wormwood Planet"), DeveloperControls.sleep_time)
     choice = int(input("Enter a [1-3]"))
     if choice == 1:
         task_4()
     elif choice == 2:
+        Player.gameplay = True
         location_5()
     elif choice == 3:
+        Player.gameplay = True
         acropolis()
 
 
@@ -641,6 +643,7 @@ def task_5():
     supervisor()
     print("this is task 5")
     input('return to location 5')
+    Player.gameplay = True
     location_5()
 
 
@@ -651,8 +654,10 @@ def location_5():
     if choice == 1:
         task_5()
     elif choice == 2:
+        Player.gameplay = True
         location_6()
     elif choice == 3:
+        Player.gameplay = True
         location_4()
 
 
@@ -670,13 +675,16 @@ def task_6():
 
 def location_6():
     supervisor()
+    Player.gameplay = False
     typing_effect(get_file(r"storyline/location_6/Cobatiania"), DeveloperControls.sleep_time)
     choice = int(input("Enter a [1-3]"))
     if choice == 1:
         task_6()
     elif choice == 2:
+        Player.gameplay = True
         location_7()
     elif choice == 3:
+        Player.gameplay = True
         location_5()
 
 
