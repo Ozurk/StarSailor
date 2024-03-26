@@ -1,6 +1,6 @@
 # Project-StarSailor
 A text based adventure game.
-To be released by Jan 1 2024
+To be released by Jan 1 2025
 
 It is getting close to being at least semi-runnable, but whe are not there yet. 
 
