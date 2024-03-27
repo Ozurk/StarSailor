@@ -5,6 +5,7 @@ from functions import *
 from random import randint
 import pyautogui
 from reset_tables import reset_tables
+import sys
 
 # ---------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------Settings and Controls-------------------------------------------------
@@ -15,23 +16,23 @@ terminal_width = shutil.get_terminal_size().columns
 
 
 class DeveloperControls:
-    sleep_time = 0.001  # delay between letters in typing effect
+    sleep_time = 0.03  # delay between letters in typing effect
 
     def __init__(self):
         pass
 
 
 class Player:
-    def __init__(self):
-        pass
-
-    stats = {"money": 10000, "sanity": 100.00, "food": 100.00}
+    stats = {"money": 10000, "sanity": 0, "food": 100.00}
     inventory = {}
     gameplay = False
-    planets_visited = {"intro": False, "heavens forge": True, "twilight isles": True, "acropolis": True,
+    planets_visited = {"intro": True, "heavens forge": True, "twilight isles": True, "acropolis": True,
                        "loamstone": True,
                        "wormwood planet": True, "mars": True, "cobaltiania": True, "B-IRS": True, }
     on_board = []
+
+    def __init__(self):
+        pass
 
 
 def user_stats():
@@ -54,7 +55,6 @@ def user_stats():
 def supervisor():
     os.system("cls")
     Player.stats['food'] -= 1
-    user_stats()
     if Player.gameplay:
         if Player.stats["food"] <= 0:
             starvation()
@@ -64,6 +64,7 @@ def supervisor():
             beg()
         if randint(1, 15) == 1:
             random_event()
+    user_stats()
 
 
 def gameplay_speed(location):
@@ -82,8 +83,8 @@ def insane():
     input("press enter to continue...\n")
     # todo make a better inanity screen
     while True:
-        pyautogui.moveRel(10, -10, .05)
-        print("all work and no play makes Jack a dull boy.")
+        pyautogui.moveRel(10, -10, .02)
+        sys.stdout.write("all work and no play makes Jack a dull boy.")
 
 
 def starvation():
@@ -167,7 +168,7 @@ def death():
 
 def broken_down():
     typing_effect("There is a ship broken-down along the side of Desmos 9, do you wan"
-                  "t to help it?".center(terminal_width), 0)
+                  "t to help it?".center(terminal_width), DeveloperControls.sleep_time)
     print('\n')
     print("-".center(terminal_width, "-"))
     user_choose = yes_or_no("\ny[yes]\nor[no]\n")
@@ -288,19 +289,20 @@ def rems_event():
 
 
 def jury_duty():
+    supervisor()
     typing_effect('''You have been selected for inter-galactic jury duty by the highest power in deep space...\n
             Despite all efforts, you can not wiggle out of this one...\n
-            You lose a little bit of your mind...''', 0)
+            You lose a little bit of your mind...''', DeveloperControls.sleep_time)
     print('\n')
     print("-" * terminal_width)
     input('Press Enter to Continue'.center(terminal_width))
     os.system("cls")
     Player.stats["sanity"] -= 10
-    Player.stats["money"] += 10
-    supervisor()
+    Player.stats["money"] += 100
 
 
 def crypto():
+    supervisor()
     typing_effect("You hit it big in the crypto^3 market despite having no idea "
                   "what you are doing.".center(terminal_width), 0)
     print("\n")
@@ -310,8 +312,6 @@ def crypto():
     print("\n")
     input('Press Enter to Continue'.center(terminal_width))
     Player.stats["money"] += 1000
-    os.system("cls")
-    supervisor()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -700,7 +700,5 @@ def location_7():
         location_6()
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-intro_screen()
-intro()
-heavens_forge_landing()
+# -------------------------------------------------------------------------------------------------------------------
+twilight_isles_landing()

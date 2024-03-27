@@ -19,3 +19,5 @@ def table_resetter(backup_tables, working_tables):
 
 def reset_tables():
     table_resetter(GameReset.backup_tables, GameReset.working_tables)
+
+reset_tables()

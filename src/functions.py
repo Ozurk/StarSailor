@@ -163,10 +163,14 @@ def table_printer(file_path):
 
 def number_validation(set_range):
     user_input = input("\n")
+    if user_input == "":
+        print("please enter a number\n")
+        number_validation(set_range)
     try:
         int(user_input)
     except TypeError:
         print("please enter a number\n")
+
         number_validation(set_range)
     if int(user_input) not in range(set_range):
         print("The number you entered is not an available option\n")
@@ -175,7 +179,3 @@ def number_validation(set_range):
         print("you can not enter 0 as a choice\n")
         number_validation(set_range)
     return int(user_input)
-
-
-
-
