@@ -23,11 +23,14 @@ class DeveloperControls:
 
 
 class Player:
-    stats = {"money": 10000, "sanity": 0, "food": 100.00}
+    stats = {"money": 10000, "sanity": 100, "food": 100.00}
     inventory = {}
     gameplay = False
+    # planets_visited = {"intro": False, "heavens forge": True, "twilight isles": True, "acropolis": True,
+    # "loamstone": True,
+    # "wormwood planet": True, "mars": True, "cobaltiania": True, "B-IRS": True, }
     planets_visited = {"intro": True, "heavens forge": True, "twilight isles": True, "acropolis": True,
-                       "loamstone": True,
+                       "loamstone": False,
                        "wormwood planet": True, "mars": True, "cobaltiania": True, "B-IRS": True, }
     on_board = []
 
@@ -60,6 +63,8 @@ def supervisor():
             starvation()
         if Player.stats['sanity'] <= 0:
             insane()
+        elif Player.stats['sanity'] >= 100:
+            Player.stats['sanity'] = 100
         if Player.stats['money'] <= 0:
             beg()
         if randint(1, 15) == 1:
@@ -83,8 +88,8 @@ def insane():
     input("press enter to continue...\n")
     # todo make a better inanity screen
     while True:
-        pyautogui.moveRel(10, -10, .02)
-        sys.stdout.write("all work and no play makes Jack a dull boy.")
+        pyautogui.moveRel(80, -80, .03)
+        print("all work and no play makes Jack a dull boy.")
 
 
 def starvation():
@@ -365,7 +370,7 @@ def intro():
         typing_effect(get_file(r".\storyline\intro"), DeveloperControls.sleep_time)
         print("\n" * 4)
         input("press enter to proceed".center(terminal_width) + "\n")
-        set_and_setting()
+    set_and_setting()
 
 
 def set_and_setting():
@@ -391,6 +396,7 @@ def set_and_setting():
     Player.stats["money"] -= 1000
     print("a ruby has been added to your inventory\n")
     Player.planets_visited["intro"] = True
+    tunnel()
 
 
 def tunnel():
@@ -456,7 +462,7 @@ def heavens_forge_landing():
 def sun_seared_navigator():
     supervisor()
     typing_effect(get_file(r"storyline/Twilight Isles/roasted navigator"), DeveloperControls.sleep_time)
-    choice = int(number_validation(3))
+    choice = number_validation(3)
     if choice == 1:
         Player.on_board.append("Sun Seared Navigator")
         acropolis()
@@ -526,14 +532,7 @@ def acropolis():
 def loamstone():
     supervisor()
     if not Player.planets_visited['loamstone']:
-        typing_effect(get_file(r"storyline/location_3/loamstone"), DeveloperControls.sleep_time)
-        print("""IN FUTURE VISITS TO ACROPOLIS, YOU MAY NOW TRAVEL TO LOAMSTONE! The Reticent Rancher will allow you 
-        to gather your own mushrooms, where you may brave the dark and spores to refill your galley. You will trade 
-        Food for sanity. This deal is useful if you're sound of mind but low on foodstuffs. Beware: not all mushrooms 
-        are equal.
-    
-            Press enter to continue.
-            """)
+        typing_effect(get_file(r"storyline/Acropolis/loamstone"), DeveloperControls.sleep_time)
         Player.inventory['dreamcap'] = 1
         Player.planets_visited['loamstone'] = True
         input('')
@@ -610,8 +609,9 @@ def task_4():
 def wormwood_planet():
     supervisor()
     Player.gameplay = False
+    Player.planets_visited['wormwood planet'] = True
     typing_effect(get_file(r"storyline/location_4/Wormwood Planet"), DeveloperControls.sleep_time)
-    choice = int(input("Enter a [1-3]"))
+    choice = number_validation(5)
     if choice == 1:
         task_4()
     elif choice == 2:
@@ -701,4 +701,5 @@ def location_7():
 
 
 # -------------------------------------------------------------------------------------------------------------------
-twilight_isles_landing()
+
+heavens_forge_landing()

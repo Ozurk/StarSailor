@@ -1,3 +1,4 @@
+import logging
 import sys
 import time
 import re
@@ -162,20 +163,24 @@ def table_printer(file_path):
 
 
 def number_validation(set_range):
-    user_input = input("\n")
-    if user_input == "":
-        print("please enter a number\n")
-        number_validation(set_range)
-    try:
-        int(user_input)
-    except TypeError:
-        print("please enter a number\n")
 
-        number_validation(set_range)
-    if int(user_input) not in range(set_range):
-        print("The number you entered is not an available option\n")
-        number_validation(set_range)
-    elif int(user_input) == 0:
-        print("you can not enter 0 as a choice\n")
-        number_validation(set_range)
-    return int(user_input)
+    def number_validator():
+        user_choice = input("\n")
+        try:
+            int(user_choice)
+        except ValueError:
+            print("Please enter an integer")
+            return
+        if int(user_choice) not in range(set_range):
+            print(user_choice + " is not one of the available options.")
+            return
+        if int(user_choice) <= 0:
+            print("you can not enter a number less than 1")
+        return user_choice
+
+    while True:
+        valid_number = number_validator()
+        if valid_number is not None:
+            logging.debug("the number validator return value is %s", valid_number)
+            return int(valid_number)
+
