@@ -23,7 +23,7 @@ class DeveloperControls:
 
 
 class Player:
-    stats = {"money": 10000, "sanity": 100, "food": 100.00}
+    stats = {"money": 10000, "sanity": 50, "food": 100.00}
     inventory = {}
     gameplay = False
     # planets_visited = {"intro": False, "heavens forge": True, "twilight isles": True, "acropolis": True,
@@ -511,7 +511,7 @@ def acropolis():
     Player.gameplay = False
     if "Sun Seared Navigator" not in Player.on_board:
         print("\nYou can not find a way to safely land in Acropolis\n")
-        input("Press enter go back to Wormwood Planet\n")
+        input("Press enter go back to Wormwood Planet Landing\n")
         wormwood_planet()
     gameplay_speed('acropolis')
     Player.planets_visited['acropolis'] = True
@@ -610,7 +610,7 @@ def wormwood_planet():
     supervisor()
     Player.gameplay = False
     Player.planets_visited['wormwood planet'] = True
-    typing_effect(get_file(r"storyline/location_4/Wormwood Planet"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r"storyline/Wormwood Planet/Wormwood Planet Landing"), DeveloperControls.sleep_time)
     choice = number_validation(5)
     if choice == 1:
         task_4()
