@@ -498,7 +498,7 @@ def twilight_isles_landing():
         heavens_forge_landing()
     elif choice == 4:
         Player.gameplay = True
-        wormwood_planet()
+        wormwood_planet_landing()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -511,8 +511,8 @@ def acropolis():
     Player.gameplay = False
     if "Sun Seared Navigator" not in Player.on_board:
         print("\nYou can not find a way to safely land in Acropolis\n")
-        input("Press enter go back to Wormwood Planet Landing\n")
-        wormwood_planet()
+        input("Press enter go back to Wormwood Planet Intro\n")
+        wormwood_planet_landing()
     gameplay_speed('acropolis')
     Player.planets_visited['acropolis'] = True
     typing_effect(get_file(r"storyline/Acropolis/Acropolis"), DeveloperControls.sleep_time)
@@ -521,7 +521,7 @@ def acropolis():
         loamstone()
     elif choice == 2:
         Player.gameplay = True
-        wormwood_planet()
+        wormwood_planet_landing()
     elif choice == 3:
         Player.gameplay = True
         twilight_isles_landing()
@@ -601,16 +601,21 @@ def mushroom_picker(csv):
 
 def task_4():
     supervisor()
-    typing_effect(get_file(r"storyline/Wormwood Planet/Wormwood Farm"), DeveloperControls.sleep_time)
-    input('return to location 4')
-    wormwood_planet()
 
-    
-def wormwood_planet():
+    wormwood_planet_landing()
+
+
+def wormwood_intro():
+    typing_effect(get_file(r"storyline/Wormwood Planet/Wormwood Planet Intro"), DeveloperControls.sleep_time)
+    input()
+    typing_effect(get_file(r"storyline/Wormwood Planet/Wormwood Farm"), DeveloperControls.sleep_time)
+    input("Return to Wormwood Planet Landing\n")
+
+
+def wormwood_planet_landing():
     supervisor()
     Player.gameplay = False
     Player.planets_visited['wormwood planet'] = True
-    typing_effect(get_file(r"storyline/Wormwood Planet/Wormwood Planet Landing"), DeveloperControls.sleep_time)
     choice = number_validation(5)
     if choice == 1:
         task_4()
@@ -646,7 +651,7 @@ def location_5():
         location_6()
     elif choice == 3:
         Player.gameplay = True
-        wormwood_planet()
+        wormwood_planet_landing()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
