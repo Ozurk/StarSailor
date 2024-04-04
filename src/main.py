@@ -601,11 +601,11 @@ def mushroom_picker(csv):
 
 def task_4():
     supervisor()
-    print("this is task 4")
+    typing_effect(get_file(r"storyline/Wormwood Planet/Wormwood Farm"), DeveloperControls.sleep_time)
     input('return to location 4')
     wormwood_planet()
 
-
+    
 def wormwood_planet():
     supervisor()
     Player.gameplay = False
