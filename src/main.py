@@ -30,7 +30,7 @@ class Player:
     # "loamstone": True,
     # "wormwood planet": True, "mars": True, "cobaltiania": True, "B-IRS": True, }
     planets_visited = {"intro": True, "heavens forge": True, "twilight isles": True, "acropolis": True,
-                       "loamstone": False,
+                       "loamstone": True,
                        "wormwood planet": True, "mars": True, "cobaltiania": True, "B-IRS": True, }
     on_board = []
 
@@ -70,6 +70,26 @@ def supervisor():
         if randint(1, 15) == 1:
             random_event()
     user_stats()
+    debug = input("debug = debug, playthrough = play\n")
+    planet_list = ["intro", "heavens forge", "twilight isles", "acropolis", "loamstone", "wormwood planet",
+                   'cobaltiania', "B-IRS"]
+    index = 0
+    if debug == "debug":
+        DeveloperControls.sleep_time = 0.0
+        for number in planet_list:
+            planet = planet_list[index]
+            Player.planets_visited[planet] = True
+            print(number, index)
+            index += 1
+        print(Player.planets_visited)
+    if debug == "play":
+        for number in planet_list:
+            planet = planet_list[index]
+            Player.planets_visited[planet] = False
+            print(number, index)
+            index += 1
+        print(Player.planets_visited)
+
 
 
 def gameplay_speed(location):
@@ -606,16 +626,22 @@ def task_4():
 
 
 def wormwood_intro():
+    supervisor()
+    Player.gameplay = False
     typing_effect(get_file(r"storyline/Wormwood Planet/Wormwood Planet Intro"), DeveloperControls.sleep_time)
-    input()
+    input("\n")
+    supervisor()
     typing_effect(get_file(r"storyline/Wormwood Planet/Wormwood Farm"), DeveloperControls.sleep_time)
     input("Return to Wormwood Planet Landing\n")
 
 
 def wormwood_planet_landing():
     supervisor()
+    if not Player.planets_visited["wormwood planet"]:
+        wormwood_intro()
     Player.gameplay = False
     Player.planets_visited['wormwood planet'] = True
+    print("Welcome to Wormwood Planet \n1: Go to Task 4\n2: Go to Colbaltainia\n3: Go to Acropolis")
     choice = number_validation(5)
     if choice == 1:
         task_4()
@@ -706,5 +732,6 @@ def location_7():
 
 
 # -------------------------------------------------------------------------------------------------------------------
-
+intro_screen()
+intro()
 heavens_forge_landing()
