@@ -34,6 +34,8 @@ class Player:
                        "wormwood planet": True, "mars": True, "cobaltiania": True, "B-IRS": True, }
     on_board = []
 
+    critical_events = {"dreamcap": False, "talashandra": False}
+
     def __init__(self):
         pass
 
@@ -70,9 +72,10 @@ def supervisor():
         if randint(1, 15) == 1:
             random_event()
     user_stats()
-    debug = input("debug = debug, playthrough = play\n")
-    planet_list = ["intro", "heavens forge", "twilight isles", "acropolis", "loamstone", "wormwood planet",
-                   'cobaltiania', "B-IRS"]
+    debug = input("\n")
+    planet_list = list(Player.planets_visited.keys())
+    event_list = list(Player.critical_events.keys())
+
     index = 0
     if debug == "debug":
         DeveloperControls.sleep_time = 0.0
@@ -81,15 +84,25 @@ def supervisor():
             Player.planets_visited[planet] = True
             print(number, index)
             index += 1
-        print(Player.planets_visited)
+        index = 0
+        for number in event_list:
+            event = event_list[index]
+            Player.critical_events[event] = True
+            index += 1
     if debug == "play":
         for number in planet_list:
             planet = planet_list[index]
             Player.planets_visited[planet] = False
-            print(number, index)
             index += 1
-        print(Player.planets_visited)
-
+        index = 0
+        for number in event_list:
+            event = event_list[index]
+            Player.critical_events[event] = False
+            index += 1
+        print(Player.planets_visited, Player.critical_events)
+    if debug == "reset":
+        reset_tables()
+        input("The marketplaces have been reset")
 
 
 def gameplay_speed(location):
@@ -531,7 +544,7 @@ def acropolis():
     Player.gameplay = False
     if "Sun Seared Navigator" not in Player.on_board:
         print("\nYou can not find a way to safely land in Acropolis\n")
-        input("Press enter go back to Wormwood Planet Intro\n")
+        input("Press enter go back to Ch'Tak Intro\n")
         wormwood_planet_landing()
     gameplay_speed('acropolis')
     Player.planets_visited['acropolis'] = True
@@ -625,23 +638,84 @@ def task_4():
     wormwood_planet_landing()
 
 
-def wormwood_intro():
+def chtak():
     supervisor()
     Player.gameplay = False
-    typing_effect(get_file(r"storyline/Wormwood Planet/Wormwood Planet Intro"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r"storyline/Ch'Tak/Ch'Tak"), DeveloperControls.sleep_time)
     input("\n")
-    supervisor()
-    typing_effect(get_file(r"storyline/Wormwood Planet/Wormwood Farm"), DeveloperControls.sleep_time)
-    input("Return to Wormwood Planet Landing\n")
+    if Player.critical_events["dreamcap"]:
+        supervisor()
+        typing_effect("""YOUR DREAMCAP HAS CAUGHT SOMEONES' ATTENTION
+
+A morchella on eight vined tentacles abruptly stops as it scuttles by you, veering back around. Its honeycombed cap 
+puckers tenuously at something in the air you can't quite perceive, til it points aggressively at your pack. It 
+continues impatiently until you produce the Dreamcap.""", DeveloperControls.sleep_time)
+        input("\n")
+        os.system("cls")
+        typing_effect("""A shudder runs down its body, and it dashes a short distance away before turning back and 
+        beckons you to follow. It leads you down, to the foot of the fort, among a lake of frozen mud. On its surface 
+        lay a massive lotus flower, as large as your ship. You both cross the makeshift docks reaching out to it and 
+        carefully climb up into its center. The morchella takes a sitting position and holds your hands in two of its 
+        tentacles. The remaining limbs gesticulate in a ceremonial quality before one of them drops the Dreamcap into 
+        one of the pits on its head.""", DeveloperControls.sleep_time)
+        input("\n")
+        os.system("cls")
+        typing_effect("""The creature expands as if taking a deep breath, the breathes out a thick cloud of starry 
+        spores that immediately succumb you to slumber... Your eyes flutter open, and you find yourself in a golden 
+        court. There is a certain warmth and cheer in the air here. The sound of merriment and the smell of roses 
+        brings to your attention the fact that you are not alone. A plethora of alien characters, each more exotic in 
+        shape and size than the last, laugh and drink around you. But you only catch vague glimpses of them from the 
+        corner of your eye, for your gaze is fixed upon the throne in the center of the room, and the figure perched 
+        upon it.""", DeveloperControls.sleep_time)
+        input('\n')
+        os.system("cls")
+        typing_effect("""An amber mushroom man lounges, eight feet tall even in a sitting position, as thick as a 
+        tree trunk, draped in finery of deepest sapphire and cradling a blade of shimmering Starglass between his 
+        rooted arms and legs. Sharp, fierce periwinkle pupils betray droopy eyelids beneath the brim of his golden 
+        cap. The camaraderie of the court drowns out as your mind fills with a voice as fierce as sunlight and rich 
+        as honey. """, DeveloperControls.sleep_time)
+        input('\n')
+        typing_effect("""I am Emperor Talashandra, Speaker of Posterity. What a queer creature you are, to find your 
+        way here. I sense... this is a dream, no? Curious creature indeed. It seems we are speaking across a gap 
+        spanning thousands of years. I suppose one of my spores carried out its way through the ages and came to be 
+        in your possession, affording us this conversation. What a novelty! Tell me little creature, what do you know 
+        of... actually, perhaps its best I not pry into the future. There may be danger in that knowledge. But there 
+        is no danger in sharing my knowledge with you. And so much has been lost! I sense no capacity for my language 
+        in your thoughts, allow me to instruct you.""", DeveloperControls.sleep_time)
+        input('\n')
+        os.system("cls")
+        typing_effect("""The foundation of all interaction is communication. In your travels you are bound to find 
+        many that do not share your native tongue. Yet there is a older tongue that precedes the flesh. Here are the 
+        first word." Emperor Talashandra's words dissolve into something akin to a gutteral throat chant, deeper than 
+        any voice you've ever heard. It threatens to dispell the dream and send you back to your time until finally, 
+        your brain buzzes with a newfound awakening of forgotten primordial understanding. "There. May your words 
+        never be barred by ignorance again. Take this boon and
+
+
+go forward as a diplomat for posterity. I feel this dream fading, and soon you will waken. Search for my gifts in the 
+future, I have more words for you. Next I will show you to how to speak with the very stone...\"""",
+                      DeveloperControls.sleep_time)
+        input('\n')
+        os.system("cls")
+        typing_effect("""You are already struggling to remember his words as you awake, but you feel a new power 
+        dwelling inside you. The morchella has continued holding you up while you entered the trance, and wriggles 
+        with delight as you come to your senses. The buzzing starts at the edge of your consciousness again as its 
+        voice echos through your thoughts. "Oh, hello? Excellent, friend! I am this tribe's shaman. To bestow such a 
+        gift upon us as that Dreamcap is sacred, and we recognize you as family now. I am happy to answer any further 
+        questions back in the village, but shall we return for now? You're bound to get hypothermia out here if we 
+        stay any longer."
+
+Press enter to return to the Wilderfolk village.""", DeveloperControls.sleep_time)
+        input("\n")
 
 
 def wormwood_planet_landing():
     supervisor()
     if not Player.planets_visited["wormwood planet"]:
-        wormwood_intro()
+        chtak()
     Player.gameplay = False
     Player.planets_visited['wormwood planet'] = True
-    print("Welcome to Wormwood Planet \n1: Go to Task 4\n2: Go to Colbaltainia\n3: Go to Acropolis")
+    print("Welcome to Ch'Tak \n1: Go to Task 4\n2: Go to Colbaltainia\n3: Go to Acropolis")
     choice = number_validation(5)
     if choice == 1:
         task_4()
@@ -732,6 +806,4 @@ def location_7():
 
 
 # -------------------------------------------------------------------------------------------------------------------
-intro_screen()
-intro()
-heavens_forge_landing()
+chtak()
