@@ -14,10 +14,13 @@ def table_resetter(backup_tables, working_tables):
     for tables in backup_tables:
         df = pandas.read_csv(tables)
         df.to_csv(working_tables[iteration], index=False)
+        print(tables)
+        print(working_tables[iteration])
         iteration += 1
 
 
 def reset_tables():
     table_resetter(GameReset.backup_tables, GameReset.working_tables)
+
 
 reset_tables()

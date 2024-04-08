@@ -26,12 +26,9 @@ class Player:
     stats = {"money": 10000, "sanity": 50, "food": 100.00}
     inventory = {}
     gameplay = False
-    # planets_visited = {"intro": False, "heavens forge": True, "twilight isles": True, "acropolis": True,
-    # "loamstone": True,
-    # "wormwood planet": True, "mars": True, "cobaltiania": True, "B-IRS": True, }
-    planets_visited = {"intro": True, "heavens forge": True, "twilight isles": True, "acropolis": True,
-                       "loamstone": True,
-                       "wormwood planet": True, "mars": True, "cobaltiania": True, "B-IRS": True, }
+    planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False,
+                       "loamstone": False,
+                       "ch'tak": False, "mars": False, "cobaltiania": False, "B-IRS": False, }
     on_board = []
 
     critical_events = {"dreamcap": False, "talashandra": False}
@@ -393,6 +390,15 @@ def item_getter(csv, row_choice):
         time.sleep(2)
 
 
+def item_seller(csv):
+    player_inventory = Player.inventory
+    wanted_items_table = pandas.read_csv(csv)
+    wanted_items = wanted_items_table.drop(0, axis=0)
+    print(wanted_items)
+
+
+
+
 # ---------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------Intro, Setup and Menu-------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
@@ -498,6 +504,8 @@ def sun_seared_navigator():
     typing_effect(get_file(r"storyline/Twilight Isles/roasted navigator"), DeveloperControls.sleep_time)
     choice = number_validation(3)
     if choice == 1:
+        if "Sun Seared Navigator" in Player.on_board:
+            acropolis()
         Player.on_board.append("Sun Seared Navigator")
         acropolis()
     elif choice == 2:
@@ -545,7 +553,7 @@ def acropolis():
     Player.gameplay = False
     if "Sun Seared Navigator" not in Player.on_board:
         print("\nYou can not find a way to safely land in Acropolis\n")
-        input("Press enter go back to Ch'Tak Intro\n")
+        input("Press enter go to Ch'Tak\n")
         chtak_landing()
     gameplay_speed('acropolis')
     Player.planets_visited['acropolis'] = True
@@ -559,8 +567,6 @@ def acropolis():
     elif choice == 3:
         Player.gameplay = True
         twilight_isles_landing()
-    else:
-        logging.debug("this is being executed @acropolis")
 
 
 def loamstone():
@@ -824,4 +830,3 @@ def location_7():
 
 
 # -------------------------------------------------------------------------------------------------------------------
-chtak()
