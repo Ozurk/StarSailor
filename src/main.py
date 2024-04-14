@@ -24,7 +24,7 @@ class DeveloperControls:
 
 class Player:
     stats = {"money": 10000, "sanity": 50, "food": 100.00}
-    inventory = {}
+    inventory = {"rope": 40}
     gameplay = False
     planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False,
                        "loamstone": False,
@@ -355,13 +355,13 @@ def crypto():
 # ---------------------------------------------------------------------------------------------------------------------
 
 
-def item_getter(csv, row_choice):
+def item_purchaser(csv, row_choice):
+    if row_choice == "":
+        return
     try:
         int(row_choice)
     except ValueError:
         print("Please only enter numbers\n")
-        return
-    if row_choice == "":
         return
     table = pandas.read_csv(csv)
     try:
@@ -390,13 +390,32 @@ def item_getter(csv, row_choice):
         time.sleep(2)
 
 
-def item_seller(csv):
-    player_inventory = Player.inventory
-    wanted_items_table = pandas.read_csv(csv)
-    wanted_items = wanted_items_table.drop(0, axis=0)
-    print(wanted_items)
-
-
+def item_seller(csv, row_choice):
+    if row_choice == "":
+        return
+    try:
+        int(row_choice)
+    except ValueError:
+        input("Please only enter numbers\n")
+        return
+    table = pandas.read_csv(csv)
+    try:
+        sale_item_row = table.iloc[int(row_choice)]
+    except IndexError:
+        print("Please enter the index number of the item you want to purchase.\n")
+        time.sleep(2)
+        return
+    player_inventory = list(Player.inventory.keys())
+    sale_item_as_dict = sale_item_row.to_dict()
+    if sale_item_as_dict["ITEM"] not in player_inventory:
+        print("You do not have the item you want to sell, please try again with the item you want in your inventory\n")
+        time.sleep(2)
+        return
+    item_name = sale_item_as_dict["ITEM"]
+    Player.inventory[item_name] -= 1
+    if Player.inventory[item_name] == 0:
+        Player.inventory.pop(item_name)
+    Player.stats["money"] += int(sale_item_as_dict["VALUE"])
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -454,10 +473,17 @@ def tunnel():
 
 def heavens_forge_market():
     supervisor()
-    market = pandas.read_csv(r"tables/heaven's forge market.csv")
-    print(market)
-    user_input = input("\n enter the ID of the item you would like to purchase, or press enter to leave...\n")
-    item_getter(r"tables/heaven's forge market.csv", user_input.strip())
+    print("do you want purchase [1] or sell [2] at the market?\n")
+    user_choice = number_validation(3)
+    if user_choice == 2:
+        print(pandas.read_csv(r"tables\sales\hforge.csv"))
+        user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
+        item_seller("tables\\sales\\hforge.csv", user_input_sales)
+    if user_choice == 1:
+        market = pandas.read_csv(r"tables/heaven's forge market.csv")
+        print(market)
+        user_input = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
+        item_purchaser(r"tables/heaven's forge market.csv", user_input.strip())
     heavens_forge_landing()
 
 
@@ -519,7 +545,7 @@ def twilight_isles_market():
     market = pandas.read_csv("tables/twilight isles market.csv")
     print(market)
     user_input = input("\nenter the ID of the item you would like to purchase, or press enter to leave...\n")
-    item_getter(r"tables/twilight isles market.csv", user_input.strip())
+    item_purchaser(r"tables/twilight isles market.csv", user_input.strip())
     twilight_isles_landing()
 
 
@@ -702,7 +728,8 @@ first word." Emperor Talashandra's words dissolve into something akin to a gutte
 any voice you've ever heard. It threatens to dispell the dream and send you back to your time until finally, 
 your brain buzzes with a newfound awakening of forgotten primordial understanding. "There. May your words 
 never be barred by ignorance again. Take this boon and go forward as a diplomat for posterity. I feel this dream fading, and soon you will waken. Search for my gifts in the 
-future, I have more words for you. Next I will show you to how to speak with the very stone...\"""", DeveloperControls.sleep_time)
+future, I have more words for you. Next I will show you to how to speak with the very stone...\"""",
+                      DeveloperControls.sleep_time)
         input('\n')
         os.system("cls")
         typing_effect("""
@@ -724,7 +751,7 @@ def chtak_market():
     table = pandas.read_csv("tables\\chtak market.csv")
     print(table)
     user_input = input("\nenter the ID of the item you would like to purchase, or press enter to leave...\n")
-    item_getter("tables\\chtak market.csv", user_input)
+    item_purchaser("tables\\chtak market.csv", user_input)
     chtak_landing()
 
 
@@ -828,5 +855,6 @@ def location_7():
     elif choice == 3:
         location_6()
 
-
 # -------------------------------------------------------------------------------------------------------------------
+
+heavens_forge_landing()
