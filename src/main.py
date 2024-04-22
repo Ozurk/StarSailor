@@ -402,7 +402,7 @@ def item_seller(csv, row_choice):
     try:
         sale_item_row = table.iloc[int(row_choice)]
     except IndexError:
-        print("Please enter the index number of the item you want to purchase.\n")
+        print("Please enter the index number of the item you want to sell.\n")
         time.sleep(2)
         return
     player_inventory = list(Player.inventory.keys())
@@ -482,7 +482,7 @@ def heavens_forge_market():
     if user_choice == 1:
         market = pandas.read_csv(r"tables/heaven's forge market.csv")
         print(market)
-        user_input = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
+        user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
         item_purchaser(r"tables/heaven's forge market.csv", user_input.strip())
     heavens_forge_landing()
 
@@ -543,9 +543,16 @@ def twilight_isles_market():
     print("Welcome to to Twilight Isles Floating Market".center(terminal_width))
     print("\n")
     market = pandas.read_csv("tables/twilight isles market.csv")
-    print(market)
-    user_input = input("\nenter the ID of the item you would like to purchase, or press enter to leave...\n")
-    item_purchaser(r"tables/twilight isles market.csv", user_input.strip())
+    print("Would you like to purchase [1] or sell [2] at the market?\n")
+    user_input = number_validation(3)
+    if user_input == 1:
+        print(market)
+        user_input = input("Please enter the index number of the item you would like to purchase\n")
+        item_purchaser(r"tables/twilight isles market.csv", user_input.strip())
+    elif user_input == 2:
+        print(pandas.read_csv("tables/sales/twilight.csv"))
+        user_sales_input = input("Enter the ID of the item you would like to sell, or press enter to leave\n")
+        item_seller("tables/sales/twilight.csv", user_sales_input.strip())
     twilight_isles_landing()
 
 
@@ -572,6 +579,23 @@ def twilight_isles_landing():
 # ---------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------location 3-----------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
+
+
+def acropolis_market():
+    supervisor()
+    print("do you want purchase [1] or sell [2] at the market?\n")
+    user_choice = number_validation(3)
+    if user_choice == 2:
+        print(pandas.read_csv(r"tables\sales\acropolis.csv"))
+        user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
+        item_seller("tables\\sales\\acropolis.csv", user_input_sales)
+    if user_choice == 1:
+        market = pandas.read_csv(r"tables/acropolis.csv")
+        print(market)
+        user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
+        item_purchaser(r"tables/heaven's forge market.csv", user_input.strip())
+    heavens_forge_landing()
+
 
 
 def acropolis():
@@ -793,7 +817,7 @@ def task_5():
 
 def location_5():
     supervisor()
-    typing_effect(get_file(r"storyline/location_5/Mars"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r"storyline/Valdstafar/Valdstafar"), DeveloperControls.sleep_time)
     choice = int(input("Enter a [1-3]"))
     if choice == 1:
         task_5()
@@ -820,7 +844,7 @@ def task_6():
 def location_6():
     supervisor()
     Player.gameplay = False
-    typing_effect(get_file(r"storyline/location_6/Cobatiania"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r"storyline/location_6/Titiana"), DeveloperControls.sleep_time)
     choice = int(input("Enter a [1-3]"))
     if choice == 1:
         task_6()
