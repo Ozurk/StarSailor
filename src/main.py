@@ -593,9 +593,8 @@ def acropolis_market():
         market = pandas.read_csv(r"tables/acropolis.csv")
         print(market)
         user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
-        item_purchaser(r"tables/heaven's forge market.csv", user_input.strip())
-    heavens_forge_landing()
-
+        item_purchaser(r"tables/acropolis.csv", user_input.strip())
+    acropolis()
 
 
 def acropolis():
@@ -608,7 +607,7 @@ def acropolis():
     gameplay_speed('acropolis')
     Player.planets_visited['acropolis'] = True
     typing_effect(get_file(r"storyline/Acropolis/Acropolis"), DeveloperControls.sleep_time)
-    choice = number_validation(4)
+    choice = number_validation(5)
     if choice == 1:
         loamstone()
     elif choice == 2:
@@ -617,10 +616,14 @@ def acropolis():
     elif choice == 3:
         Player.gameplay = True
         twilight_isles_landing()
+    elif choice == 4:
+        acropolis_market()
 
 
 def loamstone():
     supervisor()
+    # todo find a way to remove the sun seared navigator
+
     if not Player.planets_visited['loamstone']:
         typing_effect(get_file(r"storyline/Acropolis/loamstone"), DeveloperControls.sleep_time)
         Player.inventory['dreamcap'] = 1
@@ -771,17 +774,24 @@ Press enter to return to the Wilderfolk village.""", DeveloperControls.sleep_tim
 
 
 def chtak_market():
-    print("Welcome to the Ch'tak Market".center(terminal_width))
-    table = pandas.read_csv("tables\\chtak market.csv")
-    print(table)
-    user_input = input("\nenter the ID of the item you would like to purchase, or press enter to leave...\n")
-    item_purchaser("tables\\chtak market.csv", user_input)
+    supervisor()
+    print("do you want purchase [1] or sell [2] at the market?\n")
+    user_choice = number_validation(3)
+    if user_choice == 2:
+        print(pandas.read_csv(r"tables\sales\chtak.csv"))
+        user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
+        item_seller("tables\\sales\\chtak.csv", user_input_sales)
+    if user_choice == 1:
+        market = pandas.read_csv(r"tables\chtak market.csv")
+        print(market)
+        user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
+        item_purchaser(r"tables/heaven's forge market.csv", user_input.strip())
     chtak_landing()
 
 
 def chtak_landing():
     supervisor()
-    if not Player.planets_visited["wormwood planet"]:
+    if not Player.planets_visited["ch'tak"]:
         chtak()
     Player.gameplay = False
     Player.planets_visited['wormwood planet'] = True
@@ -791,7 +801,7 @@ def chtak_landing():
         task_4()
     elif choice == 2:
         Player.gameplay = True
-        location_5()
+        valdstafar_landing()
     elif choice == 3:
         Player.gameplay = True
         acropolis()
@@ -807,15 +817,31 @@ def chtak_landing():
 # ---------------------------------------------------------------------------------------------------------------------
 
 
+def valdstafar_market():
+    supervisor()
+    print("do you want purchase [1] or sell [2] at the market?\n")
+    user_choice = number_validation(3)
+    if user_choice == 2:
+        print(pandas.read_csv(r"tables\sales\valdstafar.csv"))
+        user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
+        item_seller("tables\\sales\\valdstafar.csv", user_input_sales)
+    if user_choice == 1:
+        market = pandas.read_csv(r"tables\valdstafar market.csv")
+        print(market)
+        user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
+        item_purchaser(r"tables\valdstafar market.csv", user_input.strip())
+    valdstafar_landing()
+
+
 def task_5():
     supervisor()
     print("this is task 5")
     input('return to location 5')
     Player.gameplay = True
-    location_5()
+    valdstafar_landing()
 
 
-def location_5():
+def valdstafar_landing():
     supervisor()
     typing_effect(get_file(r"storyline/Valdstafar/Valdstafar"), DeveloperControls.sleep_time)
     choice = int(input("Enter a [1-3]"))
@@ -823,25 +849,42 @@ def location_5():
         task_5()
     elif choice == 2:
         Player.gameplay = True
-        location_6()
+        titiana()
     elif choice == 3:
         Player.gameplay = True
         chtak_landing()
+    elif choice == 4:
+        valdstafar_market()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------location 6-----------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
 
+def titania_market():
+    supervisor()
+    print("do you want purchase [1] or sell [2] at the market?\n")
+    user_choice = number_validation(3)
+    if user_choice == 2:
+        print(pandas.read_csv(r"tables\sales\titania.csv"))
+        user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
+        item_seller("tables\\sales\\titania.csv", user_input_sales)
+    if user_choice == 1:
+        market = pandas.read_csv(r"tables/titania market.csv")
+        print(market)
+        user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
+        item_purchaser(r"tables/titania.csv", user_input.strip())
+    heavens_forge_landing()
+
 
 def task_6():
     supervisor()
     print("this is task 5")
     input('return to location 5')
-    location_6()
+    titiana()
 
 
-def location_6():
+def titiana():
     supervisor()
     Player.gameplay = False
     typing_effect(get_file(r"storyline/location_6/Titiana"), DeveloperControls.sleep_time)
@@ -853,7 +896,7 @@ def location_6():
         location_7()
     elif choice == 3:
         Player.gameplay = True
-        location_5()
+        valdstafar_landing()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -877,7 +920,8 @@ def location_7():
     elif choice == 2:
         heavens_forge_landing()
     elif choice == 3:
-        location_6()
+        titiana()
+
 
 # -------------------------------------------------------------------------------------------------------------------
 
