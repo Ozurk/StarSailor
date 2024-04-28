@@ -109,10 +109,12 @@ def gameplay_speed(location):
     else:
         DeveloperControls.sleep_time = .0001
 
+# TODO make the portal to get to acropolis. ie, enter acroplis and go to acropolis from anywhere. like the dubug
 
 # ---------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------Consequences and Menu----------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
+
 
 def insane():
     print("you lost your mind")
@@ -534,15 +536,18 @@ def heavens_forge_landing():
 
 def sun_seared_navigator():
     supervisor()
-    if Player.on_board["Sun Seared Navigator"]:
-        input("\n The navigator is in your ship..\n")
-    typing_effect(get_file(r"storyline/Twilight Isles/roasted navigator"), DeveloperControls.sleep_time)
-    choice = number_validation(3)
-    if choice == 1:
-        Player.on_board["Sun Seared Navigator"] = True
-        twilight_isles_landing()
-    elif choice == 2:
-        twilight_isles_landing()
+    try:
+        if Player.on_board["Sun Seared Navigator"]:
+            input("\n The navigator is in your ship..\n")
+            twilight_isles_landing()
+    except KeyError:
+        typing_effect(get_file(r"storyline/Twilight Isles/roasted navigator"), DeveloperControls.sleep_time)
+        choice = number_validation(3)
+        if choice == 1:
+            Player.on_board["Sun Seared Navigator"] = True
+            twilight_isles_landing()
+        elif choice == 2:
+            twilight_isles_landing()
 
 
 def twilight_isles_market():
@@ -570,7 +575,7 @@ def twilight_isles_landing():
     Player.planets_visited["twilight isles"] = True
     typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles landing"), DeveloperControls.sleep_time)
     print("\n")
-    choice = number_validation(5)
+    choice = number_validation(6)
     if choice == 1:
         sun_seared_navigator()
     elif choice == 2:
@@ -581,7 +586,9 @@ def twilight_isles_landing():
     elif choice == 4:
         Player.gameplay = True
         chtak_landing()
-
+    elif choice == 5:
+        Player.gameplay = True
+        acropolis()
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------location 3-----------------------------------------------------------
@@ -710,75 +717,84 @@ def chtak():
     supervisor()
     Player.gameplay = False
     typing_effect(get_file(r"storyline/Ch'Tak/Ch'Tak"), DeveloperControls.sleep_time)
-    input("\n")
-    if Player.critical_events["dreamcap"]:
-        supervisor()
-        typing_effect("""YOUR DREAMCAP HAS CAUGHT SOMEONES' ATTENTION
+    input()
+    try:
+        if Player.inventory["dreamcap"]:
+            supervisor()
+            typing_effect("""YOUR DREAMCAP HAS CAUGHT SOMEONES' ATTENTION
 
-A morchella on eight vined tentacles abruptly stops as it scuttles by you, veering back around. Its honeycombed cap 
-puckers tenuously at something in the air you can't quite perceive, til it points aggressively at your pack. It 
-continues impatiently until you produce the Dreamcap.""", DeveloperControls.sleep_time)
+    A morchella on eight vined tentacles abruptly stops as it scuttles by you, veering back around. Its honeycombed cap 
+    puckers tenuously at something in the air you can't quite perceive, til it points aggressively at your pack. It 
+    continues impatiently until you produce the Dreamcap.""", DeveloperControls.sleep_time)
         input("\n")
         os.system("cls")
         typing_effect("""
-A shudder runs down its body, and it dashes a short distance away before turning back and 
-beckons you to follow. It leads you down, to the foot of the fort, among a lake of frozen mud. On its surface 
-lay a massive lotus flower, as large as your ship. You both cross the makeshift docks reaching out to it and 
-carefully climb up into its center. The morchella takes a sitting position and holds your hands in two of its 
-tentacles. The remaining limbs gesticulate in a ceremonial quality before one of them drops the Dreamcap into 
-one of the pits on its head.""", DeveloperControls.sleep_time)
+    A shudder runs down its body, and it dashes a short distance away before turning back and 
+    beckons you to follow. It leads you down, to the foot of the fort, among a lake of frozen mud. On its surface 
+    lay a massive lotus flower, as large as your ship. You both cross the makeshift docks reaching out to it and 
+    carefully climb up into its center. The morchella takes a sitting position and holds your hands in two of its 
+    tentacles. The remaining limbs gesticulate in a ceremonial quality before one of them drops the Dreamcap into 
+    one of the pits on its head.""", DeveloperControls.sleep_time)
         input("\n")
         os.system("cls")
         typing_effect("""
-The creature expands as if taking a deep breath, the breathes out a thick cloud of starry 
-spores that immediately succumb you to slumber... Your eyes flutter open, and you find yourself in a golden 
-court. There is a certain warmth and cheer in the air here. The sound of merriment and the smell of roses 
-brings to your attention the fact that you are not alone. A plethora of alien characters, each more exotic in 
-shape and size than the last, laugh and drink around you. But you only catch vague glimpses of them from the 
-corner of your eye, for your gaze is fixed upon the throne in the center of the room, and the figure perched 
-upon it.""", DeveloperControls.sleep_time)
+    The creature expands as if taking a deep breath, the breathes out a thick cloud of starry 
+    spores that immediately succumb you to slumber... Your eyes flutter open, and you find yourself in a golden 
+    court. There is a certain warmth and cheer in the air here. The sound of merriment and the smell of roses 
+    brings to your attention the fact that you are not alone. A plethora of alien characters, each more exotic in 
+    shape and size than the last, laugh and drink around you. But you only catch vague glimpses of them from the 
+    corner of your eye, for your gaze is fixed upon the throne in the center of the room, and the figure perched 
+    upon it.""", DeveloperControls.sleep_time)
         input('\n')
         os.system("cls")
         typing_effect("""
-An amber mushroom man lounges, eight feet tall even in a sitting position, as thick as a 
-tree trunk, draped in finery of deepest sapphire and cradling a blade of shimmering Starglass between his 
-rooted arms and legs. Sharp, fierce periwinkle pupils betray droopy eyelids beneath the brim of his golden 
-cap. The camaraderie of the court drowns out as your mind fills with a voice as fierce as sunlight and rich 
-as honey. """, DeveloperControls.sleep_time)
+    An amber mushroom man lounges, eight feet tall even in a sitting position, as thick as a 
+    tree trunk, draped in finery of deepest sapphire and cradling a blade of shimmering Starglass between his 
+    rooted arms and legs. Sharp, fierce periwinkle pupils betray droopy eyelids beneath the brim of his golden 
+    cap. The camaraderie of the court drowns out as your mind fills with a voice as fierce as sunlight and rich 
+    as honey. """, DeveloperControls.sleep_time)
         input('\n')
         typing_effect("""
-I am Emperor Talashandra, Speaker of Posterity. What a queer creature you are, to find your 
-way here. I sense... this is a dream, no? Curious creature indeed. It seems we are speaking across a gap 
-spanning thousands of years. I suppose one of my spores carried out its way through the ages and came to be 
-in your possession, affording us this conversation. What a novelty! Tell me little creature, what do you know 
-of... actually, perhaps its best I not pry into the future. There may be danger in that knowledge. But there 
-is no danger in sharing my knowledge with you. And so much has been lost! I sense no capacity for my language 
-in your thoughts, allow me to instruct you.""", DeveloperControls.sleep_time)
+    I am Emperor Talashandra, Speaker of Posterity. What a queer creature you are, to find your 
+    way here. I sense... this is a dream, no? Curious creature indeed. It seems we are speaking across a gap 
+    spanning thousands of years. I suppose one of my spores carried out its way through the ages and came to be 
+    in your possession, affording us this conversation. What a novelty! Tell me little creature, what do you know 
+    of... actually, perhaps its best I not pry into the future. There may be danger in that knowledge. But there 
+    is no danger in sharing my knowledge with you. And so much has been lost! I sense no capacity for my language 
+    in your thoughts, allow me to instruct you.""", DeveloperControls.sleep_time)
         input('\n')
         os.system("cls")
         typing_effect("""
-The foundation of all interaction is communication. In your travels you are bound to find 
-many that do not share your native tongue. Yet there is a older tongue that precedes the flesh. Here are the 
-first word." Emperor Talashandra's words dissolve into something akin to a gutteral throat chant, deeper than 
-any voice you've ever heard. It threatens to dispell the dream and send you back to your time until finally, 
-your brain buzzes with a newfound awakening of forgotten primordial understanding. "There. May your words 
-never be barred by ignorance again. Take this boon and go forward as a diplomat for posterity. I feel this dream fading, and soon you will waken. Search for my gifts in the 
-future, I have more words for you. Next I will show you to how to speak with the very stone...\"""",
+    The foundation of all interaction is communication. In your travels you are bound to find 
+    many that do not share your native tongue. Yet there is a older tongue that precedes the flesh. Here are the 
+    first word." Emperor Talashandra's words dissolve into something akin to a gutteral throat chant, deeper than 
+    any voice you've ever heard. It threatens to dispell the dream and send you back to your time until finally, 
+    your brain buzzes with a newfound awakening of forgotten primordial understanding. "There. May your words 
+    never be barred by ignorance again. Take this boon and go forward as a diplomat for posterity. I feel this dream fading, and soon you will waken. Search for my gifts in the 
+    future, I have more words for you. Next I will show you to how to speak with the very stone...\"""",
                       DeveloperControls.sleep_time)
         input('\n')
         os.system("cls")
         typing_effect("""
-You are already struggling to remember his words as you awake, but you feel a new power 
-dwelling inside you. The morchella has continued holding you up while you entered the trance, and wriggles 
-with delight as you come to your senses. The buzzing starts at the edge of your consciousness again as its 
-voice echos through your thoughts. "Oh, hello? Excellent, friend! I am this tribe's shaman. To bestow such a 
-gift upon us as that Dreamcap is sacred, and we recognize you as family now. I am happy to answer any further 
-questions back in the village, but shall we return for now? You're bound to get hypothermia out here if we 
-stay any longer."
+    You are already struggling to remember his words as you awake, but you feel a new power 
+    dwelling inside you. The morchella has continued holding you up while you entered the trance, and wriggles 
+    with delight as you come to your senses. The buzzing starts at the edge of your consciousness again as its 
+    voice echos through your thoughts. "Oh, hello? Excellent, friend! I am this tribe's shaman. To bestow such a 
+    gift upon us as that Dreamcap is sacred, and we recognize you as family now. I am happy to answer any further 
+    questions back in the village, but shall we return for now? You're bound to get hypothermia out here if we 
+    stay any longer."
 
-Press enter to return to the Wilderfolk village.""", DeveloperControls.sleep_time)
+    Press enter to return to the Wilderfolk village.""", DeveloperControls.sleep_time)
         input("\nPress enter to continue.\n")
+    except KeyError:
+        chtak_landing()
     chtak_landing()
+    choice = number_validation(2)
+    if choice == 1:
+        valdstafar_landing()
+    elif choice == 2:
+        twilight_isles_landing()
+
 
 
 def chtak_market():
@@ -802,7 +818,7 @@ def chtak_landing():
     if not Player.planets_visited["ch'tak"]:
         chtak()
     Player.gameplay = False
-    Player.planets_visited['wormwood planet'] = True
+    Player.planets_visited["ch'tak"] = True
     print("Welcome to Ch'Tak \n1: Go to Task 4\n2: Go to Colbaltainia\n3: Go to Acropolis\n4: visit the market")
     choice = number_validation(5)
     if choice == 1:
@@ -857,7 +873,7 @@ def valdstafar_landing():
         task_5()
     elif choice == 2:
         Player.gameplay = True
-        titiana()
+        titiana_landing()
     elif choice == 3:
         Player.gameplay = True
         chtak_landing()
@@ -887,15 +903,15 @@ def titania_market():
 
 def task_6():
     supervisor()
-    print("this is task 5")
+    print(get_file("storyline/Titania\\Dr. Chabani"))
     input('return to location 5')
-    titiana()
+    titiana_landing()
 
 
-def titiana():
+def titiana_landing():
     supervisor()
     Player.gameplay = False
-    typing_effect(get_file(r"storyline/location_6/Titiana"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r"storyline/Titania/Titiana"), DeveloperControls.sleep_time)
     choice = number_validation(5)
     if choice == 1:
         task_6()
@@ -905,6 +921,9 @@ def titiana():
     elif choice == 3:
         Player.gameplay = True
         valdstafar_landing()
+    elif choice == 4:
+        titania_market()
+
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -922,13 +941,14 @@ def task_7():
 def location_7():
     supervisor()
     typing_effect(get_file(r"storyline/location_7/B-IRS"), DeveloperControls.sleep_time)
-    choice = int(input("Enter a [1-3]"))
+    choice = number_validation(5)
+
     if choice == 1:
         task_7()
     elif choice == 2:
         heavens_forge_landing()
     elif choice == 3:
-        titiana()
+        titiana_landing()
 
 
 # -------------------------------------------------------------------------------------------------------------------
