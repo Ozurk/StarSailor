@@ -411,19 +411,18 @@ def item_seller(csv, row_choice):
         print("You do not have the item you want to sell, please try again with the item you want in your inventory\n")
         time.sleep(2)
         return
-    else:
-        quantity = input("Enter the amount you want to sell.\n")
-        try:
-            int(quantity)
-        except ValueError:
-            input('Please enter an integer.\n')
-            return
-        for sales in range(int(quantity)):
-            item_name = sale_item_as_dict["ITEM"]
-            Player.inventory[item_name] -= 1
-            if Player.inventory[item_name] == 0:
-                Player.inventory.pop(item_name)
-            Player.stats["money"] += int(sale_item_as_dict["VALUE"])
+    quantity = input("Enter the amount you want to sell.\n")
+    try:
+        int(quantity)
+    except ValueError:
+        input('Please enter an integer.\n')
+        return
+    for sales in range(int(quantity)):
+        item_name = sale_item_as_dict["ITEM"]
+        Player.inventory[item_name] -= 1
+        if Player.inventory[item_name] == 0:
+            Player.inventory.pop(item_name)
+        Player.stats["money"] += int(sale_item_as_dict["VALUE"])
 
 
 # ---------------------------------------------------------------------------------------------------------------------
