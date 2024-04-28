@@ -1,26 +1,17 @@
 import os
 import pandas
+import shutil
 
 
-class GameReset:
-    backup_tables = ["tables\\backups\\heaven's forge market.csv", "tables\\backups\\twilight isles market.csv",
-                     "tables\\backups\\picking mushrooms.csv", "tables\\backups\\chtak market.csv"]
-    working_tables = ["tables\\heaven's forge market.csv", "tables\\twilight isles market.csv",
-                      "tables\\picking mushrooms.csv", "tables\\chtak market.csv"]
+def reset_tables_v2():
+    for working_files in os.listdir("tables"):
+        if working_files.endswith("csv"):
+            os.unlink("tables\\" + working_files)
+            print("Deleted" + working_files)
+    for backup_files in os.listdir("tables\\backups"):
+        if backup_files.endswith("csv"):
+            print(backup_files)
+            shutil.copy("tables\\backups\\" + backup_files, "tables")
 
 
-def table_resetter(backup_tables, working_tables):
-    iteration = 0
-    for tables in backup_tables:
-        df = pandas.read_csv(tables)
-        df.to_csv(working_tables[iteration], index=False)
-        print(tables)
-        print(working_tables[iteration])
-        iteration += 1
-
-
-def reset_tables():
-    table_resetter(GameReset.backup_tables, GameReset.working_tables)
-
-
-
+reset_tables_v2()

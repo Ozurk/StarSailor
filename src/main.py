@@ -4,7 +4,7 @@ import pandas
 from functions import *
 from random import randint
 import pyautogui
-from reset_tables import reset_tables
+from reset_tables import reset_tables_v2
 import sys
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -16,22 +16,22 @@ terminal_width = shutil.get_terminal_size().columns
 
 
 class DeveloperControls:
-    sleep_time = 0.03  # delay between letters in typing effect
+    sleep_time = 0.000  # delay between letters in typing effect. This gets assigned in the gameplay speed function
 
     def __init__(self):
         pass
 
 
 class Player:
-    stats = {"money": 10000, "sanity": 50, "food": 100.00}
+    stats = {"money": 1000000, "sanity": 50, "food": 100.00}
     inventory = {"rope": 40}
     gameplay = False
     planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False,
                        "loamstone": False,
                        "ch'tak": False, "mars": False, "cobaltiania": False, "B-IRS": False, }
-    on_board = []
+    on_board = {}
 
-    critical_events = {"dreamcap": False, "talashandra": False}
+    critical_events = {"talashandra": False}
 
     def __init__(self):
         pass
@@ -99,7 +99,7 @@ def supervisor():
             index += 1
         print(Player.planets_visited, Player.critical_events)
     if debug == "reset":
-        reset_tables()
+        reset_tables_v2()
         input("The marketplaces have been reset")
 
 
@@ -107,7 +107,7 @@ def gameplay_speed(location):
     if Player.planets_visited[location]:
         DeveloperControls.sleep_time = .00
     else:
-        DeveloperControls.sleep_time = .03
+        DeveloperControls.sleep_time = .0001
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ def gameplay_speed(location):
 def insane():
     print("you lost your mind")
     input("press enter to continue...\n")
-    # todo make a better inanity screen
+    # todo make a better insanity screen
     while True:
         pyautogui.moveRel(80, -80, .03)
         print("all work and no play makes Jack a dull boy.")
@@ -411,11 +411,19 @@ def item_seller(csv, row_choice):
         print("You do not have the item you want to sell, please try again with the item you want in your inventory\n")
         time.sleep(2)
         return
-    item_name = sale_item_as_dict["ITEM"]
-    Player.inventory[item_name] -= 1
-    if Player.inventory[item_name] == 0:
-        Player.inventory.pop(item_name)
-    Player.stats["money"] += int(sale_item_as_dict["VALUE"])
+    else:
+        quantity = input("Enter the amount you want to sell.\n")
+        try:
+            int(quantity)
+        except ValueError:
+            input('Please enter an integer.\n')
+            return
+        for sales in range(int(quantity)):
+            item_name = sale_item_as_dict["ITEM"]
+            Player.inventory[item_name] -= 1
+            if Player.inventory[item_name] == 0:
+                Player.inventory.pop(item_name)
+            Player.stats["money"] += int(sale_item_as_dict["VALUE"])
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -491,8 +499,8 @@ def task_1():
     supervisor()
     if 'starpaint' in Player.inventory.keys():
         typing_effect(get_file(r"storyline/Heaven's Forge/Lightwelder[starpaint]"), DeveloperControls.sleep_time)
-        input("Press enter to continue\n")
-        Player.inventory['hardlight'] = True
+        input("\nPress enter to continue\n")
+        Player.inventory['hardlight'] = 1
         Player.inventory.pop('starpaint', None)
 
     else:
@@ -527,13 +535,13 @@ def heavens_forge_landing():
 
 def sun_seared_navigator():
     supervisor()
+    if Player.on_board["Sun Seared Navigator"]:
+        input("\n The navigator is in your ship..\n")
     typing_effect(get_file(r"storyline/Twilight Isles/roasted navigator"), DeveloperControls.sleep_time)
     choice = number_validation(3)
     if choice == 1:
-        if "Sun Seared Navigator" in Player.on_board:
-            acropolis()
-        Player.on_board.append("Sun Seared Navigator")
-        acropolis()
+        Player.on_board["Sun Seared Navigator"] = True
+        twilight_isles_landing()
     elif choice == 2:
         twilight_isles_landing()
 
@@ -602,8 +610,8 @@ def acropolis():
     Player.gameplay = False
     if "Sun Seared Navigator" not in Player.on_board:
         print("\nYou can not find a way to safely land in Acropolis\n")
-        input("Press enter go to Ch'Tak\n")
-        chtak_landing()
+        input("Press enter go to Twilight Isles\n")
+        twilight_isles_landing()
     gameplay_speed('acropolis')
     Player.planets_visited['acropolis'] = True
     typing_effect(get_file(r"storyline/Acropolis/Acropolis"), DeveloperControls.sleep_time)
@@ -622,7 +630,8 @@ def acropolis():
 
 def loamstone():
     supervisor()
-    # todo find a way to remove the sun seared navigator
+    if Player.on_board["Sun Seared Navigator"]:
+        Player.on_board.pop("Sun Seared Navigator")
 
     if not Player.planets_visited['loamstone']:
         typing_effect(get_file(r"storyline/Acropolis/loamstone"), DeveloperControls.sleep_time)
@@ -844,7 +853,7 @@ def task_5():
 def valdstafar_landing():
     supervisor()
     typing_effect(get_file(r"storyline/Valdstafar/Valdstafar"), DeveloperControls.sleep_time)
-    choice = int(input("Enter a [1-3]"))
+    choice = number_validation(5)
     if choice == 1:
         task_5()
     elif choice == 2:
@@ -888,7 +897,7 @@ def titiana():
     supervisor()
     Player.gameplay = False
     typing_effect(get_file(r"storyline/location_6/Titiana"), DeveloperControls.sleep_time)
-    choice = int(input("Enter a [1-3]"))
+    choice = number_validation(5)
     if choice == 1:
         task_6()
     elif choice == 2:
