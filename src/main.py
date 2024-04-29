@@ -28,7 +28,8 @@ class Player:
     gameplay = False
     planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False,
                        "loamstone": False,
-                       "ch'tak": False, "mars": False, "cobaltiania": False, "B-IRS": False, }
+                       "ch'tak": False, "mars": False, "cobaltiania": False, "B-IRS": False, "talashandra": False,
+                       "sun seared navigator": False, "grifter's drift": False}
     on_board = {}
 
     critical_events = {"talashandra": False}
@@ -86,6 +87,8 @@ def supervisor():
             event = event_list[index]
             Player.critical_events[event] = True
             index += 1
+        print(Player.planets_visited)
+
     if debug == "play":
         index = 0
         for number in planet_list:
@@ -101,6 +104,9 @@ def supervisor():
     if debug == "reset":
         reset_tables_v2()
         input("The marketplaces have been reset")
+    if debug == "Acropolis":
+        if Player.planets_visited["acropolis"]:
+            acropolis()
 
 
 def gameplay_speed(location):
@@ -108,6 +114,7 @@ def gameplay_speed(location):
         DeveloperControls.sleep_time = .00
     else:
         DeveloperControls.sleep_time = .0001
+
 
 # TODO make the portal to get to acropolis. ie, enter acroplis and go to acropolis from anywhere. like the dubug
 
@@ -577,6 +584,9 @@ def twilight_isles_landing():
     print("\n")
     choice = number_validation(6)
     if choice == 1:
+        if Player.planets_visited["acropolis"]:
+            input("You already took the navigator home")
+            twilight_isles_landing()
         sun_seared_navigator()
     elif choice == 2:
         twilight_isles_market()
@@ -589,6 +599,7 @@ def twilight_isles_landing():
     elif choice == 5:
         Player.gameplay = True
         acropolis()
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------location 3-----------------------------------------------------------
@@ -614,10 +625,11 @@ def acropolis_market():
 def acropolis():
     supervisor()
     Player.gameplay = False
-    if "Sun Seared Navigator" not in Player.on_board:
-        print("\nYou can not find a way to safely land in Acropolis\n")
-        input("Press enter go to Twilight Isles\n")
-        twilight_isles_landing()
+    if not Player.planets_visited["acropolis"]:
+        if "Sun Seared Navigator" not in Player.on_board:
+            input("You can not find a way to safely land on Acropolis. \nPress enter to land on Twilight Isles\n")
+            twilight_isles_landing()
+
     gameplay_speed('acropolis')
     Player.planets_visited['acropolis'] = True
     typing_effect(get_file(r"storyline/Acropolis/Acropolis"), DeveloperControls.sleep_time)
@@ -707,94 +719,83 @@ def mushroom_picker(csv):
 # ---------------------------------------------------------------------------------------------------------------------
 
 
-def task_4():
-    supervisor()
-
-    chtak_landing()
-
-
-def chtak():
-    supervisor()
-    Player.gameplay = False
-    typing_effect(get_file(r"storyline/Ch'Tak/Ch'Tak"), DeveloperControls.sleep_time)
-    input()
-    try:
-        if Player.inventory["dreamcap"]:
-            supervisor()
-            typing_effect("""YOUR DREAMCAP HAS CAUGHT SOMEONES' ATTENTION
-
-    A morchella on eight vined tentacles abruptly stops as it scuttles by you, veering back around. Its honeycombed cap 
-    puckers tenuously at something in the air you can't quite perceive, til it points aggressively at your pack. It 
-    continues impatiently until you produce the Dreamcap.""", DeveloperControls.sleep_time)
+def talashandra():
+    if not Player.planets_visited["talashandra"]:
+        try:
+            if not Player.inventory["dreamcap"]:
+                chtak_landing()
+        except KeyError:
+            typing_effect("\nYOUR DREAMCAP HAS CAUGHT SOMEONES' ATTENTION\n", DeveloperControls.sleep_time)
+            typing_effect("""A morchella on eight vined tentacles abruptly stops as it scuttles by you, veering back around. Its honeycombed cap 
+        puckers tenuously at something in the air you can't quite perceive, til it points aggressively at your pack. It 
+        continues impatiently until you produce the Dreamcap.""", DeveloperControls.sleep_time)
         input("\n")
         os.system("cls")
         typing_effect("""
-    A shudder runs down its body, and it dashes a short distance away before turning back and 
-    beckons you to follow. It leads you down, to the foot of the fort, among a lake of frozen mud. On its surface 
-    lay a massive lotus flower, as large as your ship. You both cross the makeshift docks reaching out to it and 
-    carefully climb up into its center. The morchella takes a sitting position and holds your hands in two of its 
-    tentacles. The remaining limbs gesticulate in a ceremonial quality before one of them drops the Dreamcap into 
-    one of the pits on its head.""", DeveloperControls.sleep_time)
+        A shudder runs down its body, and it dashes a short distance away before turning back and 
+        beckons you to follow. It leads you down, to the foot of the fort, among a lake of frozen mud. On its surface 
+        lay a massive lotus flower, as large as your ship. You both cross the makeshift docks reaching out to it and 
+        carefully climb up into its center. The morchella takes a sitting position and holds your hands in two of its 
+        tentacles. The remaining limbs gesticulate in a ceremonial quality before one of them drops the Dreamcap into 
+        one of the pits on its head.""", DeveloperControls.sleep_time)
         input("\n")
         os.system("cls")
         typing_effect("""
-    The creature expands as if taking a deep breath, the breathes out a thick cloud of starry 
-    spores that immediately succumb you to slumber... Your eyes flutter open, and you find yourself in a golden 
-    court. There is a certain warmth and cheer in the air here. The sound of merriment and the smell of roses 
-    brings to your attention the fact that you are not alone. A plethora of alien characters, each more exotic in 
-    shape and size than the last, laugh and drink around you. But you only catch vague glimpses of them from the 
-    corner of your eye, for your gaze is fixed upon the throne in the center of the room, and the figure perched 
-    upon it.""", DeveloperControls.sleep_time)
+        The creature expands as if taking a deep breath, the breathes out a thick cloud of starry 
+        spores that immediately succumb you to slumber... Your eyes flutter open, and you find yourself in a golden 
+        court. There is a certain warmth and cheer in the air here. The sound of merriment and the smell of roses 
+        brings to your attention the fact that you are not alone. A plethora of alien characters, each more exotic in 
+        shape and size than the last, laugh and drink around you. But you only catch vague glimpses of them from the 
+        corner of your eye, for your gaze is fixed upon the throne in the center of the room, and the figure perched 
+        upon it.""", DeveloperControls.sleep_time)
         input('\n')
         os.system("cls")
         typing_effect("""
-    An amber mushroom man lounges, eight feet tall even in a sitting position, as thick as a 
-    tree trunk, draped in finery of deepest sapphire and cradling a blade of shimmering Starglass between his 
-    rooted arms and legs. Sharp, fierce periwinkle pupils betray droopy eyelids beneath the brim of his golden 
-    cap. The camaraderie of the court drowns out as your mind fills with a voice as fierce as sunlight and rich 
-    as honey. """, DeveloperControls.sleep_time)
+        An amber mushroom man lounges, eight feet tall even in a sitting position, as thick as a 
+        tree trunk, draped in finery of deepest sapphire and cradling a blade of shimmering Starglass between his 
+        rooted arms and legs. Sharp, fierce periwinkle pupils betray droopy eyelids beneath the brim of his golden 
+        cap. The camaraderie of the court drowns out as your mind fills with a voice as fierce as sunlight and rich 
+        as honey. """, DeveloperControls.sleep_time)
         input('\n')
         typing_effect("""
-    I am Emperor Talashandra, Speaker of Posterity. What a queer creature you are, to find your 
-    way here. I sense... this is a dream, no? Curious creature indeed. It seems we are speaking across a gap 
-    spanning thousands of years. I suppose one of my spores carried out its way through the ages and came to be 
-    in your possession, affording us this conversation. What a novelty! Tell me little creature, what do you know 
-    of... actually, perhaps its best I not pry into the future. There may be danger in that knowledge. But there 
-    is no danger in sharing my knowledge with you. And so much has been lost! I sense no capacity for my language 
-    in your thoughts, allow me to instruct you.""", DeveloperControls.sleep_time)
+        I am Emperor Talashandra, Speaker of Posterity. What a queer creature you are, to find your 
+        way here. I sense... this is a dream, no? Curious creature indeed. It seems we are speaking across a gap 
+        spanning thousands of years. I suppose one of my spores carried out its way through the ages and came to be 
+        in your possession, affording us this conversation. What a novelty! Tell me little creature, what do you know 
+        of... actually, perhaps its best I not pry into the future. There may be danger in that knowledge. But there 
+        is no danger in sharing my knowledge with you. And so much has been lost! I sense no capacity for my language 
+        in your thoughts, allow me to instruct you.""", DeveloperControls.sleep_time)
         input('\n')
         os.system("cls")
         typing_effect("""
-    The foundation of all interaction is communication. In your travels you are bound to find 
-    many that do not share your native tongue. Yet there is a older tongue that precedes the flesh. Here are the 
-    first word." Emperor Talashandra's words dissolve into something akin to a gutteral throat chant, deeper than 
-    any voice you've ever heard. It threatens to dispell the dream and send you back to your time until finally, 
-    your brain buzzes with a newfound awakening of forgotten primordial understanding. "There. May your words 
-    never be barred by ignorance again. Take this boon and go forward as a diplomat for posterity. I feel this dream fading, and soon you will waken. Search for my gifts in the 
-    future, I have more words for you. Next I will show you to how to speak with the very stone...\"""",
+        The foundation of all interaction is communication. In your travels you are bound to find 
+        many that do not share your native tongue. Yet there is a older tongue that precedes the flesh. Here are the 
+        first word." Emperor Talashandra's words dissolve into something akin to a gutteral throat chant, deeper than 
+        any voice you've ever heard. It threatens to dispell the dream and send you back to your time until finally, 
+        your brain buzzes with a newfound awakening of forgotten primordial understanding. "There. May your words 
+        never be barred by ignorance again. Take this boon and go forward as a diplomat for posterity. I feel this dream fading, and soon you will waken. Search for my gifts in the 
+        future, I have more words for you. Next I will show you to how to speak with the very stone...\"""",
                       DeveloperControls.sleep_time)
         input('\n')
         os.system("cls")
         typing_effect("""
-    You are already struggling to remember his words as you awake, but you feel a new power 
-    dwelling inside you. The morchella has continued holding you up while you entered the trance, and wriggles 
-    with delight as you come to your senses. The buzzing starts at the edge of your consciousness again as its 
-    voice echos through your thoughts. "Oh, hello? Excellent, friend! I am this tribe's shaman. To bestow such a 
-    gift upon us as that Dreamcap is sacred, and we recognize you as family now. I am happy to answer any further 
-    questions back in the village, but shall we return for now? You're bound to get hypothermia out here if we 
-    stay any longer."
+        You are already struggling to remember his words as you awake, but you feel a new power 
+        dwelling inside you. The morchella has continued holding you up while you entered the trance, and wriggles 
+        with delight as you come to your senses. The buzzing starts at the edge of your consciousness again as its 
+        voice echos through your thoughts. "Oh, hello? Excellent, friend! I am this tribe's shaman. To bestow such a 
+        gift upon us as that Dreamcap is sacred, and we recognize you as family now. I am happy to answer any further 
+        questions back in the village, but shall we return for now? You're bound to get hypothermia out here if we 
+        stay any longer."
 
-    Press enter to return to the Wilderfolk village.""", DeveloperControls.sleep_time)
+        Press enter to return to the Wilderfolk village.""", DeveloperControls.sleep_time)
         input("\nPress enter to continue.\n")
-    except KeyError:
-        chtak_landing()
-    chtak_landing()
-    choice = number_validation(2)
-    if choice == 1:
-        valdstafar_landing()
-    elif choice == 2:
-        twilight_isles_landing()
+        Player.planets_visited["talashandra"] = True
 
+
+def task_4():
+    supervisor()
+
+    chtak_landing()
 
 
 def chtak_market():
@@ -815,11 +816,10 @@ def chtak_market():
 
 def chtak_landing():
     supervisor()
-    if not Player.planets_visited["ch'tak"]:
-        chtak()
     Player.gameplay = False
     Player.planets_visited["ch'tak"] = True
-    print("Welcome to Ch'Tak \n1: Go to Task 4\n2: Go to Colbaltainia\n3: Go to Acropolis\n4: visit the market")
+    if not Player.planets_visited["talashandra"]:
+        typing_effect(get_file("storyline\\Ch'Tak\\Ch'Tak"), DeveloperControls.sleep_time)
     choice = number_validation(5)
     if choice == 1:
         task_4()
@@ -828,10 +828,10 @@ def chtak_landing():
         valdstafar_landing()
     elif choice == 3:
         Player.gameplay = True
-        acropolis()
+        twilight_isles_landing()
     elif choice == 4:
-        if not Player.critical_events:
-            print("You can not communicate with the Wilderfolk, they do not acknowledge your existence\n")
+        if not Player.planets_visited["talashandra"]:
+            print("You can not communicate with the Wilderfolk, they will not acknowledge your existence\n")
             chtak_landing()
         chtak_market()
 
@@ -857,10 +857,85 @@ def valdstafar_market():
     valdstafar_landing()
 
 
-def task_5():
+def casino():
+    pass
+    # TODO put a game in here.
+    # TODO add a market in here for food and drink.
+
+
+def grifters_drift():
     supervisor()
-    print("this is task 5")
-    input('return to location 5')
+    input("\nPress Enter to proceed.\n")
+    if Player.planets_visited["grifter's drift"]:
+        casino()
+    typing_effect("""You share a brief exchange over transponder with the harbor master and, after rebuffing his 
+extortion attempts, secure a landing pad with no docking fee. You can't believe
+your luck, until the coordinates lead you further and further into the underbelly of the city.
+ The constant of the cold technicolor lights above hardly reach down here. A 
+murky smog of soot and dust cakes the steel walls as well as one's sinuses. Hostile glares and furtive faces peer out
+ of darkened alleyways as you pass. Finally, you arrive
+to your destination: a derelict port housing a rusted, decomissioned steamer. There is barely room for your own ship as
+ you nuzzle in next to the ravaged vessel. You 
+disembark to find a welcome party waiting for you; a ragtag gaggle of hooligans stand idly by, brandishing pipe clubs,
+ wicked shivs, and illegally modified hand cannons. The
+largest is a purple skinned cyclopean brute with a caved in nose narrows his reptilian eye at your approach.
+ You ostensibly take him to be the ringleader, til he steps aside
+to reveal a human small enough to conceal themself behind one of his legs. A pale, malnourished young woman gives you
+ a cheshire grin from her scabbed head. Scars mask any 
+other facial feature about her, like someone played a hundred rounds of tic tac toe on her face with a knife.
+ She shakes her head patronizingly as she approaches, her dark 
+dreadlocks flapping with the motion.""", DeveloperControls.sleep_time)
+    input("\n")
+    typing_effect(""""Cheeky, parking in Boss Rovar's territory without his express permission.
+    " Your heart drops to your stomach as you realize you've been finessed by the corrupt harbor 
+master. How quickly he was prepared to throw your life away when you refused to bribe him. 
+Now you've landed in a gang controlled air zone. "Heya, chump. Name's Nia. Boss's left hand lass. Now listen... the 
+Boss, he's a generous guy. Keeps us on a payroll for a pretty penny to crack the skull of any interlopers.
+Skulls like yours, see? Any slight can be seen as disrespect, and we can't have anyone disrespectin the Boss. 
+But again, he's a generous guy. So this is how it goes. We can strip you down, cut you up,make an example outta ya.
+Cast lots for your loot and scuttle your ship. Or you can meet him yourself. Show him the respect he deserves,
+really grovel. You seem a seasoned sailor, been between the worlds a time or two. He could find use for a toy like 
+you. If you're lucky, he might give you a chance to get in his good graces. If not... well, you'll wish it'd been us
+ having our way with you instead of him. Now, be a doll, and don't try to be a hero. 
+She pulls out her piece, and the lowered barrel inspires you to
+sullenly fall in line. """, DeveloperControls.sleep_time)
+    input("\n")
+    typing_effect("""Grifter's Drift, the notorious and nomadic barge casino of the undercity, is Boss Rovar's
+seat of power. The flotilla fortress regularly patrols the sectors under his 
+command, and unruly patrons are forcibly ejected by bouncers into the abyss below. With the proper access codes, Nia's 
+granted clearance for the penthouse suites of the casino, and she navigates your party's skiff to the upper arches 
+of the dirigible. Your captors unload onto the balcony below, the purple cyclops Klud breathing down your 
+neck, prepared to unscrew your head from your shoulders should you try to make any sudden movements. Starglass skylight
+in the ceiling above filters what little light trickles through the smog into the room suite below, revealing walls
+of blue velvet and shag carpet. A thin limbed alien built like a twig with eight arms mans a crowdedn circular island 
+at the center of the room, sculpted from pure Acropoli marble. It's an open bar, and the barkeep is busies himself 
+with the requests of his clients,serving thick gas into glasses from what looks like fourty different hookas on tap. 
+The patrons throw the cloudy swill back greedily, and just a small spill from someone's cup weaves its way into your 
+nostrils, immediately giving you a buzz akin to alcoholic inebriation.""", DeveloperControls.sleep_time)
+    input("\n")
+    typing_effect("""
+Boss Rovar himself rests in the back on a throne of pillows. He is a lanky figure, triple jointed arms and legs
+concealed under a silken gold kimono from the Twilight Isles, embroidered with the depiction of a ouroboros consuming
+its own tail. He wears a matching golden mask of a grinning fox, and just as you think he's ignored your 
+presence completely, he motions you forward to approach him. "Fresh meat, fallen into my grinder. How lucky I am. This
+could be your lucky day too, meat. I am a busy man, so I'll make this brief. Nia debriefed me ahead of time. I've
+gutted men over less than a parking violation, business is business. You are not above the rules. But I could 
+make you. You scratch my back, I scratch yours? I've been looking for a smuggler, and none of my usual contacts are 
+cheap or stupid enough to take this job. How convenient you now stand before me. I've arranged for some cargo to be 
+loaded onto your ship, its already being delivered as we speak. A rare specimen of wyrm. The reality is, you've
+already done me a favor. This creature is the last loose end of recently ended business relation. Anyone busted by the
+Empire with this thing is a dead man. I've already covered any tracks leading back to me, you are my sole scapegoat 
+now. The beast is trapped in a special stasis chamber of Imperial design, with a special code that embeds itself into 
+the programming of any ship carrying it. If the creature dies or leaves your ship's vicinity, your signature will be
+flagged by every Imperial ship this side of deep space. The end of your days will follow not long after. Your only
+hope in ridding yourself of this monster is Dr. Chabani on Titiana. She is the only one with both vested interest
+in the specimen and the tools to disarm its container. I've already sent word for her to expect someone, should you 
+evade the authorities. Consider this a test: to prove your competence to me, return successfully from Titiana.
+I'll reimburse you for your troubles and even have some more work for you. I can even get you access
+to the upper city, and your own personal landing pad. Now chop chop, back to your ship! The authorities have just 
+realized that their precious cargo is missing, and have 
+begun making their rounds." """, DeveloperControls.sleep_time)
+    input("\n")
     Player.gameplay = True
     valdstafar_landing()
 
@@ -870,7 +945,7 @@ def valdstafar_landing():
     typing_effect(get_file(r"storyline/Valdstafar/Valdstafar"), DeveloperControls.sleep_time)
     choice = number_validation(5)
     if choice == 1:
-        task_5()
+        grifters_drift()
     elif choice == 2:
         Player.gameplay = True
         titiana_landing()
@@ -925,7 +1000,6 @@ def titiana_landing():
         titania_market()
 
 
-
 # ---------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------location 6-----------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
@@ -953,4 +1027,4 @@ def location_7():
 
 # -------------------------------------------------------------------------------------------------------------------
 
-heavens_forge_landing()
+valdstafar_landing()
