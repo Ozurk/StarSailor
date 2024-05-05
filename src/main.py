@@ -1,4 +1,5 @@
 import logging
+import random
 import time
 import pandas
 from functions import *
@@ -17,13 +18,14 @@ terminal_width = shutil.get_terminal_size().columns
 
 class DeveloperControls:
     sleep_time = 0.000  # delay between letters in typing effect. This gets assigned in the gameplay speed function
+    iteration = 1 # this is just for the slot machine module
 
     def __init__(self):
         pass
 
 
 class Player:
-    stats = {"money": 1000000, "sanity": 50, "food": 100.00}
+    stats = {"money": 10000, "sanity": 50, "food": 100.00}
     inventory = {"rope": 40}
     gameplay = False
     planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False,
@@ -773,7 +775,8 @@ def talashandra():
         first word." Emperor Talashandra's words dissolve into something akin to a gutteral throat chant, deeper than 
         any voice you've ever heard. It threatens to dispell the dream and send you back to your time until finally, 
         your brain buzzes with a newfound awakening of forgotten primordial understanding. "There. May your words 
-        never be barred by ignorance again. Take this boon and go forward as a diplomat for posterity. I feel this dream fading, and soon you will waken. Search for my gifts in the 
+        never be barred by ignorance again. Take this boon and go forward as a diplomat for posterity. I feel this dream
+        fading, and soon you will waken. Search for my gifts in the 
         future, I have more words for you. Next I will show you to how to speak with the very stone...\"""",
                       DeveloperControls.sleep_time)
         input('\n')
@@ -857,10 +860,64 @@ def valdstafar_market():
     valdstafar_landing()
 
 
+def slot_machine():
+    Player.gameplay = False
+    os.system("cls")
+    print("[2] Return to Casino Lobby")
+    if Player.stats['money'] < 50:
+        input("You do not have enough money to play the slot machine\nPress enter to continue.\n")
+    Player.stats['food'] += 3
+    print("-" * terminal_width)
+    print("press enter for a chance to win big using the slot machine!\n")
+    print("-" * terminal_width)
+    print("Only 100 PD per round!")
+    print("-" * terminal_width)
+    Player.stats['money'] -= 100
+    print("-" * terminal_width)
+    print("If you get three of a kind, you win 1000 PD")
+    print("-" * terminal_width)
+    print("If all three numbers multiply to equal 234, you win 10000 PD")
+    print("-" * terminal_width)
+    number_1 = random.randint(1, 9)
+    number_2 = random.randint(1, 9)
+    number_3 = random.randint(1, 9)
+    number_4 = random.randint(1, 9)
+    number_spinner()
+    print("|" + str(number_1) + "|")
+    number_spinner()
+    print("|" + str(number_2) + "|")
+    number_spinner()
+    print("|" + str(number_3) + "|")
+    number_spinner()
+    print("|" + str(number_4) + "|")
+    if number_1 == number_2 == number_3:
+        input("Congratulations! You won 1000 PD\nPress enter to continue.\n")
+        Player.stats["money"] += 1000
+    elif number_2 == number_3 == number_4:
+        input("Congratulations! You won 1000 PD\nPress enter to continue.\n")
+        Player.stats["money"] += 1000
+    elif number_1 == number_3 == number_4:
+        input("Congratulations! You won 1000 PD\nPress enter to continue.\n")
+        Player.stats["money"] += 1000
+    elif number_1 * number_2 * number_3 * number_4 == 234:
+        print("congratulations! You hit the jackpot of 100000 PD\n")
+        Player.stats['money'] += 100000
+    else:
+        print("You did not win anything. Please Try again\n")
+    user_choice = input("")
+    if user_choice == "2":
+        casino()
+    slot_machine()
+
+
 def casino():
-    pass
-    # TODO put a game in here.
-    # TODO add a market in here for food and drink.
+    print("welcome to the casino!\n[1] slot machine\n[2] blackjack\n[3] Valdstafar")
+    # todo add blackjack
+    user_choice = number_validation(6)
+    if user_choice == 1:
+        slot_machine()
+    elif user_choice == 3:
+        valdstafar_landing()
 
 
 def grifters_drift():
@@ -891,7 +948,7 @@ dreadlocks flapping with the motion.""", DeveloperControls.sleep_time)
 master. How quickly he was prepared to throw your life away when you refused to bribe him. 
 Now you've landed in a gang controlled air zone. "Heya, chump. Name's Nia. Boss's left hand lass. Now listen... the 
 Boss, he's a generous guy. Keeps us on a payroll for a pretty penny to crack the skull of any interlopers.
-Skulls like yours, see? Any slight can be seen as disrespect, and we can't have anyone disrespectin the Boss. 
+Skulls like yours, see? Any slight can be seen as disrespect, and we can't have anyone disrespectin' the Boss. 
 But again, he's a generous guy. So this is how it goes. We can strip you down, cut you up,make an example outta ya.
 Cast lots for your loot and scuttle your ship. Or you can meet him yourself. Show him the respect he deserves,
 really grovel. You seem a seasoned sailor, been between the worlds a time or two. He could find use for a toy like 
@@ -900,7 +957,7 @@ you. If you're lucky, he might give you a chance to get in his good graces. If n
 She pulls out her piece, and the lowered barrel inspires you to
 sullenly fall in line. """, DeveloperControls.sleep_time)
     input("\n")
-    typing_effect("""Grifter's Drift, the notorious and nomadic barge casino of the undercity, is Boss Rovar's
+    typing_effect("""Grifter's Drift, the notorious and nomadic barge casino of the under-city, is Boss Rovar's
 seat of power. The flotilla fortress regularly patrols the sectors under his 
 command, and unruly patrons are forcibly ejected by bouncers into the abyss below. With the proper access codes, Nia's 
 granted clearance for the penthouse suites of the casino, and she navigates your party's skiff to the upper arches 
@@ -936,9 +993,11 @@ to the upper city, and your own personal landing pad. Now chop chop, back to you
 realized that their precious cargo is missing, and have 
 begun making their rounds." """, DeveloperControls.sleep_time)
     input("\n")
+    print("A WYRMLING WAS ADDED TO YOUR INVENTORY")
     Player.gameplay = True
-    valdstafar_landing()
-
+    Player.planets_visited["grifter's drift"] = True
+    Player.inventory['wyrmling'] = True
+    casino()
 
 def valdstafar_landing():
     supervisor()
@@ -1027,4 +1086,29 @@ def location_7():
 
 # -------------------------------------------------------------------------------------------------------------------
 
-valdstafar_landing()
+
+def slot_machine_tester():
+    while True:
+        if Player.stats["money"] < 85:
+            input("Out of money\n")
+            print("iterations: " + str(DeveloperControls.iteration))
+            print("the money lost per round was for this session was:" + str(10000/DeveloperControls.iteration))
+            DeveloperControls.iteration = 0
+            Player.stats['money'] = 10000
+        Player.stats['money'] -= 100
+        DeveloperControls.iteration += 1
+        number_1 = random.randint(1, 9)
+        number_2 = random.randint(1, 9)
+        number_3 = random.randint(1, 9)
+        number_4 = random.randint(1, 9)
+        if number_1 == number_2 == number_3:
+            Player.stats["money"] += 1000
+        elif number_2 == number_3 == number_4:
+            Player.stats["money"] += 1000
+        elif number_1 == number_3 == number_4:
+            Player.stats["money"] += 1000
+        elif number_1 * number_2 * number_3 * number_4 == 234:
+            Player.stats['money'] += 100000
+
+
+heavens_forge_landing()

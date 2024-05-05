@@ -1,4 +1,5 @@
 import logging
+import random
 import sys
 import time
 import re
@@ -8,9 +9,10 @@ import shutil
 import pandas
 
 print("\n" * 3)
-input("maximize window\n")
+# input("maximize window\n")
 terminal_width = shutil.get_terminal_size().columns
-intro_screen_character = input("type a single character then press enter".center(terminal_width) + "\n")
+intro_screen_character = "1" # input("type a single character then press enter".center(terminal_width) + "\n")
+# todo un-comment this
 
 
 def typing_effect(string, wait_time):
@@ -138,6 +140,16 @@ def spinner(load_time):
         sys.stdout.write('\rwaiting \\')
         time.sleep(.1)
     sys.stdout.write('\r')
+
+
+def number_spinner():
+    for iteration in range(20):
+        random_number = random.randint(1, 9)
+        sys.stdout.write('\r' + "|" + str(random_number) + "|")
+        time.sleep(.1)
+    sys.stdout.write('\r')
+
+
 
 
 def one_through_4():
