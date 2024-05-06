@@ -18,7 +18,7 @@ terminal_width = shutil.get_terminal_size().columns
 
 class DeveloperControls:
     sleep_time = 0.000  # delay between letters in typing effect. This gets assigned in the gameplay speed function
-    iteration = 1 # this is just for the slot machine module
+    iteration = 1  # this is just for the slot machine module
 
     def __init__(self):
         pass
@@ -911,13 +911,67 @@ def slot_machine():
 
 
 def casino():
-    print("welcome to the casino!\n[1] slot machine\n[2] blackjack\n[3] Valdstafar")
+    print("welcome to the casino!\n[1] slot machine\n[2] poker\n[3] Valdstafar")
     # todo add blackjack
     user_choice = number_validation(6)
     if user_choice == 1:
         slot_machine()
     elif user_choice == 3:
         valdstafar_landing()
+
+
+def poker_setup():
+    values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+    suites = ["Hearts", "Diamonds", "Clubs", "Spades"]
+    deck = []
+    player_hand = []
+    cpu1_hand = []
+    cpu2_hand = []
+    cpu3_hand = []
+    cpu_list = [cpu1_hand, cpu2_hand, cpu3_hand]
+    community_cards = []
+    round_counter = 0
+
+    for suite in suites:
+        for cards in values:
+            deck.append(cards + ": " + suite)
+
+    for cards in range(2):
+        cards_in_deck = len(deck) - 1
+        random_card = random.randint(1, cards_in_deck)
+        player_hand.append(deck[random_card])
+        deck.pop(random_card)
+    for cards in range(3):
+        cards_in_deck = len(deck) - 1
+        random_card = random.randint(1, cards_in_deck)
+        community_cards.append(deck[random_card])
+        deck.pop(random_card)
+    for cpus in cpu_list:
+        iteration = 0
+        for cards in range(2):
+            cards_in_deck = len(deck) - 1
+            random_card = random.randint(1, cards_in_deck)
+            cpus.append(deck[random_card])
+            deck.pop(random_card)
+    return deck, player_hand, cpu_list, community_cards
+
+
+def poker():
+    deck, player_hand, cpu_list, community_cards = poker_setup()
+    print("Welcome to the poker table.\n")
+    print(("Here are your cards: [" + player_hand[0] + "][" + player_hand[1] + "]").center(terminal_width))
+    print("Pay your blind?  [100 PD]\n[1] yes [2] No")
+    user_choice = number_validation(3)
+    if user_choice == 2:
+        casino()
+        return
+    if Player.stats["money"] < 100:
+        input("you do not have enough money to play.\n press enter to leave")
+        valdstafar_landing()
+        return
+    Player.stats['money'] -= 100
+    print(("These are the community cards: [" + community_cards[0] + "][" + community_cards[1] + "][" +
+           community_cards[2] + "]").center(terminal_width))
 
 
 def grifters_drift():
@@ -998,6 +1052,7 @@ begun making their rounds." """, DeveloperControls.sleep_time)
     Player.planets_visited["grifter's drift"] = True
     Player.inventory['wyrmling'] = True
     casino()
+
 
 def valdstafar_landing():
     supervisor()
@@ -1092,7 +1147,7 @@ def slot_machine_tester():
         if Player.stats["money"] < 85:
             input("Out of money\n")
             print("iterations: " + str(DeveloperControls.iteration))
-            print("the money lost per round was for this session was:" + str(10000/DeveloperControls.iteration))
+            print("the money lost per round was for this session was:" + str(10000 / DeveloperControls.iteration))
             DeveloperControls.iteration = 0
             Player.stats['money'] = 10000
         Player.stats['money'] -= 100
@@ -1111,4 +1166,4 @@ def slot_machine_tester():
             Player.stats['money'] += 100000
 
 
-heavens_forge_landing()
+slot_machine()
