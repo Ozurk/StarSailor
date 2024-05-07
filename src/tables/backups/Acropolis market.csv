@@ -1,12 +1,7 @@
 ITEM NAME,PRICE,RESOURCE,AMOUNT
-pallet of hardlight,1000000,inventory,1
-axolotl,500000,sanity ,100
-apple tree,2500,food,100
-gold leaf deck of cards,3000,sanity,20
-basket of snake meat,54656,food,30
-laser pointer,60,inventory,1
-squirrle jerky,20,food,5
-rod iron(stick),200,inventory,20
-snack cakes,20,food,10
-liver and onions,50,food,100
-spinning top,100,sanity,5
+uncut rubies,200,inventory,5
+rough diamond,1000,inventory,3
+shovel,20,inventory,1
+prickly pear,30,food,20
+cactus tea,50,sanity,25
+water filter,500,inventory,1

@@ -1,16 +1,10 @@
 ITEM NAME,PRICE,RESOURCE,AMOUNT
-100 carat diamond,1000000,inventory,1
-axolotl,500000,sanity ,100
-apple tree,2500,food,100
-gold leaf deck of cards,3000,sanity,20
-basket of snake meat,54656,food,30
-pickeled pigs feet,434,food,20
-horseshoes,60000,sanity,20
+horseshoes,60,sanity,20
 marbles,200,sanity,10
-starpaint,600000,inventory,1
-hardtack,1,food,1
+starpaint,600,inventory,1
 lizard jerky,25,food,2
 bizkets and gravy,60,food,60
-glass earrings,700,inventory,1
-dagger,1200,inventory,1
-matches,500,inventory,500
+glass earrings,700,inventory,2
+snake meat,30,food,15
+seashells,300,inventory,20
+pearl necklace,300,inventory,1

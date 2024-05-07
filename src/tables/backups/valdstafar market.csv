@@ -1,12 +1,16 @@
 ITEM NAME,PRICE,RESOURCE,AMOUNT
-pallet of hardlight,1000000,inventory,1
-axolotl,500000,sanity ,100
-apple tree,2500,food,100
-gold leaf deck of cards,3000,sanity,20
-basket of snake meat,54656,food,30
-laser pointer,60,inventory,1
-squirrle jerky,20,food,5
-rod iron(stick),200,inventory,20
-snack cakes,20,food,10
-liver and onions,50,food,100
-spinning top,100,sanity,5
+cheezeborger,5,food,10
+freyez,5,food,10
+sh8ke,5,food,10
+frozen yohort,5,food,10
+kelp snax,5,food,10
+raspberry delights,5,food,20
+seretonin bites,20,sanity,20
+oxytosin puffs,20,sanity,30
+nicotine addiction,20,sanity,-40
+bottle of absinthe,40,inventory,10
+bottle of cranberry liquour,40,inventory,10
+bottle of vodka,40,inventory,2
+dagger,40,inventory,1
+gold chain,2000,inventory,1
+diamond earrings,4000,inventory,2
