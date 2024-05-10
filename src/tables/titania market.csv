@@ -1,12 +1,11 @@
 ITEM NAME,PRICE,RESOURCE,AMOUNT
-pallet of hardlight,1000000,inventory,1
-axolotl,500000,sanity ,100
-apple tree,2500,food,100
-gold leaf deck of cards,3000,sanity,20
-basket of snake meat,54656,food,30
-laser pointer,60,inventory,1
-squirrle jerky,20,food,5
-rod iron(stick),200,inventory,20
-snack cakes,20,food,10
-liver and onions,50,food,100
-spinning top,100,sanity,5
+titanium ore,100,inventory,12
+limestone,10,inventory,10
+basalt,10,inventory,100
+cobalt ore,100,inventory,1
+goat jerky,50,food,30
+carved stone die,100,sanity,20
+scrap metal artwork,100,sanity,20
+tardigrade soup,200,food,20
+scrap metal pallet,100,inventory,1
+naan bread,10,food ,5
