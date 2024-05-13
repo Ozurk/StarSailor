@@ -491,7 +491,7 @@ def tunnel():
 
 def heavens_forge_market():
     supervisor()
-    print("do you want purchase [1] or sell [2] at the market?\n")
+    print("do you want purchase [1] or sell items [2] at the market?\n")
     user_choice = number_validation(3)
     if user_choice == 2:
         print(pandas.read_csv(r"tables\sales\hforge.csv"))
@@ -505,7 +505,7 @@ def heavens_forge_market():
     heavens_forge_landing()
 
 
-def task_1():
+def overclocked_lightwelder():
     supervisor()
     if 'starpaint' in Player.inventory.keys():
         typing_effect(get_file(r"storyline/Heaven's Forge/Lightwelder[starpaint]"), DeveloperControls.sleep_time)
@@ -525,9 +525,11 @@ def heavens_forge_landing():
     gameplay_speed("heavens forge")
     Player.planets_visited["heavens forge"] = True
     typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Landing"), DeveloperControls.sleep_time)
+    print("[1] Approach an Overclocked Welding Robot\n[2] Go to B-IRS\n[3] Go to Twilight Isles\n[4] Visit the "
+          "marketplace")
     choice = number_validation(5)
     if choice == 1:
-        task_1()
+        overclocked_lightwelder()
     elif choice == 2:
         Player.gameplay = True
         location_7()
@@ -583,14 +585,15 @@ def twilight_isles_landing():
     gameplay_speed("twilight isles")
     Player.planets_visited["twilight isles"] = True
     typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles landing"), DeveloperControls.sleep_time)
-    print("\n")
+    print("[1] Approach a Bandaged Lady\n[2] Travel to Ch'Tak\n[3] Return to Heaven's Forge\n[4]"
+          "Visit the Market Place\n[5] Attempt to get to Acropolis")
     choice = number_validation(6)
     if choice == 1:
         if Player.planets_visited["acropolis"]:
             input("You already took the navigator home")
             twilight_isles_landing()
         sun_seared_navigator()
-    elif choice == 2:
+    elif choice == 4:
         twilight_isles_market()
     elif choice == 3:
         Player.gameplay = True
@@ -1128,7 +1131,7 @@ def task_7():
 
 def location_7():
     supervisor()
-    typing_effect(get_file(r"storyline/location_7/B-IRS"), DeveloperControls.sleep_time)
+    typing_effect(get_file(r"storyline/B-IRS/B-IRS"), DeveloperControls.sleep_time)
     choice = number_validation(5)
 
     if choice == 1:
@@ -1166,4 +1169,4 @@ def slot_machine_tester():
             Player.stats['money'] += 100000
 
 
-slot_machine()
+heavens_forge_landing()
