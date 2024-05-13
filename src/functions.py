@@ -9,7 +9,7 @@ import shutil
 import pandas
 
 print("\n" * 3)
-# input("maximize window\n")
+input("maximize window\n")
 terminal_width = shutil.get_terminal_size().columns
 intro_screen_character = "1" # input("type a single character then press enter".center(terminal_width) + "\n")
 # todo un-comment this
@@ -193,7 +193,6 @@ def number_validation(set_range):
     while True:
         valid_number = number_validator()
         if valid_number is not None:
-            logging.debug("the number validator return value is %s", valid_number)
             return int(valid_number)
 
 

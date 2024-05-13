@@ -34,7 +34,8 @@ class Player:
                        "sun seared navigator": False, "grifter's drift": False}
     on_board = {}
 
-    critical_events = {"talashandra": False}
+    critical_events = {"talashandra": False, "talashandra 2": False, "talashandra 3": False, "gas giants": False,
+                       "rancher": False}
 
     def __init__(self):
         pass
@@ -270,6 +271,7 @@ def ssin_validatator():
     ssin = input("Please Enter 8 digits.\n").strip()
     if len(ssin) != 8:
         input("The number you entered is not long enough.\nPlease try again...\n")
+        Player.stats['sanity'] *= .99
         return
     if not ssin.isdigit():
         print("The text you provided raised a #VALUE error.\nPlease try again...\n")
@@ -337,12 +339,11 @@ def rems_event():
 
 def jury_duty():
     supervisor()
-    typing_effect('''You have been selected for inter-galactic jury duty by the highest power in deep space...\n
-            Despite all efforts, you can not wiggle out of this one...\n
-            You lose a little bit of your mind...''', DeveloperControls.sleep_time)
+    print("You have been selected for inter-galactic jury duty by the highest power in deep space...\nDespite all "
+          "efforts, you can not wiggle out of this one...\nYou lose a little bit of your mind...")
     print('\n')
     print("-" * terminal_width)
-    input('Press Enter to Continue'.center(terminal_width))
+    input('Press Enter to Continue\n')
     os.system("cls")
     Player.stats["sanity"] -= 10
     Player.stats["money"] += 100
@@ -525,7 +526,7 @@ def heavens_forge_landing():
     gameplay_speed("heavens forge")
     Player.planets_visited["heavens forge"] = True
     typing_effect(get_file(r"storyline/Heaven's Forge/Heaven's Forge Landing"), DeveloperControls.sleep_time)
-    print("[1] Approach an Overclocked Welding Robot\n[2] Go to B-IRS\n[3] Go to Twilight Isles\n[4] Visit the "
+    print("\n[1] Approach an Overclocked Welding Robot\n[2] Go to B-IRS\n[3] Go to Twilight Isles\n[4] Visit the "
           "marketplace")
     choice = number_validation(5)
     if choice == 1:
@@ -545,6 +546,11 @@ def heavens_forge_landing():
 # ---------------------------------------------------------------------------------------------------------------------
 
 
+def turtles():
+    Player.inventory["Map"] = 1
+    Player.critical_events["turtles"] = True
+
+
 def sun_seared_navigator():
     supervisor()
     try:
@@ -553,6 +559,7 @@ def sun_seared_navigator():
             twilight_isles_landing()
     except KeyError:
         typing_effect(get_file(r"storyline/Twilight Isles/roasted navigator"), DeveloperControls.sleep_time)
+        print("\n[1] INVITE THE SUN SEARED NAVIGATOR ABOARD\n[2] Leave.")
         choice = number_validation(3)
         if choice == 1:
             Player.on_board["Sun Seared Navigator"] = True
@@ -585,8 +592,8 @@ def twilight_isles_landing():
     gameplay_speed("twilight isles")
     Player.planets_visited["twilight isles"] = True
     typing_effect(get_file(r"storyline/Twilight Isles/Twilight Isles landing"), DeveloperControls.sleep_time)
-    print("[1] Approach a Bandaged Lady\n[2] Travel to Ch'Tak\n[3] Return to Heaven's Forge\n[4]"
-          "Visit the Market Place\n[5] Attempt to get to Acropolis")
+    print("\n[1] Approach a Bandaged Navigator\n[2] Travel to Ch'Tak\n[3] Return to Heaven's Forge\n[4]"
+          " Visit the Market Place\n[5] Attempt to get to Acropolis")
     choice = number_validation(6)
     if choice == 1:
         if Player.planets_visited["acropolis"]:
@@ -598,12 +605,17 @@ def twilight_isles_landing():
     elif choice == 3:
         Player.gameplay = True
         heavens_forge_landing()
-    elif choice == 4:
+    elif choice == 2:
         Player.gameplay = True
         chtak_landing()
     elif choice == 5:
         Player.gameplay = True
         acropolis()
+    elif choice == 6:
+        if not Player.critical_events['talashandra 3']:
+            input("please enter a number in the range")
+            twilight_isles_landing()
+        turtles()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -620,10 +632,10 @@ def acropolis_market():
         user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
         item_seller("tables\\sales\\acropolis.csv", user_input_sales)
     if user_choice == 1:
-        market = pandas.read_csv(r"tables/acropolis.csv")
+        market = pandas.read_csv(r"tables/Acropolis market.csv")
         print(market)
         user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
-        item_purchaser(r"tables/acropolis.csv", user_input.strip())
+        item_purchaser(r"tables/Acropolis market.csv", user_input.strip())
     acropolis()
 
 
@@ -638,6 +650,7 @@ def acropolis():
     gameplay_speed('acropolis')
     Player.planets_visited['acropolis'] = True
     typing_effect(get_file(r"storyline/Acropolis/Acropolis"), DeveloperControls.sleep_time)
+    print("\n[1] Continue to Loamstone\n[2] Travel to Ch'Tak\n[3] Return to Heaven's Forge\n[4] Visit the Marketplace")
     choice = number_validation(5)
     if choice == 1:
         loamstone()
@@ -653,13 +666,18 @@ def acropolis():
 
 def loamstone():
     supervisor()
-    if Player.on_board["Sun Seared Navigator"]:
-        Player.on_board.pop("Sun Seared Navigator")
+    try:
+        if Player.on_board["Sun Seared Navigator"]:
+            Player.on_board.pop("Sun Seared Navigator")
+    except KeyError:
+        pass
 
     if not Player.planets_visited['loamstone']:
         typing_effect(get_file(r"storyline/Acropolis/loamstone"), DeveloperControls.sleep_time)
         Player.inventory['dreamcap'] = 1
         Player.planets_visited['loamstone'] = True
+        Player.critical_events['rancher'] = True
+
         input('')
     else:
         print("Welcome to Loamstone!")
@@ -725,15 +743,18 @@ def mushroom_picker(csv):
 
 
 def talashandra():
-    if not Player.planets_visited["talashandra"]:
+    if not Player.critical_events["talashandra"]:
         try:
             if not Player.inventory["dreamcap"]:
                 chtak_landing()
         except KeyError:
-            typing_effect("\nYOUR DREAMCAP HAS CAUGHT SOMEONES' ATTENTION\n", DeveloperControls.sleep_time)
-            typing_effect("""A morchella on eight vined tentacles abruptly stops as it scuttles by you, veering back around. Its honeycombed cap 
-        puckers tenuously at something in the air you can't quite perceive, til it points aggressively at your pack. It 
-        continues impatiently until you produce the Dreamcap.""", DeveloperControls.sleep_time)
+            pass
+        typing_effect("\nYOUR DREAMCAP HAS CAUGHT SOMEONES' ATTENTION\n", DeveloperControls.sleep_time)
+        typing_effect("A morchella on eight vined tentacles abruptly stops as it scuttles by you, veering back around."
+                      "Its honeycombed cap puckers tenuously at something in the air you can't quite perceive, "
+                      "til it points aggressively at your pack. It continues impatiently until you produce the "
+                      "Dreamcap.",
+                      DeveloperControls.sleep_time)
         input("\n")
         os.system("cls")
         typing_effect("""
@@ -795,7 +816,7 @@ def talashandra():
 
         Press enter to return to the Wilderfolk village.""", DeveloperControls.sleep_time)
         input("\nPress enter to continue.\n")
-        Player.planets_visited["talashandra"] = True
+        Player.critical_events["talashandra"] = True
 
 
 def task_4():
@@ -816,7 +837,7 @@ def chtak_market():
         market = pandas.read_csv(r"tables\chtak market.csv")
         print(market)
         user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
-        item_purchaser(r"tables/heaven's forge market.csv", user_input.strip())
+        item_purchaser(r"tables/chtak market.csv", user_input.strip())
     chtak_landing()
 
 
@@ -824,8 +845,14 @@ def chtak_landing():
     supervisor()
     Player.gameplay = False
     Player.planets_visited["ch'tak"] = True
-    if not Player.planets_visited["talashandra"]:
+    if not Player.critical_events['talashandra']:
+        if Player.critical_events["rancher"]:
+            talashandra()
+    elif not Player.critical_events['talashandra']:
         typing_effect(get_file("storyline\\Ch'Tak\\Ch'Tak"), DeveloperControls.sleep_time)
+    else:
+        print("Welcome back to Ch'tak!\nThe Wilderfolk greet you with open arms\n")
+    print("\n[1]\n[2]travel to Valdstafar\n[3]Travel to Twilight Isles\n[4]visit the market ")
     choice = number_validation(5)
     if choice == 1:
         task_4()
@@ -836,15 +863,28 @@ def chtak_landing():
         Player.gameplay = True
         twilight_isles_landing()
     elif choice == 4:
-        if not Player.planets_visited["talashandra"]:
-            print("You can not communicate with the Wilderfolk, they will not acknowledge your existence\n")
+        if not Player.critical_events["talashandra"]:
+            print("You can not communicate with the Wilderfolk, they will not even acknowledge your existence\n")
             chtak_landing()
         chtak_market()
+    elif choice == 5:
+        if not Player.critical_events['talashandra']:
+            input("No matter how hard you try, you can not get the Wilderfolk's attention.\n")
+            chtak_landing()
+        pass
+
 
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------location 5-----------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
+
+def unnamed_event_1():
+    Player.critical_events['talashandra 2'] = True
+
+
+def unnamed_event_2():
+    Player.critical_events['gas giants'] = True
 
 
 def valdstafar_market():
@@ -944,11 +984,13 @@ def poker_setup():
         random_card = random.randint(1, cards_in_deck)
         player_hand.append(deck[random_card])
         deck.pop(random_card)
+
     for cards in range(3):
         cards_in_deck = len(deck) - 1
         random_card = random.randint(1, cards_in_deck)
         community_cards.append(deck[random_card])
         deck.pop(random_card)
+
     for cpus in cpu_list:
         iteration = 0
         for cards in range(2):
@@ -980,86 +1022,16 @@ def poker():
 def grifters_drift():
     supervisor()
     input("\nPress Enter to proceed.\n")
-    if Player.planets_visited["grifter's drift"]:
-        casino()
-    typing_effect("""You share a brief exchange over transponder with the harbor master and, after rebuffing his 
-extortion attempts, secure a landing pad with no docking fee. You can't believe
-your luck, until the coordinates lead you further and further into the underbelly of the city.
- The constant of the cold technicolor lights above hardly reach down here. A 
-murky smog of soot and dust cakes the steel walls as well as one's sinuses. Hostile glares and furtive faces peer out
- of darkened alleyways as you pass. Finally, you arrive
-to your destination: a derelict port housing a rusted, decomissioned steamer. There is barely room for your own ship as
- you nuzzle in next to the ravaged vessel. You 
-disembark to find a welcome party waiting for you; a ragtag gaggle of hooligans stand idly by, brandishing pipe clubs,
- wicked shivs, and illegally modified hand cannons. The
-largest is a purple skinned cyclopean brute with a caved in nose narrows his reptilian eye at your approach.
- You ostensibly take him to be the ringleader, til he steps aside
-to reveal a human small enough to conceal themself behind one of his legs. A pale, malnourished young woman gives you
- a cheshire grin from her scabbed head. Scars mask any 
-other facial feature about her, like someone played a hundred rounds of tic tac toe on her face with a knife.
- She shakes her head patronizingly as she approaches, her dark 
-dreadlocks flapping with the motion.""", DeveloperControls.sleep_time)
-    input("\n")
-    typing_effect(""""Cheeky, parking in Boss Rovar's territory without his express permission.
-    " Your heart drops to your stomach as you realize you've been finessed by the corrupt harbor 
-master. How quickly he was prepared to throw your life away when you refused to bribe him. 
-Now you've landed in a gang controlled air zone. "Heya, chump. Name's Nia. Boss's left hand lass. Now listen... the 
-Boss, he's a generous guy. Keeps us on a payroll for a pretty penny to crack the skull of any interlopers.
-Skulls like yours, see? Any slight can be seen as disrespect, and we can't have anyone disrespectin' the Boss. 
-But again, he's a generous guy. So this is how it goes. We can strip you down, cut you up,make an example outta ya.
-Cast lots for your loot and scuttle your ship. Or you can meet him yourself. Show him the respect he deserves,
-really grovel. You seem a seasoned sailor, been between the worlds a time or two. He could find use for a toy like 
-you. If you're lucky, he might give you a chance to get in his good graces. If not... well, you'll wish it'd been us
- having our way with you instead of him. Now, be a doll, and don't try to be a hero. 
-She pulls out her piece, and the lowered barrel inspires you to
-sullenly fall in line. """, DeveloperControls.sleep_time)
-    input("\n")
-    typing_effect("""Grifter's Drift, the notorious and nomadic barge casino of the under-city, is Boss Rovar's
-seat of power. The flotilla fortress regularly patrols the sectors under his 
-command, and unruly patrons are forcibly ejected by bouncers into the abyss below. With the proper access codes, Nia's 
-granted clearance for the penthouse suites of the casino, and she navigates your party's skiff to the upper arches 
-of the dirigible. Your captors unload onto the balcony below, the purple cyclops Klud breathing down your 
-neck, prepared to unscrew your head from your shoulders should you try to make any sudden movements. Starglass skylight
-in the ceiling above filters what little light trickles through the smog into the room suite below, revealing walls
-of blue velvet and shag carpet. A thin limbed alien built like a twig with eight arms mans a crowdedn circular island 
-at the center of the room, sculpted from pure Acropoli marble. It's an open bar, and the barkeep is busies himself 
-with the requests of his clients,serving thick gas into glasses from what looks like fourty different hookas on tap. 
-The patrons throw the cloudy swill back greedily, and just a small spill from someone's cup weaves its way into your 
-nostrils, immediately giving you a buzz akin to alcoholic inebriation.""", DeveloperControls.sleep_time)
-    input("\n")
-    typing_effect("""
-Boss Rovar himself rests in the back on a throne of pillows. He is a lanky figure, triple jointed arms and legs
-concealed under a silken gold kimono from the Twilight Isles, embroidered with the depiction of a ouroboros consuming
-its own tail. He wears a matching golden mask of a grinning fox, and just as you think he's ignored your 
-presence completely, he motions you forward to approach him. "Fresh meat, fallen into my grinder. How lucky I am. This
-could be your lucky day too, meat. I am a busy man, so I'll make this brief. Nia debriefed me ahead of time. I've
-gutted men over less than a parking violation, business is business. You are not above the rules. But I could 
-make you. You scratch my back, I scratch yours? I've been looking for a smuggler, and none of my usual contacts are 
-cheap or stupid enough to take this job. How convenient you now stand before me. I've arranged for some cargo to be 
-loaded onto your ship, its already being delivered as we speak. A rare specimen of wyrm. The reality is, you've
-already done me a favor. This creature is the last loose end of recently ended business relation. Anyone busted by the
-Empire with this thing is a dead man. I've already covered any tracks leading back to me, you are my sole scapegoat 
-now. The beast is trapped in a special stasis chamber of Imperial design, with a special code that embeds itself into 
-the programming of any ship carrying it. If the creature dies or leaves your ship's vicinity, your signature will be
-flagged by every Imperial ship this side of deep space. The end of your days will follow not long after. Your only
-hope in ridding yourself of this monster is Dr. Chabani on Titiana. She is the only one with both vested interest
-in the specimen and the tools to disarm its container. I've already sent word for her to expect someone, should you 
-evade the authorities. Consider this a test: to prove your competence to me, return successfully from Titiana.
-I'll reimburse you for your troubles and even have some more work for you. I can even get you access
-to the upper city, and your own personal landing pad. Now chop chop, back to your ship! The authorities have just 
-realized that their precious cargo is missing, and have 
-begun making their rounds." """, DeveloperControls.sleep_time)
-    input("\n")
-    print("A WYRMLING WAS ADDED TO YOUR INVENTORY")
+    casino()
     Player.gameplay = True
     Player.planets_visited["grifter's drift"] = True
-    Player.inventory['wyrmling'] = True
     casino()
 
 
 def valdstafar_landing():
     supervisor()
     typing_effect(get_file(r"storyline/Valdstafar/Valdstafar"), DeveloperControls.sleep_time)
+    print("[1] Go to Grifter's Drift\n[2] Go to Titania\n[3] Go to Ch'Tak\n[4] Visit the Market")
     choice = number_validation(5)
     if choice == 1:
         grifters_drift()
@@ -1071,11 +1043,21 @@ def valdstafar_landing():
         chtak_landing()
     elif choice == 4:
         valdstafar_market()
+    elif choice == 5:
+        if not Player.critical_events['talashandra']:
+            input('You can not do that now\n')
+            titiana_landing()
+        unnamed_event_1()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------location 6-----------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
+
+
+def unnamed_event_3():
+    Player.critical_events['talashandra 3'] = True
+
 
 def titania_market():
     supervisor()
@@ -1089,8 +1071,8 @@ def titania_market():
         market = pandas.read_csv(r"tables/titania market.csv")
         print(market)
         user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
-        item_purchaser(r"tables/titania.csv", user_input.strip())
-    heavens_forge_landing()
+        item_purchaser(r"tables/titania market.csv", user_input.strip())
+    titiana_landing()
 
 
 def task_6():
@@ -1104,6 +1086,7 @@ def titiana_landing():
     supervisor()
     Player.gameplay = False
     typing_effect(get_file(r"storyline/Titania/Titiana"), DeveloperControls.sleep_time)
+    print("\n[1] \n[2] Go to the B-IRS\n[3] Go to Valdstafar\n[4] Visit the market")
     choice = number_validation(5)
     if choice == 1:
         task_6()
@@ -1115,6 +1098,10 @@ def titiana_landing():
         valdstafar_landing()
     elif choice == 4:
         titania_market()
+    elif choice == 5:
+        if not Player.critical_events['talashandra 2']:
+            input("you can not do that now.\n")
+        unnamed_event_3()
 
 
 # ---------------------------------------------------------------------------------------------------------------------

@@ -1,9 +1,11 @@
 ITEM NAME,PRICE,RESOURCE,AMOUNT
 hardlight,10000,inventory,1
 axolotl,500,sanity ,100
-hardlight sawblade,200,inventory,1
+hardlight sawblade,500,inventory,1
 m&ms,10,food,5
-copper wire spool,1000,inventory,1000
-tungston bolts,10,inventory,100
+copper wire spool,100,inventory,1000
+tungston bolts,20,inventory,100
 electric motor,200,inventory,1
-scrap steel,10,inventory,30
+scrap steel,10,inventory,20
+scrap copper,10,inventory,20
+borax,10,inventory,20
