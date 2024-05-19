@@ -850,7 +850,8 @@ def chtak_landing():
         typing_effect(get_file("storyline\\Ch'Tak\\Ch'Tak"), DeveloperControls.sleep_time)
     else:
         print("Welcome back to Ch'tak!\nThe Wilderfolk greet you with open arms\n")
-    print("\nWelcome to Ch'tak!\n[1]talk the shaman\n[2]travel to Valdstafar\n[3]Travel to Twilight Isles\n[4]visit the market ")
+    print(
+        "\nWelcome to Ch'tak!\n[1]talk the shaman\n[2]travel to Valdstafar\n[3]Travel to Twilight Isles\n[4]visit the market ")
     choice = number_validation(5)
     if choice == 1:
         task_4()
@@ -954,8 +955,11 @@ def slot_machine():
 
 def casino():
     root = tk.Tk()
+    root.geometry('1000x1500+100+100')
+    root.attributes('-topmost', 1)
+    root.iconbitmap('../pictures/grifters drift icon.ico')
     root.title("Game Menu")
-    slot_machine_button = tk.Button(root, text="Slot Machine", command=slot_machine)
+    slot_machine_button = tk.Button(root, text="Slot Machine", command=run_slot_machine)
     slot_machine_button.pack(pady=10)
     poker_button = tk.Button(root, text="Poker", command=poker)
     poker_button.pack(pady=10)
@@ -964,10 +968,89 @@ def casino():
     root.mainloop()
 
 
+class SlotMachineGUI:
+    def __init__(self):
+        self.money_label = None
+        self.root = tk.Tk()
+        self.configure_window()
+        self.root.title("Slot Machine")
+        self.money = Player.stats['money']
+        self.create_widgets()
+
+    def configure_window(self):
+        self.root.attributes('-topmost', 1)
+        self.root.iconbitmap('../pictures/slot machine.ico')
+        self.root.configure(bg="black")
+        self.window_width = 1000
+        self.window_height = 1000
+        # get the screen dimension
+        self.screen_width = self.root.winfo_screenwidth()
+        self.screen_height = self.root.winfo_screenheight()
+
+        # find the center point
+        self.center_x = int(self.screen_width / 2 - self.window_width / 2)
+        self.center_y = int(self.screen_height / 2 - self.window_height / 2)
+
+        # set the position of the window to the center of the screen
+        self.root.geometry(f'{self.window_width}x{self.window_height}+{self.center_x}+{self.center_y}')
+
+    def create_widgets(self):
+        # Create GUI elements
+        self.label = tk.Label(self.root, text="Slot Machine", bg='yellow')
+        self.label.pack()
+
+        self.spin_button = tk.Button(self.root, text="Spin", fg='yellow', bg='green', command=self.spin_slot_machine)
+        self.spin_button.pack()
+
+
+        self.leave_button = tk.Button(self.root, text='Leave', bg='grey', command=self.root.destroy)
+        self.leave_button.pack()
+
+        self.result_label = tk.Label(self.root, text="", wraplength=500)
+        self.result_label.pack()
+    def spin_slot_machine(self):
+        # Simulate spinning the slot machine
+        self.result_label.destroy()
+        numbers = [random.randint(1, 9) for _ in range(4)]
+        result = "|".join(str(num) for num in numbers)
+        self.money -= 100
+        self.spinning_effect()
+        # Check for winning combinations
+        if len(set(numbers)) == 2:
+            self.money += 1000
+            result += "\n - Congratulations! You won 1000 PD"
+        elif numbers[0] * numbers[1] * numbers[2] * numbers[3] == 234:
+            self.money += 10000
+            result += "\n - Congratulations! You hit the jackpot of 10000 PD"
+        else:
+            result += ""
+        # Update result label
+        self.result_label  = tk.Label(text=result, wraplength=300, bg='blue', fg='yellow', font=1000)
+        self.result_label.pack()
+
+    def spinning_effect(self):
+        for spins in range(10):
+            numbers = [random.randint(1, 9) for _ in range(4)]
+            result = "|".join(str(num) for num in numbers)
+            self.result_label = tk.Label(self.root, wraplength=300, text=result, bg='blue', fg='yellow', font=(size=20))
+            self.result_label.pack()
+            self.root.update_idletasks()
+            time.sleep(.1)
+            self.result_label.destroy()
+
+    def run(self):
+        self.root.mainloop()
+
+
+def run_slot_machine():
+    if __name__ == "__main__":
+        slot_machine_gui = SlotMachineGUI()
+        slot_machine_gui.run()
+
+
 def return_to_landing(root):
     root.destroy()
     valdstafar_landing()
-
 
 
 def poker_setup():
@@ -1144,4 +1227,4 @@ def location_7():
 # -------------------------------------------------------------------------------------------------------------------
 
 
-valdstafar_landing()
+run_slot_machine()
