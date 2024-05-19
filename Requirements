@@ -1,5 +1,0 @@
-import Pillow
-import pyautoGUI
-import os
-import shutil
-from random import randint
