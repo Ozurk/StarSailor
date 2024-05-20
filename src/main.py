@@ -996,18 +996,22 @@ class SlotMachineGUI:
 
     def create_widgets(self):
         # Create GUI elements
-        self.label = tk.Label(self.root, text="Slot Machine", bg='yellow')
+        self.label = tk.Label(self.root, text="Slot Machine", bg='Grey', font=('Times New Roman', 15, 'bold'))
         self.label.pack()
+
+        self.instructions = tk.Label(self.root, text="Match 3 numbers to win 1000pd\nIf all 4 numbers "
+                                                     "multiply to 234, you win 10,000PD", bg='grey')
+        self.instructions.pack()
 
         self.spin_button = tk.Button(self.root, text="Spin", fg='yellow', bg='green', command=self.spin_slot_machine)
         self.spin_button.pack()
-
 
         self.leave_button = tk.Button(self.root, text='Leave', bg='grey', command=self.root.destroy)
         self.leave_button.pack()
 
         self.result_label = tk.Label(self.root, text="", wraplength=500)
-        self.result_label.pack()
+        self.result_label.place(relx=0.5, rely=0.5, anchor="center")
+
     def spin_slot_machine(self):
         # Simulate spinning the slot machine
         self.result_label.destroy()
@@ -1025,15 +1029,28 @@ class SlotMachineGUI:
         else:
             result += ""
         # Update result label
-        self.result_label  = tk.Label(text=result, wraplength=300, bg='blue', fg='yellow', font=1000)
-        self.result_label.pack()
+        self.result_label = tk.Label(text=result, wraplength=300, bg='grey', pady=30, fg='blue', font=('Times New '
+                                                                                                       'Roman'
+                                                                                                       '', 15, 'bold'))
+        self.result_label.place(relx=0.5, rely=0.5, anchor="center")
 
     def spinning_effect(self):
         for spins in range(10):
             numbers = [random.randint(1, 9) for _ in range(4)]
             result = "|".join(str(num) for num in numbers)
-            self.result_label = tk.Label(self.root, wraplength=300, text=result, bg='blue', fg='yellow', font=(size=20))
-            self.result_label.pack()
+            self.result_label = tk.Label(self.root, wraplength=300, pady=30, text=result, bg='gr'
+                                                                                             'ey', fg='bl'
+                                                                                                      'ue', font=('Ti'
+                                                                                                                  'me'
+                                                                                                                  's'
+                                                                                                                  ' New'
+                                                                                                                  ' Ro'
+                                                                                                                  'ma'
+                                                                                                                  'n',
+                                                                                                                  15,
+                                                                                                                  'bo'
+                                                                                                                  'ld'))
+            self.result_label.place(relx=0.5, rely=0.5, anchor="center")
             self.root.update_idletasks()
             time.sleep(.1)
             self.result_label.destroy()
