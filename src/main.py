@@ -1029,7 +1029,9 @@ class SlotMachineGUI:
         else:
             result += ""
         # Update result label
-        self.result_label = tk.Label(text=result, wraplength=300, bg='grey', pady=30, fg='blue', font=('Times New '
+        self.result_label = tk.Label(self.root, text=result, wraplength=300, bg='grey', pady=30, fg='blue', font=('Tim'
+                                                                                                                  'es N'
+                                                                                                                  'ew'
                                                                                                        'Roman'
                                                                                                        '', 15, 'bold'))
         self.result_label.place(relx=0.5, rely=0.5, anchor="center")
@@ -1244,4 +1246,4 @@ def location_7():
 # -------------------------------------------------------------------------------------------------------------------
 
 
-run_slot_machine()
+slot_machine()
