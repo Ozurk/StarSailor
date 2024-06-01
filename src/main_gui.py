@@ -10,14 +10,20 @@ sanity = 75
 
 class MainWindow:
     def __init__(self):
+        self.bottom_bar = None
+        self.active_frame = None
         self.root = tk.Tk()
+        # self.root.resizable(width=False, height=False)
+        self.screen_width = self.root.winfo_screenwidth()
+        self.screen_height = self.root.winfo_screenheight()
+        self.x = (self.screen_width // 2) - (1000 // 2)
         self.create_window()
 
     def create_window(self):
-        self.root.geometry('1000x600')
+        self.root.geometry(f'1000x750+{self.x}+0')
         self.root.title("Starsailor")
         self.tool_bar_widgets()
-        self.canvas()
+        self.active_frame = tk.Frame()
 
     def tool_bar_widgets(self):
         tool_bar = tk.Frame(self.root)
@@ -62,29 +68,22 @@ class MainWindow:
 
         tool_bar.pack(fill="x")
 
-    def canvas(self):
-        main_canvas_frame = tk.Frame(self.root)
-        # todo make a big ol frame that covers everything but the toolbar
-        canvas = tk.Canvas(main_canvas_frame, height=700, width=700)
-        self.starsailor_image = Image.open("../pictures/coverphoto.gif")
-        self.starsailor_photoimage = ImageTk.PhotoImage(self.starsailor_image)
-        starsailor_img = canvas.create_image((100, 100), image=self.starsailor_photoimage, anchor=tk.NW)
-        canvas.grid()
+        self.bottom_bar = tk.Frame(self.root)
+        self.bottom_bar.columnconfigure(0, weight=1)
+        self.bottom_bar.columnconfigure(1, weight=1)
+        return_to_ship_button = tk.Button(self.bottom_bar, text="Return to Ship", height=8, bg="#BC4842")
+        return_to_ship_button.grid(column=0, row=0, sticky=tk.NSEW)
 
-        main_canvas_frame.pack()
+        return_to_chtak_button = tk.Button(self.bottom_bar, text="Return to Ch'tak", height=8, bg="#B0C4DE",
+                                           font=("Times New Roman", 10))
+        return_to_chtak_button.grid(column=1, row=0, sticky=tk.NSEW)
+
+        self.bottom_bar.pack(fill="x", side=tk.BOTTOM)
 
     def run_mainloop(self):
         self.root.mainloop()
 
 
-main_window = MainWindow()
-main_window.run_mainloop()
-
-
-class Persistant_Functions():
-    def __init__(self):
-        pass
-
-    def save_game(self):
-        print("saved game!")
-        pass
+if __name__ == "__main__":
+    main_window = MainWindow()
+    main_window.run_mainloop()
