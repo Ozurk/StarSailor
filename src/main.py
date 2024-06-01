@@ -9,6 +9,7 @@ import pyautogui
 from reset_tables import reset_tables_v2
 import sys
 
+
 # ---------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------Settings and Controls-------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
@@ -26,8 +27,8 @@ class DeveloperControls:
 
 
 class Player:
-    stats = {"money": 10000, "sanity": 50, "food": 100.00}
-    inventory = {"rope": 40}
+    stats = {"money": 1000.0, "sanity": 80.0, "food": 100.00}
+    inventory = {}
     gameplay = False
     planets_visited = {"intro": False, "heavens forge": False, "twilight isles": False, "acropolis": False,
                        "loamstone": False,
@@ -1247,5 +1248,10 @@ def location_7():
 
 
 intro_screen()
+<<<<<<< Updated upstream
 heavens_forge_landing
+=======
+heavens_forge_landing()
+
+>>>>>>> Stashed changes
 
