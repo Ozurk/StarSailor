@@ -465,7 +465,7 @@ def set_and_setting():
     typing_effect("\nA merchant is selling some items. Select what you want to purchase,\n"
                   "or press enter to skip \n", DeveloperControls.sleep_time)
     print("-" * terminal_width)
-    table_printer("tables\\setup.csv")
+    table_printer("tables/market or market_adjacent/setup.csv")
     user_input = input()
     user_input = user_input.strip()
     while user_input != '1':
@@ -497,11 +497,11 @@ def heavens_forge_market():
     print("do you want purchase [1] or sell items [2] at the market?\n")
     user_choice = number_validation(3)
     if user_choice == 2:
-        print(pandas.read_csv(r"tables\sales\hforge.csv"))
+        print(pandas.read_csv(r"tables/market or market_adjacent/sales\hforge.csv"))
         user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
         item_seller("tables\\sales\\hforge.csv", user_input_sales)
     if user_choice == 1:
-        market = pandas.read_csv(r"tables/heaven's forge market.csv")
+        market = pandas.read_csv(r"tables/market or market_adjacent/heaven's forge market.csv")
         print(market)
         user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
         item_purchaser(r"tables/heaven's forge market.csv", user_input.strip())
@@ -574,7 +574,7 @@ def twilight_isles_market():
     supervisor()
     print("Welcome to to Twilight Isles Floating Market".center(terminal_width))
     print("\n")
-    market = pandas.read_csv("tables/twilight isles market.csv")
+    market = pandas.read_csv("tables/market or market_adjacent/twilight isles market.csv")
     print("Would you like to purchase [1] or sell [2] at the market?\n")
     user_input = number_validation(3)
     if user_input == 1:
@@ -582,7 +582,7 @@ def twilight_isles_market():
         user_input = input("Please enter the index number of the item you would like to purchase\n")
         item_purchaser(r"tables/twilight isles market.csv", user_input.strip())
     elif user_input == 2:
-        print(pandas.read_csv("tables/sales/twilight.csv"))
+        print(pandas.read_csv("tables/market or market_adjacent/sales/twilight.csv"))
         user_sales_input = input("Enter the ID of the item you would like to sell, or press enter to leave\n")
         item_seller("tables/sales/twilight.csv", user_sales_input.strip())
     twilight_isles_landing()
@@ -630,11 +630,11 @@ def acropolis_market():
     print("do you want purchase [1] or sell [2] at the market?\n")
     user_choice = number_validation(3)
     if user_choice == 2:
-        print(pandas.read_csv(r"tables\sales\acropolis.csv"))
+        print(pandas.read_csv(r"tables/market or market_adjacent/sales\acropolis.csv"))
         user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
         item_seller("tables\\sales\\acropolis.csv", user_input_sales)
     if user_choice == 1:
-        market = pandas.read_csv(r"tables/Acropolis market.csv")
+        market = pandas.read_csv(r"tables/market or market_adjacent/Acropolis market.csv")
         print(market)
         user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
         item_purchaser(r"tables/Acropolis market.csv", user_input.strip())
@@ -829,11 +829,11 @@ def chtak_market():
     print("do you want purchase [1] or sell [2] at the market?\n")
     user_choice = number_validation(3)
     if user_choice == 2:
-        print(pandas.read_csv(r"tables\sales\chtak.csv"))
+        print(pandas.read_csv(r"tables/market or market_adjacent/sales\chtak.csv"))
         user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
         item_seller("tables\\sales\\chtak.csv", user_input_sales)
     if user_choice == 1:
-        market = pandas.read_csv(r"tables\chtak market.csv")
+        market = pandas.read_csv(r"tables/market or market_adjacent/chtak market.csv")
         print(market)
         user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
         item_purchaser(r"tables/chtak market.csv", user_input.strip())
@@ -891,11 +891,11 @@ def valdstafar_market():
     print("do you want purchase [1] or sell [2] at the market?\n")
     user_choice = number_validation(3)
     if user_choice == 2:
-        print(pandas.read_csv(r"tables\sales\valdstafar.csv"))
+        print(pandas.read_csv(r"tables/market or market_adjacent/sales\valdstafar.csv"))
         user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
         item_seller("tables\\sales\\valdstafar.csv", user_input_sales)
     if user_choice == 1:
-        market = pandas.read_csv(r"tables\valdstafar market.csv")
+        market = pandas.read_csv(r"tables/market or market_adjacent/valdstafar market.csv")
         print(market)
         user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
         item_purchaser(r"tables\valdstafar market.csv", user_input.strip())
@@ -1174,11 +1174,11 @@ def titania_market():
     print("do you want purchase [1] or sell [2] at the market?\n")
     user_choice = number_validation(3)
     if user_choice == 2:
-        print(pandas.read_csv(r"tables\sales\titania.csv"))
+        print(pandas.read_csv(r"tables/market or market_adjacent/sales\titania.csv"))
         user_input_sales = input("\nEnter the ID of the item you would like to purchase, or press enter to leave...\n")
         item_seller("tables\\sales\\titania.csv", user_input_sales)
     if user_choice == 1:
-        market = pandas.read_csv(r"tables/titania market.csv")
+        market = pandas.read_csv(r"tables/market or market_adjacent/titania market.csv")
         print(market)
         user_input = input("\nEnter the ID of the item you would like to sell, or press enter to leave...\n")
         item_purchaser(r"tables/titania market.csv", user_input.strip())

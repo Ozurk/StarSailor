@@ -8,7 +8,7 @@ def reset_tables_v2():
         if working_files.endswith("csv"):
             os.unlink("tables\\" + working_files)
             print("Deleted: " + working_files)
-    for backup_files in os.listdir("tables\\backups"):
+    for backup_files in os.listdir("tables/market or market_adjacent/backups"):
         if backup_files.endswith("csv"):
             print("Restored: " + backup_files)
             shutil.copy("tables\\backups\\" + backup_files, "tables")

@@ -27,7 +27,7 @@ sanity = 75
 class MainWindow:
     def __init__(self):
         self.bottom_bar = None
-        self.active_frame = None
+        self.start_menu_frame = None
         self.root = tk.Tk()
         # self.root.resizable(width=False, height=False)
         self.screen_width = self.root.winfo_screenwidth()
@@ -39,7 +39,7 @@ class MainWindow:
         self.root.geometry(f'1000x750+{self.x}+0')
         self.root.title("Starsailor")
         self.tool_bar_widgets()
-        self.active_frame = tk.Frame()
+        self.start_menu_frame = tk.Frame()
 
     def tool_bar_widgets(self):
         tool_bar = tk.Frame(self.root)
@@ -65,7 +65,7 @@ class MainWindow:
 
         def show_help():
             help_window = tk.Tk()
-            help_message = tk.Message(help_window, text=get_file("storyline/setup/Setup and Help"), fg="black")
+            help_message = tk.Message(help_window, text=get_file("../storyline/setup/Setup and Help"), fg="black")
             help_message.pack()
             help_window.geometry(f'500x500+{75 + self.x}+0')
 
