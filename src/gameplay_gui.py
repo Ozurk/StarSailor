@@ -6,8 +6,9 @@ from PIL import Image, ImageTk
 class Starsailor(main.MainWindow):
     def __init__(self):
         super().__init__()
+        self.original_image = None
         self.picture_as_label = None
-        self.starsailor_pil_img = None
+        self.starsailor_img = None
         self.starsailor_picture = None
         self.start_active_frame()
         self.intro_screen()
@@ -37,10 +38,42 @@ class Starsailor(main.MainWindow):
         self.active_frame.pack(fill='x')
 
     def intro_screen(self):
-        self.starsailor_pil_img = Image.open("../pictures/coverphoto.jpg")
-        self.starsailor_picture = ImageTk.PhotoImage(self.starsailor_pil_img)
+        start_button = tk.Button(self.active_frame, text="Start")
+        start_button.grid(column=0, columnspan=10, row=0, rowspan=2, sticky=tk.NSEW)
+
+        load_button = tk.Button(self.active_frame, text="Load_Game")
+        load_button.grid(column=0, columnspan=10, row=2, sticky=tk.NSEW)
+
+        instructions_button = tk.Button(self.active_frame, text="Instructions")
+        instructions_button.grid(column=0, columnspan=10, row=3, sticky=tk.NSEW)
+
+        help_button = tk.Button(self.active_frame, text="Help")
+        help_button.grid(column=0, columnspan=10, row=4, sticky=tk.NSEW)
+
+        credits_button = tk.Button(self.active_frame, text="Credits")
+        credits_button.grid(column=0, columnspan=10, row=5, sticky=tk.NSEW)
+
+        self.original_image = Image.open("../pictures/coverphoto.gif")
+        self.starsailor_img = self.original_image
+        self.starsailor_picture = ImageTk.PhotoImage(self.starsailor_img)
         self.picture_as_label = tk.Label(self.active_frame, image=self.starsailor_picture)
-        self.picture_as_label.grid(column=0, columnspan=9, row=3, rowspan=6)
+        self.picture_as_label.grid(column=10, row=0, rowspan=9, sticky=tk.NSEW)
+        self.active_frame.bind("<Configure>", self.resize_image)
+
+    def resize_image(self, event):
+
+        og_width, og_height = self.original_image.size
+        aspect_ratio = og_width / og_height
+        new_height = event.height
+        new_width = event.width * (new_height / og_height)
+        if (new_width / new_height) > aspect_ratio:
+            new_width = int(new_height * aspect_ratio)
+        else:
+            new_height = int(new_width / aspect_ratio)
+        resized_image = self.original_image.resize((new_width, new_height),
+                                                   Image.Resampling.LANCZOS)
+        self.starsailor_img = ImageTk.PhotoImage(resized_image)
+        self.picture_as_label.config(image=self.starsailor_img)
 
 
 test = Starsailor()

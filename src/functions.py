@@ -11,7 +11,8 @@ import pandas
 print("\n" * 3)
 input("maximize window\n")
 terminal_width = shutil.get_terminal_size().columns
-intro_screen_character = input("type a single character then press enter".center(terminal_width) + "\n")
+if __name__ == "__main__":
+    intro_screen_character = input("type a single character then press enter".center(terminal_width) + "\n")
 
 
 def typing_effect(string, wait_time):
@@ -21,7 +22,8 @@ def typing_effect(string, wait_time):
         time.sleep(wait_time)  # this controls the speed of the game
 
 
-typing_effect("""Hello, Sean! I hope you are doing well on this fine day!\nI can not believe half of a year has 
+if __name__ == '__main__':
+    typing_effect("""Hello, Sean! I hope you are doing well on this fine day!\nI can not believe half of a year has 
 already gone buy since we started this project! I truly have enjoyed working on this with you. I hope you have as well!
 The copy of the game here is [hopefully] a pathetic version of the graphical version I am currently working on!
 I hope you enjoy this for what it is. I apologize, as it will probably crash a lot more than I even know.

@@ -1,6 +1,22 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
+
+def get_file(file_path):
+    try:
+        file = open(file_path, "r")
+        text = file.read()
+        text = text.strip()
+        file.close()
+        return text
+    except UnicodeDecodeError:
+        file = open(file_path, "r", encoding="utf-8")
+        text = file.read()
+        text = text.strip()
+        file.close()
+        return text
+
+
 # todo player stats class
 # todo player stats as a csv
 food = 100
@@ -47,8 +63,20 @@ class MainWindow:
         menu.add_command(label="Restart Game", activebackground="#1F262A")
         menu.add_command(label="Load Game", activebackground="#1F262A")
 
+        def show_help():
+            help_window = tk.Tk()
+            help_message = tk.Message(help_window, text=get_file("storyline/setup/Setup and Help"), fg="black")
+            help_message.pack()
+            help_window.geometry(f'500x500+{75 + self.x}+0')
+
+            def close_help():
+                help_window.destroy()
+
+            close_button = tk.Button(help_window, text="close", bg="red", command=close_help)
+            close_button.pack(anchor=tk.SE, side=tk.BOTTOM)
+
         help_button = tk.Button(tool_bar, bitmap="question", activebackground="#1F262A", bg="#B0C4DE", relief="raised",
-                                borderwidth=5)
+                                borderwidth=5, command=show_help)
         help_button.grid(column=0, row=0, sticky=tk.NSEW)
 
         inventory_button = tk.Button(tool_bar, text="Inventory", borderwidth=3, relief='raised', bg="#BC4842")
@@ -65,7 +93,6 @@ class MainWindow:
 
         passenger_button = tk.Button(tool_bar, text="Passengers", borderwidth=3, relief='raised', bg="#BC4842")
         passenger_button.grid(column=4, row=1, sticky=tk.N + tk.EW)
-
         tool_bar.pack(fill="x")
 
         self.bottom_bar = tk.Frame(self.root)
