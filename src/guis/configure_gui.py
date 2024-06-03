@@ -29,6 +29,9 @@ sanity = 75
 
 class MainWindow:
     def __init__(self):
+        self.food_label = None
+        self.money_label = None
+        self.sanity_label = None
         self.bottom_bar = None
         self.start_menu_frame = None
         self.root = tk.Tk()
@@ -36,17 +39,26 @@ class MainWindow:
         self.screen_width = self.root.winfo_screenwidth()
         self.screen_height = self.root.winfo_screenheight()
         self.x = (self.screen_width // 2) - (1000 // 2)
-        self.create_window()
         self.game_shelve = None
         self.game_name_entry = None
         self.player_name_entry = None
         self.player_name = None
-        self.stats = None
+        self.stats = self.stats = {"food": 100,
+                                   "money": 0,
+                                   "sanity": 0,
+                                   "Inventory": {},
+                                   "Planets Visited": {"Heaven's Forge": False, "Twilight Isles": False,
+                                                       "Acropolis": False, "Loamstone": False, "Ch'tak": False,
+                                                       "Valdsafar": False, "Titiana": False, "B-IRS": False},
+                                   "Critical Events": {"Talashandra": False, "Talashandra 2": False,
+                                                       "Talashandra 3": False,
+                                                       "Gas-Beings": False, "Turtles": False}}
         self.game_name = None
         self.original_image = None
         self.picture_as_label = None
         self.starsailor_img = None
         self.starsailor_picture = None
+        self.create_window()
 
     def create_window(self):
         self.root.geometry(f'1000x750+{self.x}+0')
@@ -95,14 +107,17 @@ class MainWindow:
         inventory_button = tk.Button(tool_bar, text="Inventory", borderwidth=3, relief='raised', bg="#BC4842")
         inventory_button.grid(column=0, row=1, sticky=tk.N + tk.EW)
 
-        food_label = tk.Button(tool_bar, text=f"Food: {food}", justify="center", background="#469BAB")
-        food_label.grid(column=1, row=1, sticky=tk.NSEW)
+        self.food_label = tk.Button(tool_bar, text=f"Food: {self.stats['food']}", justify="center",
+                                    background="#469BAB")
+        self.food_label.grid(column=1, row=1, sticky=tk.NSEW)
 
-        money_label = tk.Button(tool_bar, text=f"Money: {money}", justify="center", background="#469BAB")
-        money_label.grid(column=2, row=1, sticky=tk.NSEW)
+        self.money_label = tk.Button(tool_bar, text=f"Money: {self.stats['money']}", justify="center",
+                                     background="#469BAB")
+        self.money_label.grid(column=2, row=1, sticky=tk.NSEW)
 
-        sanity_label = tk.Button(tool_bar, text=f"Sanity: {sanity}", justify="center", background="#469BAB")
-        sanity_label.grid(column=3, row=1, sticky=tk.NSEW)
+        self.sanity_label = tk.Button(tool_bar, text=f"Sanity: {self.stats['sanity']}", justify="center",
+                                      background="#469BAB")
+        self.sanity_label.grid(column=3, row=1, sticky=tk.NSEW)
 
         passenger_button = tk.Button(tool_bar, text="Passengers", borderwidth=3, relief='raised', bg="#BC4842")
         passenger_button.grid(column=4, row=1, sticky=tk.N + tk.EW)
@@ -123,8 +138,9 @@ class MainWindow:
     def initialise_new_game(self):
         self.player_name = self.player_name_entry.get()
         self.game_name = self.game_name_entry.get()
-
-        os.chdir("../tables/Saved States")
+        print(os.getcwd())
+        if not os.getcwd().endswith("Saved States"):
+            os.chdir("..\\tables\\Saved States")
         os.mkdir(self.game_name)
         time.sleep(.5)
         os.chdir(f"{self.game_name}")
@@ -139,6 +155,11 @@ class MainWindow:
                                           "Valdsafar": False, "Titiana": False, "B-IRS": False},
                       "Critical Events": {"Talashandra": False, "Talashandra 2": False, "Talashandra 3": False,
                                           "Gas-Beings": False, "Turtles": False}}
+        os.chdir("../")
+        # todo investigate the shelving system
+        self.sanity_label.update_idletasks()
+        self.food_label.update_idletasks()
+        self.money_label.update_idletasks()
 
     def save_game(self):
         self.game_shelve["stats"] = self.stats
