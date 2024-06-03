@@ -1,4 +1,7 @@
 import tkinter as tk
+import os
+import shelve
+import time
 from PIL import Image, ImageTk
 
 
@@ -34,6 +37,16 @@ class MainWindow:
         self.screen_height = self.root.winfo_screenheight()
         self.x = (self.screen_width // 2) - (1000 // 2)
         self.create_window()
+        self.game_shelve = None
+        self.game_name_entry = None
+        self.player_name_entry = None
+        self.player_name = None
+        self.stats = None
+        self.game_name = None
+        self.original_image = None
+        self.picture_as_label = None
+        self.starsailor_img = None
+        self.starsailor_picture = None
 
     def create_window(self):
         self.root.geometry(f'1000x750+{self.x}+0')
@@ -59,7 +72,7 @@ class MainWindow:
 
         menu = tk.Menu(menu_button, tearoff=0, borderwidth=2)
         menu_button["menu"] = menu
-        menu.add_command(label="Save Game", activebackground="#1F262A")
+        menu.add_command(label="Save Game", activebackground="#1F262A", command=self.save_game)
         menu.add_command(label="Restart Game", activebackground="#1F262A")
         menu.add_command(label="Load Game", activebackground="#1F262A")
 
@@ -107,8 +120,49 @@ class MainWindow:
 
         self.bottom_bar.pack(fill="x", side=tk.BOTTOM)
 
+    def initialise_new_game(self):
+        self.player_name = self.player_name_entry.get()
+        self.game_name = self.game_name_entry.get()
+
+        os.chdir("../tables/Saved States")
+        os.mkdir(self.game_name)
+        time.sleep(.5)
+        os.chdir(f"{self.game_name}")
+        self.game_shelve = shelve.open(self.game_name)
+        self.game_shelve["player name"] = self.player_name
+        self.stats = {"food": 100,
+                      "money": 1000,
+                      "sanity": 80,
+                      "Inventory": {},
+                      "Planets Visited": {"Heaven's Forge": False, "Twilight Isles": False,
+                                          "Acropolis": False, "Loamstone": False, "Ch'tak": False,
+                                          "Valdsafar": False, "Titiana": False, "B-IRS": False},
+                      "Critical Events": {"Talashandra": False, "Talashandra 2": False, "Talashandra 3": False,
+                                          "Gas-Beings": False, "Turtles": False}}
+
+    def save_game(self):
+        self.game_shelve["stats"] = self.stats
+
+    def load_game(self):
+        pass
+
     def run_mainloop(self):
         self.root.mainloop()
+
+    def resize_image(self, event):
+
+        og_width, og_height = self.original_image.size
+        aspect_ratio = og_width / og_height
+        new_height = event.height
+        new_width = event.width * (new_height / og_height)
+        if (new_width / new_height) > aspect_ratio:
+            new_width = int(new_height * aspect_ratio)
+        else:
+            new_height = int(new_width / aspect_ratio)
+        resized_image = self.original_image.resize((new_width, new_height),
+                                                   Image.Resampling.LANCZOS)
+        self.starsailor_img = ImageTk.PhotoImage(resized_image)
+        self.picture_as_label.config(image=self.starsailor_img)
 
 
 if __name__ == "__main__":
