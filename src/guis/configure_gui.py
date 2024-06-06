@@ -28,31 +28,32 @@ sanity = 75
 
 
 class MainWindow:
+    root = tk.Tk()
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    stats = {"food": 100,
+             "money": 0,
+             "sanity": 0,
+             "Inventory": {},
+             "Planets Visited": {"Heaven's Forge": False, "Twilight Isles": False,
+                                 "Acropolis": False, "Loamstone": False, "Ch'tak": False,
+                                 "Valdsafar": False, "Titiana": False, "B-IRS": False},
+             "Critical Events": {"Talashandra": False, "Talashandra 2": False,
+                                 "Talashandra 3": False,
+                                 "Gas-Beings": False, "Turtles": False}}
+    x = (screen_width // 2) - (1000 // 2)
+
     def __init__(self):
         self.food_label = None
         self.money_label = None
         self.sanity_label = None
         self.bottom_bar = None
         self.start_menu_frame = None
-        self.root = tk.Tk()
         # self.root.resizable(width=False, height=False)
-        self.screen_width = self.root.winfo_screenwidth()
-        self.screen_height = self.root.winfo_screenheight()
-        self.x = (self.screen_width // 2) - (1000 // 2)
         self.game_shelve = None
         self.game_name_entry = None
         self.player_name_entry = None
         self.player_name = None
-        self.stats = self.stats = {"food": 100,
-                                   "money": 0,
-                                   "sanity": 0,
-                                   "Inventory": {},
-                                   "Planets Visited": {"Heaven's Forge": False, "Twilight Isles": False,
-                                                       "Acropolis": False, "Loamstone": False, "Ch'tak": False,
-                                                       "Valdsafar": False, "Titiana": False, "B-IRS": False},
-                                   "Critical Events": {"Talashandra": False, "Talashandra 2": False,
-                                                       "Talashandra 3": False,
-                                                       "Gas-Beings": False, "Turtles": False}}
         self.game_name = None
         self.original_image = None
         self.picture_as_label = None
@@ -269,16 +270,27 @@ class StarsailorWindow(MainWindow):
             super().__init__()
             self.window = None
             self.text = None
+            self.window_height = MainWindow.screen_height
 
         def create_window(self, text):
             self.text = text
             self.window = tk.Tk()
+            self.window.geometry(f'500x900')
+            self.center_window()
             message = tk.Message(self.window, text=self.text)
-            message.pack()
-            self.window.geometry(f'500x500+{75 + 100}+0')
+            message.pack(fill="x")
 
         def destroy_window(self):
             self.window.destroy()
+
+        def center_window(self):
+            self.window.update_idletasks()
+            width = self.window.winfo_width()
+            frm_width = self.window.winfo_rootx() - self.window.winfo_x()
+            win_width = width + 2 * frm_width
+            x = (self.window.winfo_screenwidth() // 2) - (win_width // 2)
+            y = 0
+            self.window.geometry(f'{width}x{700}+{x}+{y}')
 
     def create_walkthrough_frame(self):
         self.new_game_frame.destroy()
@@ -315,10 +327,10 @@ class StarsailorWindow(MainWindow):
         button6.grid(row=2, column=3)
 
         button6 = tk.Button(self.walkthrough_frame, text="button9")
-        button6.grid(row=2, column=4)
+        button6.grid(row=3, column=0)
 
         continue_button = tk.Button(self.walkthrough_frame, text="Continue", bg="green", command=self.create_tunnel)
-        continue_button.grid(row=3, column=4)
+        continue_button.grid(row=4, column=5)
 
     def create_tunnel_frame(self):
         self.walkthrough_frame.destroy()
@@ -335,13 +347,13 @@ class StarsailorWindow(MainWindow):
     def create_heavens_forge_frame(self):
         self.tunnel_frame.destroy()
         self.heavens_forge_frame = tk.Frame(self.root)
-        configure_frame_grid(self.heavens_forge_frame, 1, 4)
+        configure_frame_grid(self.heavens_forge_frame, 4, 4)
 
     def create_heavens_forge(self):
         self.create_heavens_forge_frame()
-        # todo make this not an absolute mess
-        info_button = tk.Button(self.heavens_forge_frame, text="Info", command=self.create_heavens_forge_info_window)
-        info_button.grid(row=1)
+        info_button = tk.Button(self.heavens_forge_frame, text="Info", bg="green",
+                                command=self.create_heavens_forge_info_window)
+        info_button.grid(row=1, column=0, sticky=tk.NSEW)
 
     def create_heavens_forge_info_window(self):
         text = """
@@ -362,6 +374,7 @@ Diligent robots attend to the foundry floor before you.\n"""
         continue_button = tk.Button(self.heavens_forge_info_window.window, text="Close", bg="red",
                                     command=self.destroy_heavens_forge_info_window)
         continue_button.pack(side="bottom")
+
     def destroy_heavens_forge_info_window(self):
         self.heavens_forge_info_window.destroy_window()
 
