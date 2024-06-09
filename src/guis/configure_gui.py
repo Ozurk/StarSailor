@@ -3,6 +3,7 @@ import os
 import shelve
 import time
 from PIL import Image, ImageTk
+from tkinter import messagebox
 
 
 def get_file(file_path):
@@ -44,6 +45,12 @@ class MainWindow:
     x = (screen_width // 2) - (1000 // 2)
 
     def __init__(self):
+        self.selected_option = None
+        self.sanity_variable = None
+        self.saved_games_list = None
+        self.tool_bar = None
+        self.money_variable = None
+        self.food_variable = None
         self.food_label = None
         self.money_label = None
         self.sanity_label = None
@@ -60,25 +67,28 @@ class MainWindow:
         self.starsailor_img = None
         self.starsailor_picture = None
         self.create_window()
+        self.set_root_directory()
+        self.create_bottom_bar()
 
     def create_window(self):
         self.root.geometry(f'1000x750+{self.x}+0')
         self.root.title("Starsailor")
-        self.tool_bar_widgets()
+        self.create_tool_bar_widgets()
         self.start_menu_frame = tk.Frame()
 
-    def tool_bar_widgets(self):
-        tool_bar = tk.Frame(self.root)
-        tool_bar.columnconfigure(0, weight=2)
-        tool_bar.columnconfigure(1, weight=1)
-        tool_bar.columnconfigure(2, weight=1)
-        tool_bar.columnconfigure(3, weight=1)
-        tool_bar.columnconfigure(4, weight=2)
+    def create_tool_bar_widgets(self):
+        self.tool_bar = tk.Frame(self.root)
+        self.tool_bar.columnconfigure(0, weight=2)
+        self.tool_bar.columnconfigure(1, weight=1)
+        self.tool_bar.columnconfigure(2, weight=1)
+        self.tool_bar.columnconfigure(3, weight=1)
+        self.tool_bar.columnconfigure(4, weight=2)
 
-        banner = tk.Label(tool_bar, text="Starsailor", bg='#2E294E', font=("Times New Roman", 30), fg='#B0C4DE')
+        banner = tk.Label(self.tool_bar, text="Starsailor", bg='#2E294E', font=("Times New Roman", 30), fg='#B0C4DE')
         banner.grid(row=0, column=1, columnspan=3, sticky=tk.N + tk.EW)
 
-        menu_button = tk.Menubutton(tool_bar, text="Menu", font=("Times New Roman", 15), relief="raised", borderwidth=5,
+        menu_button = tk.Menubutton(self.tool_bar, text="Menu", font=("Times New Roman", 15), relief="raised",
+                                    borderwidth=5,
                                     activebackground="#2E294E", bg="#B0C4DE",
                                     activeforeground="#B0C4DE")
         menu_button.grid(column=4, row=0, sticky=tk.NSEW)
@@ -90,8 +100,9 @@ class MainWindow:
         menu.add_command(label="Load Game", activebackground="#1F262A")
 
         def show_help():
+            self.set_root_directory()
             help_window = tk.Tk()
-            help_message = tk.Message(help_window, text=get_file("../storyline/setup/Setup and Help"), fg="black")
+            help_message = tk.Message(help_window, text=get_file("src/storyline/setup/Setup and Help"), fg="black")
             help_message.pack()
             help_window.geometry(f'500x500+{75 + self.x}+0')
 
@@ -101,29 +112,34 @@ class MainWindow:
             close_button = tk.Button(help_window, text="close", bg="red", command=close_help)
             close_button.pack(anchor=tk.SE, side=tk.BOTTOM)
 
-        help_button = tk.Button(tool_bar, bitmap="question", activebackground="#1F262A", bg="#B0C4DE", relief="raised",
+        help_button = tk.Button(self.tool_bar, bitmap="question", activebackground="#1F262A", bg="#B0C4DE",
+                                relief="raised",
                                 borderwidth=5, command=show_help)
         help_button.grid(column=0, row=0, sticky=tk.NSEW)
 
-        inventory_button = tk.Button(tool_bar, text="Inventory", borderwidth=3, relief='raised', bg="#BC4842")
+        inventory_button = tk.Button(self.tool_bar, text="Inventory", borderwidth=3, relief='raised', bg="#BC4842")
         inventory_button.grid(column=0, row=1, sticky=tk.N + tk.EW)
 
-        self.food_label = tk.Button(tool_bar, text=f"Food: {self.stats['food']}", justify="center",
+        self.food_variable = tk.StringVar(value=f"Food: {self.stats['food']}")
+        self.food_label = tk.Button(self.tool_bar, textvariable=self.food_variable, justify="center",
                                     background="#469BAB")
         self.food_label.grid(column=1, row=1, sticky=tk.NSEW)
 
-        self.money_label = tk.Button(tool_bar, text=f"Money: {self.stats['money']}", justify="center",
+        self.money_variable = tk.StringVar(value=f"Money: {self.stats['money']}")
+        self.money_label = tk.Button(self.tool_bar, textvariable=self.money_variable, justify="center",
                                      background="#469BAB")
         self.money_label.grid(column=2, row=1, sticky=tk.NSEW)
 
-        self.sanity_label = tk.Button(tool_bar, text=f"Sanity: {self.stats['sanity']}", justify="center",
+        self.sanity_variable = tk.StringVar(value=f"sanity: {self.stats['sanity']}")
+        self.sanity_label = tk.Button(self.tool_bar, text=f"Sanity: {self.stats['sanity']}", justify="center",
                                       background="#469BAB")
         self.sanity_label.grid(column=3, row=1, sticky=tk.NSEW)
 
-        passenger_button = tk.Button(tool_bar, text="Passengers", borderwidth=3, relief='raised', bg="#BC4842")
+        passenger_button = tk.Button(self.tool_bar, text="Passengers", borderwidth=3, relief='raised', bg="#BC4842")
         passenger_button.grid(column=4, row=1, sticky=tk.N + tk.EW)
-        tool_bar.pack(fill="x")
+        self.tool_bar.pack(fill="x")
 
+    def create_bottom_bar(self):
         self.bottom_bar = tk.Frame(self.root)
         self.bottom_bar.columnconfigure(0, weight=1)
         self.bottom_bar.columnconfigure(1, weight=1)
@@ -137,13 +153,13 @@ class MainWindow:
         self.bottom_bar.pack(fill="x", side=tk.BOTTOM)
 
     def initialise_new_game(self):
+        self.set_root_directory()
         self.player_name = self.player_name_entry.get()
         self.game_name = self.game_name_entry.get()
         print(os.getcwd())
         if not os.getcwd().endswith("Saved States"):
-            os.chdir("..\\tables\\Saved States")
+            os.chdir("src\\tables\\Saved States")
         os.mkdir(self.game_name)
-        time.sleep(.5)
         os.chdir(f"{self.game_name}")
         self.game_shelve = shelve.open(self.game_name)
         self.game_shelve["player name"] = self.player_name
@@ -156,17 +172,45 @@ class MainWindow:
                                           "Valdsafar": False, "Titiana": False, "B-IRS": False},
                       "Critical Events": {"Talashandra": False, "Talashandra 2": False, "Talashandra 3": False,
                                           "Gas-Beings": False, "Turtles": False}}
-        os.chdir("../")
-        # todo investigate the shelving system
-        self.sanity_label.update_idletasks()
-        self.food_label.update_idletasks()
-        self.money_label.update_idletasks()
+        self.tool_bar.destroy()
+        self.create_tool_bar_widgets()
 
     def save_game(self):
+        self.set_root_directory()
+        os.chdir(f"src/tables/Saved States/{self.game_name}")
         self.game_shelve["stats"] = self.stats
 
+    def create_load_game_window(self):
+        self.set_root_directory()
+        os.chdir("src/tables/Saved States")
+        self.saved_games_list = os.listdir()
+        load_game_window = tk.Tk()
+        load_game_window.title("Load Game")
+        load_game_window.geometry("500x500")
+        self.selected_option = tk.StringVar(load_game_window)
+        self.selected_option.set("Please select the game you would like to load.")
+        dropdown = tk.OptionMenu(load_game_window, self.selected_option, *self.saved_games_list, )
+        dropdown.pack()
+        load_button = tk.Button(load_game_window, text="Load Game", font=("Arial", 15), bg="green",
+                                command=self.load_game)
+        load_button.pack(side=tk.BOTTOM)
+
     def load_game(self):
-        pass
+        self.set_root_directory()
+        os.chdir(f"src/tables/Saved States")
+        self.stats = shelve.open(str(self.selected_option))
+        # todo add a loaded game button to the bottom of the main menu when the game is loaded.
+
+
+
+
+
+
+
+    def set_root_directory(self):
+        while not os.getcwd().endswith("Project-StarSailor"):
+            os.chdir("../")
+            print(os.getcwd())
 
     def run_mainloop(self):
         self.root.mainloop()
@@ -221,8 +265,8 @@ class StarsailorWindow(MainWindow):
         new_game_button = tk.Button(self.start_menu_frame, text="New Game", command=self.create_new_game)
         new_game_button.grid(column=0, columnspan=10, row=0, rowspan=2, sticky=tk.NSEW)
 
-        load_button = tk.Button(self.start_menu_frame, text="Load_Game")
-        load_button.grid(column=0, columnspan=10, row=2, sticky=tk.NSEW)
+        load_button = tk.Button(self.start_menu_frame, text="Load_Game", command=self.create_load_game_window)
+        load_button.grid(column=0, columnspan=10, row=2, sticky=tk.NSEW,)
 
         instructions_button = tk.Button(self.start_menu_frame, text="Instructions")
         instructions_button.grid(column=0, columnspan=10, row=3, sticky=tk.NSEW)
@@ -233,7 +277,7 @@ class StarsailorWindow(MainWindow):
         credits_button = tk.Button(self.start_menu_frame, text="Credits")
         credits_button.grid(column=0, columnspan=10, row=5, sticky=tk.NSEW)
 
-        self.original_image = Image.open("../../pictures/coverphoto.gif")
+        self.original_image = Image.open("pictures/coverphoto.gif")
         self.starsailor_img = self.original_image
         self.starsailor_picture = ImageTk.PhotoImage(self.starsailor_img)
         self.picture_as_label = tk.Label(self.start_menu_frame, image=self.starsailor_picture)
@@ -258,12 +302,20 @@ class StarsailorWindow(MainWindow):
         self.player_name_entry.grid(column=1, columnspan=3, row=1, sticky=tk.NSEW)
         self.game_name_entry = tk.Entry(self.new_game_frame)
         self.game_name_entry.grid(column=1, columnspan=3, row=2, sticky=tk.NSEW)
-        save_nominal_data = tk.Button(self.new_game_frame, text="Save", bg='green', command=self.initialise_new_game)
-        # todo need some validation to make sure this has not been already used, and it works as a folder name
-        save_nominal_data.grid(column=2, row=4, sticky=tk.NSEW)
-        start_game = tk.Button(self.new_game_frame, text="START", bg="red", command=self.create_walkthrough)
+
+        start_game = tk.Button(self.new_game_frame, text="START", bg="red", command=self.start)
         start_game.grid(column=2, row=5)
         self.new_game_frame.pack(fill="x")
+
+    def start(self):
+        try:
+            self.initialise_new_game()
+            self.new_game_frame.destroy()
+            self.create_walkthrough()
+        except FileNotFoundError as e:
+            messagebox.showerror("Error", str(e))
+            self.new_game_frame.destroy()
+            self.create_new_game()
 
     class TempWindow:
         def __init__(self):
