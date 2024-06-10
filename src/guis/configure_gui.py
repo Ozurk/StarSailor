@@ -28,6 +28,11 @@ money = 1000
 sanity = 75
 
 
+def set_root_directory():
+    while not os.getcwd().endswith("Project-StarSailor"):
+        os.chdir("../")
+
+
 class MainWindow:
     root = tk.Tk()
     screen_width = root.winfo_screenwidth()
@@ -45,6 +50,7 @@ class MainWindow:
     x = (screen_width // 2) - (1000 // 2)
 
     def __init__(self):
+        self.load_game_window = None
         self.selected_option = None
         self.sanity_variable = None
         self.saved_games_list = None
@@ -67,7 +73,7 @@ class MainWindow:
         self.starsailor_img = None
         self.starsailor_picture = None
         self.create_window()
-        self.set_root_directory()
+        set_root_directory()
         self.create_bottom_bar()
 
     def create_window(self):
@@ -100,7 +106,7 @@ class MainWindow:
         menu.add_command(label="Load Game", activebackground="#1F262A")
 
         def show_help():
-            self.set_root_directory()
+            set_root_directory()
             help_window = tk.Tk()
             help_message = tk.Message(help_window, text=get_file("src/storyline/setup/Setup and Help"), fg="black")
             help_message.pack()
@@ -153,16 +159,18 @@ class MainWindow:
         self.bottom_bar.pack(fill="x", side=tk.BOTTOM)
 
     def initialise_new_game(self):
-        self.set_root_directory()
+        set_root_directory()
         self.player_name = self.player_name_entry.get()
         self.game_name = self.game_name_entry.get()
         print(os.getcwd())
         if not os.getcwd().endswith("Saved States"):
             os.chdir("src\\tables\\Saved States")
-        os.mkdir(self.game_name)
+        try:
+            os.mkdir(self.game_name)
+        except FileExistsError as e:
+            messagebox.showerror("error", e)
         os.chdir(f"{self.game_name}")
         self.game_shelve = shelve.open(self.game_name)
-        self.game_shelve["player name"] = self.player_name
         self.stats = {"food": 100,
                       "money": 1000,
                       "sanity": 80,
@@ -171,46 +179,34 @@ class MainWindow:
                                           "Acropolis": False, "Loamstone": False, "Ch'tak": False,
                                           "Valdsafar": False, "Titiana": False, "B-IRS": False},
                       "Critical Events": {"Talashandra": False, "Talashandra 2": False, "Talashandra 3": False,
-                                          "Gas-Beings": False, "Turtles": False}}
+                                          "Gas-Beings": False, "Turtles": False},
+                      "player_name": f"{self.player_name_entry.get()}"}
+        self.game_shelve['stats'] = self.stats
         self.tool_bar.destroy()
         self.create_tool_bar_widgets()
 
     def save_game(self):
-        self.set_root_directory()
+        set_root_directory()
         os.chdir(f"src/tables/Saved States/{self.game_name}")
-        self.game_shelve["stats"] = self.stats
+        self.game_shelve['stats'] = self.stats
+        print(self.game_shelve)
 
-    def create_load_game_window(self):
-        self.set_root_directory()
-        os.chdir("src/tables/Saved States")
-        self.saved_games_list = os.listdir()
-        load_game_window = tk.Tk()
-        load_game_window.title("Load Game")
-        load_game_window.geometry("500x500")
-        self.selected_option = tk.StringVar(load_game_window)
-        self.selected_option.set("Please select the game you would like to load.")
-        dropdown = tk.OptionMenu(load_game_window, self.selected_option, *self.saved_games_list, )
-        dropdown.pack()
-        load_button = tk.Button(load_game_window, text="Load Game", font=("Arial", 15), bg="green",
-                                command=self.load_game)
-        load_button.pack(side=tk.BOTTOM)
+    def load_game(self, game_name):
+        set_root_directory()
+        try:
+            os.chdir(f"src/tables/Saved States/{game_name}")
+        except FileNotFoundError as e:
+            messagebox.showerror("error", e)
 
-    def load_game(self):
-        self.set_root_directory()
-        os.chdir(f"src/tables/Saved States")
-        self.stats = shelve.open(str(self.selected_option))
-        # todo add a loaded game button to the bottom of the main menu when the game is loaded.
+        self.game_name = self.selected_option.get()
 
-
-
-
-
-
-
-    def set_root_directory(self):
-        while not os.getcwd().endswith("Project-StarSailor"):
-            os.chdir("../")
-            print(os.getcwd())
+        loaded_game_stats = dict(shelve.open(str(game_name)))
+        print(str(loaded_game_stats))
+        # self.stats = loaded_game_stats["stats"]
+        # self.player_name = loaded_game_stats['stats']["player_name"]
+        self.stats = loaded_game_stats
+        print(self.stats)
+        print(self.selected_option.get())
 
     def run_mainloop(self):
         self.root.mainloop()
@@ -254,19 +250,19 @@ class StarsailorWindow(MainWindow):
         self.new_game_frame = None
         self.walkthrough_frame = None
         self.intro_frame = None
-        self.create_start_menu_frame()
         self.create_main_menu()
 
-    def create_start_menu_frame(self):
+    def create_main_menu_frame(self):
         self.start_menu_frame = tk.Frame(self.root, background="#001E24")
         configure_frame_grid(self.start_menu_frame, 9, 9)
 
     def create_main_menu(self):
+        self.create_main_menu_frame()
         new_game_button = tk.Button(self.start_menu_frame, text="New Game", command=self.create_new_game)
         new_game_button.grid(column=0, columnspan=10, row=0, rowspan=2, sticky=tk.NSEW)
 
         load_button = tk.Button(self.start_menu_frame, text="Load_Game", command=self.create_load_game_window)
-        load_button.grid(column=0, columnspan=10, row=2, sticky=tk.NSEW,)
+        load_button.grid(column=0, columnspan=10, row=2, sticky=tk.NSEW, )
 
         instructions_button = tk.Button(self.start_menu_frame, text="Instructions")
         instructions_button.grid(column=0, columnspan=10, row=3, sticky=tk.NSEW)
@@ -307,6 +303,37 @@ class StarsailorWindow(MainWindow):
         start_game.grid(column=2, row=5)
         self.new_game_frame.pack(fill="x")
 
+    def create_load_game_window(self):
+        set_root_directory()
+        os.chdir("src/tables/Saved States")
+        self.saved_games_list = os.listdir()
+        self.load_game_window = tk.Tk()
+        self.load_game_window.title("Load Game")
+        self.load_game_window.geometry("500x500")
+        self.selected_option = tk.StringVar(self.load_game_window)
+        self.selected_option.set("Please select the game you would like to load.")
+        dropdown = tk.OptionMenu(self.load_game_window, self.selected_option, *self.saved_games_list, )
+        dropdown.pack()
+        load_button = tk.Button(self.load_game_window, text="Load Game", font=("Arial", 15), bg="green",
+                                command=self.load_game_from_main_menu)
+        load_button.pack(side=tk.BOTTOM)
+
+        start_loaded_game = tk.Button(self.start_menu_frame, text=f"Play Game: {self.selected_option.get()}", bg="red",
+                                      font=("Times New Roman", 15), command=self.enter_with_loaded_game)
+        start_loaded_game.grid(column=0, columnspan=10, row=6, sticky=tk.NSEW)
+        self.selected_option = tk.StringVar(self.load_game_window)
+
+    def load_game_from_main_menu(self):
+        self.load_game(str(self.selected_option.get()))
+
+    def enter_with_loaded_game(self):
+        self.start_menu_frame.destroy()
+        self.tool_bar.destroy()
+        self.bottom_bar.destroy()
+        self.create_bottom_bar()
+        self.create_tool_bar_widgets()
+        self.create_heavens_forge()
+
     def start(self):
         try:
             self.initialise_new_game()
@@ -320,6 +347,7 @@ class StarsailorWindow(MainWindow):
     class TempWindow:
         def __init__(self):
             super().__init__()
+            # todo investigate the effects of this
             self.window = None
             self.text = None
             self.window_height = MainWindow.screen_height
@@ -392,12 +420,16 @@ class StarsailorWindow(MainWindow):
     def create_tunnel(self):
         self.create_tunnel_frame()
         # todo make this not an absolute mess
-
+        set_all_stats_to_50_button = tk.Button(self.tunnel_frame, text="Set All Stats to 50")
+        set_all_stats_to_50_button.grid(row=3)
         continue_button = tk.Button(self.tunnel_frame, text="Continue", command=self.create_heavens_forge)
         continue_button.grid(row=4)
 
     def create_heavens_forge_frame(self):
-        self.tunnel_frame.destroy()
+        try:
+            self.tunnel_frame.destroy()
+        except AttributeError:
+            pass
         self.heavens_forge_frame = tk.Frame(self.root)
         configure_frame_grid(self.heavens_forge_frame, 4, 4)
 
