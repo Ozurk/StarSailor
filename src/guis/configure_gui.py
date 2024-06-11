@@ -50,8 +50,9 @@ class MainWindow:
     x = (screen_width // 2) - (1000 // 2)
 
     def __init__(self):
+        self.inventory_button = None
         self.load_game_window = None
-        self.selected_option = None
+        self.load_menu_selection = None
         self.sanity_variable = None
         self.saved_games_list = None
         self.tool_bar = None
@@ -103,7 +104,7 @@ class MainWindow:
         menu_button["menu"] = menu
         menu.add_command(label="Save Game", activebackground="#1F262A", command=self.save_game)
         menu.add_command(label="Restart Game", activebackground="#1F262A")
-        menu.add_command(label="Load Game", activebackground="#1F262A")
+        menu.add_command(label="Load Game", activebackground="#1F262A", command=self.load_game)
 
         def show_help():
             set_root_directory()
@@ -123,8 +124,9 @@ class MainWindow:
                                 borderwidth=5, command=show_help)
         help_button.grid(column=0, row=0, sticky=tk.NSEW)
 
-        inventory_button = tk.Button(self.tool_bar, text="Inventory", borderwidth=3, relief='raised', bg="#BC4842")
-        inventory_button.grid(column=0, row=1, sticky=tk.N + tk.EW)
+        self.inventory_button = tk.Button(self.tool_bar, text=f"{self.player_name} Inventory", borderwidth=3,
+                                          relief='raised', bg="#BC4842")
+        self.inventory_button.grid(column=0, row=1, sticky=tk.N + tk.EW)
 
         self.food_variable = tk.StringVar(value=f"Food: {self.stats['food']}")
         self.food_label = tk.Button(self.tool_bar, textvariable=self.food_variable, justify="center",
@@ -162,6 +164,7 @@ class MainWindow:
         set_root_directory()
         self.player_name = self.player_name_entry.get()
         self.game_name = self.game_name_entry.get()
+        self.root.title(self.game_name)
         print(os.getcwd())
         if not os.getcwd().endswith("Saved States"):
             os.chdir("src\\tables\\Saved States")
@@ -189,24 +192,19 @@ class MainWindow:
         set_root_directory()
         os.chdir(f"src/tables/Saved States/{self.game_name}")
         self.game_shelve['stats'] = self.stats
-        print(self.game_shelve)
+        print(dict(self.game_shelve))
 
-    def load_game(self, game_name):
+    def load_game(self):
+        self.load_game_window.destroy()
         set_root_directory()
         try:
-            os.chdir(f"src/tables/Saved States/{game_name}")
+            os.chdir(f"src/tables/Saved States/{self.game_name}")
         except FileNotFoundError as e:
             messagebox.showerror("error", e)
-
-        self.game_name = self.selected_option.get()
-
-        loaded_game_stats = dict(shelve.open(str(game_name)))
-        print(str(loaded_game_stats))
-        # self.stats = loaded_game_stats["stats"]
-        # self.player_name = loaded_game_stats['stats']["player_name"]
-        self.stats = loaded_game_stats
+        loaded_game_stats = shelve.open(str(self.game_name))
+        print(dict(loaded_game_stats))
+        self.stats = loaded_game_stats['stats']
         print(self.stats)
-        print(self.selected_option.get())
 
     def run_mainloop(self):
         self.root.mainloop()
@@ -244,6 +242,7 @@ def configure_frame_grid(frame, number_of_columns, number_of_rows):
 class StarsailorWindow(MainWindow):
     def __init__(self):
         super().__init__()
+        self.load_menu_dropdown = None
         self.heavens_forge_info_window = None
         self.heavens_forge_frame = None
         self.tunnel_frame = None
@@ -310,21 +309,23 @@ class StarsailorWindow(MainWindow):
         self.load_game_window = tk.Tk()
         self.load_game_window.title("Load Game")
         self.load_game_window.geometry("500x500")
-        self.selected_option = tk.StringVar(self.load_game_window)
-        self.selected_option.set("Please select the game you would like to load.")
-        dropdown = tk.OptionMenu(self.load_game_window, self.selected_option, *self.saved_games_list, )
-        dropdown.pack()
+        self.load_menu_selection = tk.StringVar(self.load_game_window)
+        self.load_menu_selection.set("Please select the game you would like to load.")
+        self.load_menu_dropdown = tk.OptionMenu(self.load_game_window, self.load_menu_selection,
+                                                *self.saved_games_list, )
+        self.load_menu_dropdown.pack()
         load_button = tk.Button(self.load_game_window, text="Load Game", font=("Arial", 15), bg="green",
                                 command=self.load_game_from_main_menu)
         load_button.pack(side=tk.BOTTOM)
 
-        start_loaded_game = tk.Button(self.start_menu_frame, text=f"Play Game: {self.selected_option.get()}", bg="red",
+    def load_game_from_main_menu(self):
+        print(self.load_menu_selection.get())
+        start_loaded_game = tk.Button(self.start_menu_frame, text=f"Play Game: {self.load_menu_selection.get()}",
+                                      bg="red",
                                       font=("Times New Roman", 15), command=self.enter_with_loaded_game)
         start_loaded_game.grid(column=0, columnspan=10, row=6, sticky=tk.NSEW)
-        self.selected_option = tk.StringVar(self.load_game_window)
-
-    def load_game_from_main_menu(self):
-        self.load_game(str(self.selected_option.get()))
+        self.game_name = self.load_menu_selection.get()
+        self.load_game()
 
     def enter_with_loaded_game(self):
         self.start_menu_frame.destroy()
@@ -414,16 +415,26 @@ class StarsailorWindow(MainWindow):
 
     def create_tunnel_frame(self):
         self.walkthrough_frame.destroy()
+        self.tool_bar.destroy()
+        self.create_tool_bar_widgets()
         self.tunnel_frame = tk.Frame(self.root)
         configure_frame_grid(self.tunnel_frame, 1, 4)
 
     def create_tunnel(self):
+        self.root.update_idletasks()
         self.create_tunnel_frame()
         # todo make this not an absolute mess
-        set_all_stats_to_50_button = tk.Button(self.tunnel_frame, text="Set All Stats to 50")
+        set_all_stats_to_50_button = tk.Button(self.tunnel_frame, text="Set All Stats to 50",
+                                               command=self.fifty_everything)
         set_all_stats_to_50_button.grid(row=3)
         continue_button = tk.Button(self.tunnel_frame, text="Continue", command=self.create_heavens_forge)
         continue_button.grid(row=4)
+
+    def fifty_everything(self):
+        for keys in self.stats.keys():
+            self.stats[keys] = 50
+        self.tool_bar.destroy()
+        self.create_tool_bar_widgets()
 
     def create_heavens_forge_frame(self):
         try:
@@ -434,6 +445,7 @@ class StarsailorWindow(MainWindow):
         configure_frame_grid(self.heavens_forge_frame, 4, 4)
 
     def create_heavens_forge(self):
+        self.root.update_idletasks()
         self.create_heavens_forge_frame()
         info_button = tk.Button(self.heavens_forge_frame, text="Info", bg="green",
                                 command=self.create_heavens_forge_info_window)
