@@ -37,10 +37,10 @@ class MainWindow:
     root = tk.Tk()
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
-    stats = {"food": 100,
+    stats = {"food": 0,
              "money": 0,
              "sanity": 0,
-             "Inventory": {},
+             "inventory": {},
              "Planets Visited": {"Heaven's Forge": False, "Twilight Isles": False,
                                  "Acropolis": False, "Loamstone": False, "Ch'tak": False,
                                  "Valdsafar": False, "Titiana": False, "B-IRS": False},
@@ -50,6 +50,7 @@ class MainWindow:
     x = (screen_width // 2) - (1000 // 2)
 
     def __init__(self):
+        self.inventory_variable = None
         self.inventory_button = None
         self.load_game_window = None
         self.load_menu_selection = None
@@ -123,8 +124,8 @@ class MainWindow:
                                 relief="raised",
                                 borderwidth=5, command=show_help)
         help_button.grid(column=0, row=0, sticky=tk.NSEW)
-
-        self.inventory_button = tk.Button(self.tool_bar, text=f"{self.player_name} Inventory", borderwidth=3,
+        self.inventory_variable = tk.StringVar(value=f"{self.player_name}'s {self.stats['inventory']}")
+        self.inventory_button = tk.Button(self.tool_bar, textvariable=self.inventory_variable, borderwidth=3,
                                           relief='raised', bg="#BC4842")
         self.inventory_button.grid(column=0, row=1, sticky=tk.N + tk.EW)
 
@@ -145,7 +146,16 @@ class MainWindow:
 
         passenger_button = tk.Button(self.tool_bar, text="Passengers", borderwidth=3, relief='raised', bg="#BC4842")
         passenger_button.grid(column=4, row=1, sticky=tk.N + tk.EW)
-        self.tool_bar.pack(fill="x")
+        self.tool_bar.pack(fill="x", side=tk.TOP)
+
+    def update_toolbar(self):
+        self.tool_bar.destroy()
+        self.inventory_variable = self.stats['inventory']
+        self.food_variable = self.stats['food']
+        self.money_variable = self.stats['money']
+        self.sanity_variable = self.stats['sanity']
+        self.root.update_idletasks()
+        self.create_tool_bar_widgets()
 
     def create_bottom_bar(self):
         self.bottom_bar = tk.Frame(self.root)
@@ -177,7 +187,7 @@ class MainWindow:
         self.stats = {"food": 100,
                       "money": 1000,
                       "sanity": 80,
-                      "Inventory": {},
+                      "inventory": {},
                       "Planets Visited": {"Heaven's Forge": False, "Twilight Isles": False,
                                           "Acropolis": False, "Loamstone": False, "Ch'tak": False,
                                           "Valdsafar": False, "Titiana": False, "B-IRS": False},
@@ -185,8 +195,7 @@ class MainWindow:
                                           "Gas-Beings": False, "Turtles": False},
                       "player_name": f"{self.player_name_entry.get()}"}
         self.game_shelve['stats'] = self.stats
-        self.tool_bar.destroy()
-        self.create_tool_bar_widgets()
+        self.root.update_idletasks()
 
     def save_game(self):
         set_root_directory()
@@ -375,6 +384,7 @@ class StarsailorWindow(MainWindow):
 
     def create_walkthrough_frame(self):
         self.new_game_frame.destroy()
+        self.update_toolbar()
         self.walkthrough_frame = tk.Frame(self.root)
         configure_frame_grid(self.walkthrough_frame, 3, 3)
 
@@ -415,13 +425,11 @@ class StarsailorWindow(MainWindow):
 
     def create_tunnel_frame(self):
         self.walkthrough_frame.destroy()
-        self.tool_bar.destroy()
-        self.create_tool_bar_widgets()
         self.tunnel_frame = tk.Frame(self.root)
         configure_frame_grid(self.tunnel_frame, 1, 4)
 
     def create_tunnel(self):
-        self.root.update_idletasks()
+        self.update_toolbar()
         self.create_tunnel_frame()
         # todo make this not an absolute mess
         set_all_stats_to_50_button = tk.Button(self.tunnel_frame, text="Set All Stats to 50",
@@ -433,8 +441,7 @@ class StarsailorWindow(MainWindow):
     def fifty_everything(self):
         for keys in self.stats.keys():
             self.stats[keys] = 50
-        self.tool_bar.destroy()
-        self.create_tool_bar_widgets()
+        self.update_toolbar()
 
     def create_heavens_forge_frame(self):
         try:
@@ -445,7 +452,7 @@ class StarsailorWindow(MainWindow):
         configure_frame_grid(self.heavens_forge_frame, 4, 4)
 
     def create_heavens_forge(self):
-        self.root.update_idletasks()
+        self.update_toolbar()
         self.create_heavens_forge_frame()
         info_button = tk.Button(self.heavens_forge_frame, text="Info", bg="green",
                                 command=self.create_heavens_forge_info_window)
