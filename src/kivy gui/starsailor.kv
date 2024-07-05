@@ -7,15 +7,18 @@
         orientation: "horizontal"
         Label:
             text: "Label 1"
+        Label:
+            size_hint: .7, .2
+            text: "Here is some text"
             canvas:
                 Color:
+                    rgba: 1, .8, .4, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
 
-        Label:
-            text: "Label 2"
-        Label:
+
             text: "Label 3"
-        Label:
-            text: "Label 4"
         Label:
             text: "Label 5"
     BoxLayout:
