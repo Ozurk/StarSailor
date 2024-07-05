@@ -1,26 +1,21 @@
 #:kivy 2.3.0
+#:import utils kivy.utils
 
 <Starsailor>
     cols: 1
     rows: 3
     BoxLayout:
+        size_hint: 1, .4
         orientation: "horizontal"
-        Label:
-            text: "Label 1"
-        Label:
-            size_hint: .7, .2
-            text: "Here is some text"
-            canvas:
-                Color:
-                    rgba: 1, .8, .4, 1
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
-
-
-            text: "Label 3"
-        Label:
-            text: "Label 5"
+        Button:
+            text: "Help"
+            background_color: kivy.utils.get_color_from_hex("#8E3F3C")
+        Image:
+            source: "../../pictures/Starsailor_Banner.png"
+            allow_stretch: True
+        Button:
+            text: "Menu"
+            background_color: kivy.utils.get_color_from_hex("#FCEEC7")
     BoxLayout:
         orientation: "horizontal"
         Image:

@@ -4,6 +4,7 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.graphics import Color, Rectangle
 from kivy.app import App
+#:import utils kivy.utils
 
 
 class Starsailor(GridLayout):
