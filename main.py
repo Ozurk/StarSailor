@@ -10,6 +10,9 @@ from kivy.properties import DictProperty
 from kivy.properties import NumericProperty
 from kivy.uix.button import ButtonBehavior
 
+from kivy.lang import Builder
+
+Builder.load_file("Starsailor.kv")
 
 class StarsailorApp(App):
     def build(self):
