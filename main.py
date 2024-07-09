@@ -9,11 +9,10 @@ from kivy.properties import StringProperty
 from kivy.uix.widget import Widget
 from kivy.properties import DictProperty
 from kivy.properties import NumericProperty
-from kivy.uix.button import ButtonBehavior
+from kivy.uix.button import ButtonBehavior, Button
 
 from kivy.lang import Builder
 
-Builder.load_file("Starsailor.kv")
 
 
 class StarsailorApp(App):
@@ -22,27 +21,28 @@ class StarsailorApp(App):
 
 
 class Starsailor(GridLayout):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.main_frame = self.ids.ActiveFrame
-        self.bottom_tool_bar = self.ids.Bottom_Tool_Bar
-
     def clear_active_frame(self):
-        self.bottom_tool_bar.clear_widgets()
-        self.main_frame.clear_widgets()
+        self.ids.ActiveFrame.clear_widgets()
+        self.ids.Bottom_Tool_Bar.clear_widgets()
 
     def create_new_game(self):
         Player.food = 100
         Player.money = 1000
         Player.sanity = 85
         self.clear_active_frame()
+
         text_label = Label(text="Name")
         text_entry0 = TextInput()
-        self.add_widget(text_label)
-        self.add_widget(text_entry0)
+        self.ids.ActiveFrame.add_widget(text_label)
+        self.ids.ActiveFrame.add_widget(text_entry0)
 
+        text_label1 = Label(text="Place")
+        text_entry1 = TextInput()
+        self.ids.ActiveFrame.add_widget(text_label1)
+        self.ids.ActiveFrame.add_widget(text_entry1)
 
-
+        button = Button(text="Save", background_color=(1, 0, 0, 1), on_release=self.ids.ActiveFrame.clear_widgets)
+        self.ids.ActiveFrame.add_widget(button)
 
 
 class Player(Widget):
