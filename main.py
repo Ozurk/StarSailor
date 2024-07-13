@@ -13,7 +13,8 @@ from kivy.uix.button import ButtonBehavior, Button
 from kivy.properties import ListProperty
 
 
-# from kivy.lang import Builder
+from kivy.lang import Builder
+Builder.load_file("Starsailor.kv")
 
 
 class StarsailorApp(App):
@@ -23,6 +24,7 @@ class StarsailorApp(App):
 
 class Starsailor(GridLayout):
     text_entry0 = None
+
     def clear_active_frame(self, *args):
         self.ids.ActiveFrame.clear_widgets()
         self.ids.Bottom_Tool_Bar.clear_widgets()
@@ -46,7 +48,6 @@ class Starsailor(GridLayout):
     def save_name_and_clear(self, *args):
         Player.name = self.text_entry0.text
         self.clear_active_frame()
-
 
     def create_main_game_window(self, *args):
         active_frame = self.ids.ActiveFrame

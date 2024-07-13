@@ -34,7 +34,7 @@
                 Image:
                     source: "pictures/active/Starsailor_MENU.png"
     BoxLayout:
-        orientation: "horizontal"
+        orientation: "vertical"
         id: ActiveFrame
         Image:
             source: "pictures/active/coverphoto.jpg"
@@ -44,18 +44,16 @@
             size: self.texture_size
 
     BoxLayout:
-        id: ActiveFrame2
+        id: Bottom_Tool_Bar
         size_hint_y: .25
         orientation: "horizontal"
         Button:
             text: "New Game"
-            on_press: ActiveFrame.clear_widgets()
-            on_release: ActiveFrame2.clear_widgets()
+            on_press: root.create_new_game()
         Button:
             text: "Load Game"
         Button:
             text: "Help"
 
-<NewGameScreen>
-    Label:
-        text: "Hello"
+
+
