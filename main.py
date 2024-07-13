@@ -10,9 +10,10 @@ from kivy.uix.widget import Widget
 from kivy.properties import DictProperty
 from kivy.properties import NumericProperty
 from kivy.uix.button import ButtonBehavior, Button
+from kivy.properties import ListProperty
 
-from kivy.lang import Builder
 
+# from kivy.lang import Builder
 
 
 class StarsailorApp(App):
@@ -21,7 +22,8 @@ class StarsailorApp(App):
 
 
 class Starsailor(GridLayout):
-    def clear_active_frame(self):
+    text_entry0 = None
+    def clear_active_frame(self, *args):
         self.ids.ActiveFrame.clear_widgets()
         self.ids.Bottom_Tool_Bar.clear_widgets()
 
@@ -32,17 +34,24 @@ class Starsailor(GridLayout):
         self.clear_active_frame()
 
         text_label = Label(text="Name")
-        text_entry0 = TextInput()
+        self.text_entry0 = TextInput()
         self.ids.ActiveFrame.add_widget(text_label)
-        self.ids.ActiveFrame.add_widget(text_entry0)
+        self.ids.ActiveFrame.add_widget(self.text_entry0)
 
-        text_label1 = Label(text="Place")
-        text_entry1 = TextInput()
-        self.ids.ActiveFrame.add_widget(text_label1)
-        self.ids.ActiveFrame.add_widget(text_entry1)
+        button = Button(text="Save", background_color=(1, 0, 0, 1), on_press=self.save_name_and_clear,
+                        on_release=self.create_main_game_window)
 
-        button = Button(text="Save", background_color=(1, 0, 0, 1), on_release=self.ids.ActiveFrame.clear_widgets)
         self.ids.ActiveFrame.add_widget(button)
+
+    def save_name_and_clear(self, *args):
+        Player.name = self.text_entry0.text
+        self.clear_active_frame()
+
+
+    def create_main_game_window(self, *args):
+        active_frame = self.ids.ActiveFrame
+        label = Label(text=f"Hello, {Player.name}", color=(1, 0, 0, 1), font_size=100)
+        active_frame.add_widget(label)
 
 
 class Player(Widget):
@@ -50,6 +59,7 @@ class Player(Widget):
     food = NumericProperty
     money = NumericProperty
     sanity = NumericProperty
+    inventory: ListProperty
 
 
 if __name__ == '__main__':
