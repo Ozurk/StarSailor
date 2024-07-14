@@ -11,9 +11,11 @@ from kivy.properties import DictProperty
 from kivy.properties import NumericProperty
 from kivy.uix.button import ButtonBehavior, Button
 from kivy.properties import ListProperty
-
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.scatter import Scatter
 
 from kivy.lang import Builder
+
 Builder.load_file("Starsailor.kv")
 
 
@@ -50,9 +52,12 @@ class Starsailor(GridLayout):
         self.clear_active_frame()
 
     def create_main_game_window(self, *args):
-        active_frame = self.ids.ActiveFrame
-        label = Label(text=f"Hello, {Player.name}", color=(1, 0, 0, 1), font_size=100)
-        active_frame.add_widget(label)
+        self.ids.ActiveFrame.add_widget(MainGameWindow())
+
+
+
+class MainGameWindow(FloatLayout):
+    pass
 
 
 class Player(Widget):
