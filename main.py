@@ -16,7 +16,7 @@ from kivy.uix.scatter import Scatter
 
 from kivy.lang import Builder
 
-Builder.load_file("Starsailor.kv")
+# Builder.load_file("Starsailor.kv")
 
 
 class StarsailorApp(App):
