@@ -2,6 +2,7 @@
 #:import utils kivy.utils
 
 <Starsailor>
+    id: Root_Layout
     canvas.before:
         Color:
             rgba: (.15, .05, .15, 1)
@@ -11,6 +12,7 @@
     cols: 1
     rows: 3
     BoxLayout:
+        id: top_toolbar
         size_hint_y: .35
         width: root.width
         orientation: "horizontal"
@@ -55,9 +57,5 @@
         Button:
             text: "Help"
 
-<MainGameWindow>
-    Scatter:
-        Image:
-            source: "pictures/Morgans Pictures/boat.png"
-            size: 200, 200
+
 

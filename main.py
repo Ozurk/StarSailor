@@ -16,6 +16,7 @@ from kivy.uix.scatter import Scatter
 
 from kivy.lang import Builder
 
+
 # Builder.load_file("Starsailor.kv")
 
 
@@ -25,6 +26,11 @@ class StarsailorApp(App):
 
 
 class Starsailor(GridLayout):
+    name = StringProperty
+    food = NumericProperty
+    money = NumericProperty
+    sanity = NumericProperty
+    inventory: ListProperty
     text_entry0 = None
 
     def clear_active_frame(self, *args):
@@ -32,40 +38,43 @@ class Starsailor(GridLayout):
         self.ids.Bottom_Tool_Bar.clear_widgets()
 
     def create_new_game(self):
-        Player.food = 100
-        Player.money = 1000
-        Player.sanity = 85
+        self.food = 100
+        self.money = 1000
+        self.sanity = 85
         self.clear_active_frame()
 
         text_label = Label(text="Name")
-        self.text_entry0 = TextInput()
+        self.text_entry0 = TextInput(font_size=120)
         self.ids.ActiveFrame.add_widget(text_label)
         self.ids.ActiveFrame.add_widget(self.text_entry0)
 
         button = Button(text="Save", background_color=(1, 0, 0, 1), on_press=self.save_name_and_clear,
-                        on_release=self.create_main_game_window)
+                        on_release=self.create_intro_screen)
 
         self.ids.ActiveFrame.add_widget(button)
 
     def save_name_and_clear(self, *args):
-        Player.name = self.text_entry0.text
+        self.name = self.text_entry0.text
         self.clear_active_frame()
 
-    def create_main_game_window(self, *args):
-        self.ids.ActiveFrame.add_widget(MainGameWindow())
+    def create_intro_screen(self, *args):
+        text_block_on_left = Label(text="""Here is a whole lot of text""")
+        top_botton_on_right = Button(text="This is the top Button")
+        bottom_button_on_right = Button(text="Continue", on_press=self.proceed_to_heavens_forge)
+        active_frame = self.ids["ActiveFrame"]
+        temp_box_layout = BoxLayout(orientation="vertical", size_hint_x=.2)
+        active_frame.orientation = "horizontal"
+        active_frame.add_widget(text_block_on_left)
+        temp_box_layout.add_widget(top_botton_on_right)
+        temp_box_layout.add_widget(bottom_button_on_right)
+        active_frame.add_widget(temp_box_layout)
+
+    def proceed_to_heavens_forge(self, *args):
+        active_frame = self.ids['ActiveFrame']
+        active_frame.clear_widgets()
 
 
 
-class MainGameWindow(FloatLayout):
-    pass
-
-
-class Player(Widget):
-    name = StringProperty
-    food = NumericProperty
-    money = NumericProperty
-    sanity = NumericProperty
-    inventory: ListProperty
 
 
 if __name__ == '__main__':
