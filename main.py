@@ -13,16 +13,21 @@ from kivy.uix.button import ButtonBehavior, Button
 from kivy.properties import ListProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scatter import Scatter
-
+from kivy.core.window import Window
+from kivy.clock import Clock
+from kivy.animation import Animation
 from kivy.lang import Builder
+from kivy.vector import Vector
 
 
-# Builder.load_file("Starsailor.kv")
+Builder.load_file("Starsailor.kv")
 
 
 class StarsailorApp(App):
     def build(self):
-        return Starsailor()
+        self.root_widget = Starsailor()
+        return self.root_widget
+    
 
 
 class Starsailor(GridLayout):
@@ -58,23 +63,42 @@ class Starsailor(GridLayout):
         self.clear_active_frame()
 
     def create_intro_screen(self, *args):
-        text_block_on_left = Label(text="""Here is a whole lot of text""")
-        top_botton_on_right = Button(text="This is the top Button")
-        bottom_button_on_right = Button(text="Continue", on_press=self.proceed_to_heavens_forge)
-        active_frame = self.ids["ActiveFrame"]
-        temp_box_layout = BoxLayout(orientation="vertical", size_hint_x=.2)
-        active_frame.orientation = "horizontal"
-        active_frame.add_widget(text_block_on_left)
-        temp_box_layout.add_widget(top_botton_on_right)
-        temp_box_layout.add_widget(bottom_button_on_right)
-        active_frame.add_widget(temp_box_layout)
+        self.ids.ActiveFrame.add_widget(IntroScreen())
 
     def proceed_to_heavens_forge(self, *args):
         active_frame = self.ids['ActiveFrame']
         active_frame.clear_widgets()
+        active_frame.add_widget(HeavensForge())
 
 
 
+class IntroScreen(BoxLayout):
+    pass
+
+
+class HeavensForge(FloatLayout):
+    pass
+
+class Boat(Image):
+    velocity = ListProperty([4, 3])
+    def __init__(self, **kwargs):
+        super(Boat, self).__init__(**kwargs)
+        Clock.schedule_interval(self.update, 1.0/60.0)
+
+    def move(self):
+        self.pos = Vector(*self.velocity) + self.pos
+        print(self.pos, self.y)
+
+    def update(self, *args):
+        self.move()
+        if (self.x + self.width) > Window.width:
+            self.velocity[0] = 0
+            self.velocity[1] = -3
+
+         
+
+
+    
 
 
 if __name__ == '__main__':

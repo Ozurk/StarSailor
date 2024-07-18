@@ -58,4 +58,25 @@
             text: "Help"
 
 
+<IntroScreen>
+    orientation: "vertical"
+    Label:
+        text: """Greetings! Welcome to Starsailor. Here is a lot of text, there is  lot here! """
+    Button:
+        size_hint_y: .15
+        text: "Continue"
+        on_release: app.root_widget.proceed_to_heavens_forge()
+
+
+
+<HeavensForge>
+    Boat:
+        pos: 100, 100
+        size_hint: .25, .25
+        
+
+
+<Boat>
+    source: "pictures/Morgans Pictures/boat.png"     
+
 
