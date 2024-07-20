@@ -18,9 +18,21 @@ from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.lang import Builder
 from kivy.vector import Vector
+import time 
 
 
 Builder.load_file("Starsailor.kv")
+
+
+class Boat(Image):
+    def move_to(self, coordinates: list):
+        for x in range(coordinates[0]):
+            self.pos.x += 1
+            time.sleep(.001)
+        for x in range(coordinates[1]):
+            self.pos.y += 1
+
+
 
 
 class StarsailorApp(App):
@@ -37,6 +49,8 @@ class Starsailor(GridLayout):
     sanity = NumericProperty
     inventory: ListProperty
     text_entry0 = None
+
+
 
     def clear_active_frame(self, *args):
         self.ids.ActiveFrame.clear_widgets()
@@ -68,7 +82,9 @@ class Starsailor(GridLayout):
     def proceed_to_heavens_forge(self, *args):
         active_frame = self.ids['ActiveFrame']
         active_frame.clear_widgets()
-        active_frame.add_widget(HeavensForge())
+        
+
+
 
 
 
@@ -78,27 +94,8 @@ class IntroScreen(BoxLayout):
 
 class HeavensForge(FloatLayout):
     pass
+        
 
-class Boat(Image):
-    velocity = ListProperty([4, 3])
-    def __init__(self, **kwargs):
-        super(Boat, self).__init__(**kwargs)
-        Clock.schedule_interval(self.update, 1.0/60.0)
-
-    def move(self):
-        self.pos = Vector(*self.velocity) + self.pos
-        print(self.pos, self.y)
-
-    def update(self, *args):
-        self.move()
-        if (self.x + self.width) > Window.width:
-            self.velocity[0] = 0
-            self.velocity[1] = -3
-
-         
-
-
-    
 
 
 if __name__ == '__main__':

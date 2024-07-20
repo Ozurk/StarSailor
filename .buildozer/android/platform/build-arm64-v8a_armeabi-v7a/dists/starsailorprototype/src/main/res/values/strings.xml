@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">StarSailor</string>
-    <string name="private_version">a661864b0515feabbe6e0e7bf7a4a8e2067eab9e</string>
+    <string name="private_version">cf5ce4d168339209ed7b072afb92101e0effe090</string>
     <string name="presplash_color">#000000</string>
     <string name="urlScheme">kivy</string>
 </resources>

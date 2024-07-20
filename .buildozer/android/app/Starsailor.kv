@@ -2,6 +2,7 @@
 #:import utils kivy.utils
 
 <Starsailor>
+    id: Root_Layout
     canvas.before:
         Color:
             rgba: (.15, .05, .15, 1)
@@ -11,6 +12,7 @@
     cols: 1
     rows: 3
     BoxLayout:
+        id: top_toolbar
         size_hint_y: .35
         width: root.width
         orientation: "horizontal"
@@ -55,5 +57,26 @@
         Button:
             text: "Help"
 
+
+<IntroScreen>
+    orientation: "vertical"
+    Label:
+        text: """Greetings! Welcome to Starsailor. Here is a lot of text, there is  lot here! """
+    Button:
+        size_hint_y: .15
+        text: "Continue"
+        on_release: app.root_widget.proceed_to_heavens_forge()
+
+
+
+<HeavensForge>
+    Boat:
+        pos: 100, 100
+        size_hint: .25, .25
+        
+
+
+<Boat>
+    source: "pictures/Morgans Pictures/boat.png"     
 
 
