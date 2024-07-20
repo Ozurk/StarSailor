@@ -18,19 +18,16 @@ from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.lang import Builder
 from kivy.vector import Vector
-import time 
-
+from kivy.animation import Animation
 
 Builder.load_file("Starsailor.kv")
 
 
 class Boat(Image):
-    def move_to(self, coordinates: list):
-        for x in range(coordinates[0]):
-            self.pos.x += 1
-            time.sleep(.001)
-        for x in range(coordinates[1]):
-            self.pos.y += 1
+    def move_to(self, x_coord, y_coord, _duration):
+        animation = Animation(x=x_coord, y=y_coord, duration=_duration)
+        animation.start(self)
+        
 
 
 
@@ -82,8 +79,7 @@ class Starsailor(GridLayout):
     def proceed_to_heavens_forge(self, *args):
         active_frame = self.ids['ActiveFrame']
         active_frame.clear_widgets()
-        
-
+        active_frame.add_widget(HeavensForge())
 
 
 
@@ -94,7 +90,7 @@ class IntroScreen(BoxLayout):
 
 class HeavensForge(FloatLayout):
     pass
-        
+
 
 
 
