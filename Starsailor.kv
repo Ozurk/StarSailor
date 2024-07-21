@@ -51,38 +51,12 @@
         orientation: "horizontal"
         Button:
             text: "New Game"
-            on_press: root.create_new_game()
+            on_press: root.create_new_game
         Button:
             text: "Load Game"
         Button:
             text: "Help"
 
-
-<IntroScreen>
-    orientation: "vertical"
-    Label:
-        text: """Greetings! Welcome to Starsailor. Here is a lot of text, there is  lot here! """
-    Button:
-        size_hint_y: .15
-        text: "Continue"
-        on_release: app.root_widget.proceed_to_heavens_forge()
-
-
-
-<HeavensForge>  
-    Planet:
-        pos: root.width * .9, root.height / 4
-        size_hint: None, None
-        size: 100, 400
-        id: planetid
-    Boat:
-        size_hint: .25, .25
-        pos: 0, 0
-        id: ship
-    Button:
-        size_hint: 1, .15
-        on_press: root.intro_animation()
-   
 
 <Boat>
     source: "pictures/Morgans Pictures/boat.png"   
@@ -96,3 +70,11 @@
         Ellipse:
             size: self.size
             pos: self.pos
+
+
+<MainGameWindow>
+    FloatLayout:
+        Boat:
+            size: 100, 100
+            pos: root.height / 2, root.width / 2
+
