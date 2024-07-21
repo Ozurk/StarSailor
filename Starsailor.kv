@@ -69,17 +69,30 @@
 
 
 
-<HeavensForge>
+<HeavensForge>  
+    Planet:
+        pos: root.width * .9, root.height / 4
+        size_hint: None, None
+        size: 100, 400
+        id: planetid
     Boat:
         size_hint: .25, .25
-        pos: 100, 100
+        pos: 0, 0
         id: ship
     Button:
-        pos: 600, 0
-        on_press: ship.move_to(650, 100, 3)
-
+        size_hint: 1, .15
+        on_press: root.intro_animation()
+   
 
 <Boat>
-    source: "pictures/Morgans Pictures/boat.png"     
+    source: "pictures/Morgans Pictures/boat.png"   
+    id: ship  
 
 
+<Planet>
+    canvas.after:
+        Color:
+            rgba: .95, 0.1, .3, 1
+        Ellipse:
+            size: self.size
+            pos: self.pos

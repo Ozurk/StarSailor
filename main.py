@@ -19,7 +19,7 @@ from kivy.animation import Animation
 from kivy.lang import Builder
 from kivy.vector import Vector
 from kivy.animation import Animation
-
+from kivy.uix.widget import Widget
 Builder.load_file("Starsailor.kv")
 
 
@@ -27,7 +27,23 @@ class Boat(Image):
     def move_to(self, x_coord, y_coord, _duration):
         animation = Animation(x=x_coord, y=y_coord, duration=_duration)
         animation.start(self)
+
+    def change_size(self, _height, _width, _duration):
+        animation = Animation(height=_height, width=_width, duration=_duration)
+        animation.start(self)
         
+
+
+class Planet(Widget):
+    def move_to(self, x_coord, y_coord, _duration):
+        animation = Animation(x=x_coord, y=y_coord, duration=_duration)
+        animation.start(self)
+
+    def change_size(self, size: list, _duration):
+        
+        animation = Animation(size=size, duration=_duration)
+        animation.start(self)
+
 
 
 
@@ -64,7 +80,7 @@ class Starsailor(GridLayout):
         self.ids.ActiveFrame.add_widget(text_label)
         self.ids.ActiveFrame.add_widget(self.text_entry0)
 
-        button = Button(text="Save", background_color=(1, 0, 0, 1), on_press=self.save_name_and_clear,
+        button = Button(text="Save", background_color=(1, 0, 0, 1), on_press=self.save_name_and_clear(),
                         on_release=self.create_intro_screen)
 
         self.ids.ActiveFrame.add_widget(button)
@@ -80,8 +96,7 @@ class Starsailor(GridLayout):
         active_frame = self.ids['ActiveFrame']
         active_frame.clear_widgets()
         active_frame.add_widget(HeavensForge())
-
-
+        
 
 
 class IntroScreen(BoxLayout):
@@ -89,8 +104,11 @@ class IntroScreen(BoxLayout):
 
 
 class HeavensForge(FloatLayout):
-    pass
-
+    def intro_animation(self):
+        boat = self.ids.ship
+        planet = self.ids.planetid
+        boat.move_to(planet.x,planet.y, 5)
+        boat.change_size(.25, .25, 5)
 
 
 
