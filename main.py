@@ -49,12 +49,12 @@ class Planet(Widget):
 
 class StarsailorApp(App):
     def build(self):
-        return  Starsailor()
+        main_widget = Starsailor()
+        return  main_widget
     
 
 
 class Starsailor(GridLayout):
-    active_frame = self.ids.ActiveFrame
     name = StringProperty
     food = NumericProperty
     money = NumericProperty
@@ -66,23 +66,32 @@ class Starsailor(GridLayout):
         self.ids.ActiveFrame.clear_widgets()
         self.ids.Bottom_Tool_Bar.clear_widgets()
 
+
     def create_new_game(self, *args):
+        active_frame = self.ids.ActiveFrame
         self.food = 100
         self.money = 1000
         self.sanity = 85
         self.clear_active_frame()
-        active_frame.add_widget(MainGameWindow())
+        main_window = MainGameWindow()
+        active_frame.add_widget(main_window)
+
 
 
 
 
 class MainGameWindow(ScrollView):
-    pass
+    def on_touch_down(self, touch):
+        ship = self.ids.ship
+        ship.move_to(touch.pos[0] - (ship.width / 2), (touch.pos[1] - ship.height * 1.25), 1)
+        return super().on_touch_down(touch)
+    
+    
 
       
 
-class Boat(Image):
-    pass
+
+
 
 if __name__ == '__main__':
     StarsailorApp().run()

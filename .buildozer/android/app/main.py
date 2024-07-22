@@ -18,15 +18,39 @@ from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.lang import Builder
 from kivy.vector import Vector
-
-
+from kivy.animation import Animation
+from kivy.uix.widget import Widget
+from kivy.uix.scrollview import ScrollView
 Builder.load_file("Starsailor.kv")
+
+
+class Boat(Image):
+    def move_to(self, x_coord, y_coord, _duration):
+        animation = Animation(x=x_coord, y=y_coord, duration=_duration)
+        animation.start(self)
+
+    def change_size(self, _height, _width, _duration):
+        animation = Animation(height=_height, width=_width, duration=_duration)
+        animation.start(self)
+        
+
+class Planet(Widget):
+    def move_to(self, x_coord, y_coord, _duration):
+        animation = Animation(x=x_coord, y=y_coord, duration=_duration)
+        animation.start(self)
+
+    def change_size(self, size: list, _duration):
+        
+        animation = Animation(size=size, duration=_duration)
+        animation.start(self)
+
+
 
 
 class StarsailorApp(App):
     def build(self):
-        self.root_widget = Starsailor()
-        return self.root_widget
+        main_widget = Starsailor()
+        return  main_widget
     
 
 
@@ -36,69 +60,37 @@ class Starsailor(GridLayout):
     money = NumericProperty
     sanity = NumericProperty
     inventory: ListProperty
-    text_entry0 = None
+
 
     def clear_active_frame(self, *args):
         self.ids.ActiveFrame.clear_widgets()
         self.ids.Bottom_Tool_Bar.clear_widgets()
 
-    def create_new_game(self):
+
+    def create_new_game(self, *args):
+        active_frame = self.ids.ActiveFrame
         self.food = 100
         self.money = 1000
         self.sanity = 85
         self.clear_active_frame()
-
-        text_label = Label(text="Name")
-        self.text_entry0 = TextInput(font_size=120)
-        self.ids.ActiveFrame.add_widget(text_label)
-        self.ids.ActiveFrame.add_widget(self.text_entry0)
-
-        button = Button(text="Save", background_color=(1, 0, 0, 1), on_press=self.save_name_and_clear,
-                        on_release=self.create_intro_screen)
-
-        self.ids.ActiveFrame.add_widget(button)
-
-    def save_name_and_clear(self, *args):
-        self.name = self.text_entry0.text
-        self.clear_active_frame()
-
-    def create_intro_screen(self, *args):
-        self.ids.ActiveFrame.add_widget(IntroScreen())
-
-    def proceed_to_heavens_forge(self, *args):
-        active_frame = self.ids['ActiveFrame']
-        active_frame.clear_widgets()
-        active_frame.add_widget(HeavensForge())
+        main_window = MainGameWindow()
+        active_frame.add_widget(main_window)
 
 
 
-class IntroScreen(BoxLayout):
-    pass
 
 
-class HeavensForge(FloatLayout):
-    pass
-
-class Boat(Image):
-    velocity = ListProperty([4, 3])
-    def __init__(self, **kwargs):
-        super(Boat, self).__init__(**kwargs)
-        Clock.schedule_interval(self.update, 1.0/60.0)
-
-    def move(self):
-        self.pos = Vector(*self.velocity) + self.pos
-        print(self.pos, self.y)
-
-    def update(self, *args):
-        self.move()
-        if (self.x + self.width) > Window.width:
-            self.velocity[0] = 0
-            self.velocity[1] = -3
-
-         
-
-
+class MainGameWindow(ScrollView):
+    def on_touch_down(self, touch):
+        ship = self.ids.ship
+        ship.move_to(touch.pos[0] - (ship.width / 2), (touch.pos[1] - ship.height * 1.25), 1)
+        return super().on_touch_down(touch)
     
+    
+
+      
+
+
 
 
 if __name__ == '__main__':
