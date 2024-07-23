@@ -1,7 +1,7 @@
 #:kivy 2.3.0
 #:import utils kivy.utils
 
-<Starsailor>
+<Starsailor>:
     id: Root_Layout
     canvas.before:
         Color:
@@ -21,7 +21,6 @@
             orientation: "horizontal"
             Image:
                 source: "pictures/active/Starsailor_HELP.png"
-
         BoxLayout:
             orientation: "horizontal"
             Image:
@@ -44,7 +43,6 @@
             keep_ratio: False
             allow_stretch: True
             size: self.texture_size
-
     BoxLayout:
         id: Bottom_Tool_Bar
         size_hint_y: .25
@@ -57,12 +55,10 @@
         Button:
             text: "Help"
 
-
-<Boat>
+<Boat>:
     source: "pictures/Morgans Pictures/boat.png"   
 
-
-<Planet>
+<Planet>:
     size_hint: None, None
     canvas.after:
         Color:
@@ -71,17 +67,24 @@
             size: self.size
             pos: self.pos
 
-
-<MainGameWindow>
-    FloatLayout:
-        Button:
-            background_color: .25, 0, .02 , 1
+<MainGameWindow>:
+    ship: ship
+    Label:
+        size: 2000, 1000
+        size_hint: None, None
         Planet:
-            size: 200, 200
+            size_hint: .25, .25
             pos: 450, 70
+        Planet:
+            size_hint: .25, .25
+            pos: 500, 700
+        Planet:
+            size_hint: .3, .3
+            pos: 400, 400
+            canvas.after:
+                Color:
+                    rgba: 1, 1, 0, 1
         Boat:
-            size_hint: None, None
-            size: 100, 100
+            size_hint: .25, .25
             pos: 10, 10
             id: ship
-
