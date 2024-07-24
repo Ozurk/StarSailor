@@ -19,14 +19,7 @@ from kivy.uix.scrollview import ScrollView
 
 Builder.load_file("Starsailor.kv")
 
-class MoveButtons(BoxLayout):
 
-    def scroll_up(self):
-        MainGameWindow.scroll_up(MainGameWindow)
-
-    def scroll_down(self):
-        MainGameWindow.scroll_down(MainGameWindow)
-        
 
 
 class MainMenuTopButtons(BoxLayout):
@@ -37,9 +30,7 @@ class Boat(Image):
         animation = Animation(x=x_coord, y=y_coord, duration=_duration)
         animation.start(self)
 
-    def change_size(self, _height, _width, _duration):
-        animation = Animation(height=_height, width=_width, duration=_duration)
-        animation.start(self)
+
         
 
 class Planet(Widget):
@@ -52,49 +43,47 @@ class Planet(Widget):
         animation.start(self)
 
 
-class MainGameWindow(ScrollView):
-    ship = ObjectProperty(None)
-    
+class Map(ScrollView):
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
-            parent = self.ship.parent
+            # Convert touch position to the ship's parent coordinate space
+            parent = self.ids.ship.parent
             touch_pos = parent.to_widget(*touch.pos)
-            self.ship.move_to(touch_pos[0], touch_pos[1], 1)
-            return True
+            # Move the ship to the new position
+            self.ids.ship.move_to(touch_pos[0], touch_pos[1], 1)
         return super().on_touch_down(touch)
     
-    def scroll_up(self):
-        self.scroll_y = min(self.scroll_y + 0.1, 1)
 
-    def scroll_down(self):
-        self.scroll_y = max(self.scroll_y - 0.1, 0)
-
-
-class Starsailor(GridLayout):
+class Starsailor(GridLayout):    
     name = StringProperty()
     food = NumericProperty(0)
     money = NumericProperty(0)
     sanity = NumericProperty(0)
     inventory = ListProperty([])
-
-    def clear_active_frame(self, *args):
-        self.ids.ActiveFrame.clear_widgets()
-        self.ids.Bottom_Tool_Bar.clear_widgets()
-        self.ids.Bottom_Tool_Bar.add_widget(MoveButtons())
+    ship = ObjectProperty(None)
+    map = ObjectProperty(None)
 
     def create_new_game(self, *args):
-        active_frame = self.ids.ActiveFrame
         self.food = 100
         self.money = 1000
         self.sanity = 85
-        self.clear_active_frame()
-        main_window = MainGameWindow()
-        active_frame.add_widget(main_window)
+        self.clear_widgets()
+        self.map = Map()
+        self.ship = self.map.ids.ship
+        self.add_widget(self.map)
 
+    
+
+    
+    
+
+        
 
 class StarsailorApp(App):
     def build(self):
-        return Starsailor()
+        root = Starsailor()
+        return root
+        
 
 
 if __name__ == '__main__':
