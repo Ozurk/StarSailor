@@ -85,34 +85,35 @@
             pos: self.pos
 
 <Map>:
-    id: _map
-    Label:
-        size: 2000, 1000
-        size_hint: None, None
-        Planet:
-            size_hint: .25, .25
-            pos: 450, 70
-        Planet:
-            size_hint: .25, .25
-            pos: 900, 800
-        Planet:
-            size_hint: .25, .25
-            pos: 1700, 700
-        Planet:
-            size_hint: .25, .25
-            pos: 1500, 900
-        Planet:
-            size_hint: .25, .25
-            pos: 100, 800
+    ScrollView:
+        id: _map
+        Label:
+            size: 2000, 1000
+            size_hint: None, None
+            Planet:
+                size_hint: .25, .25
+                pos: 450, 70
+            Planet:
+                size_hint: .25, .25
+                pos: 900, 800
+            Planet:
+                size_hint: .25, .25
+                pos: 1700, 700
+            Planet:
+                size_hint: .25, .25
+                pos: 1500, 900
+            Planet:
+                size_hint: .25, .25
+                pos: 100, 800
 
-        Planet:
-            size_hint: .3, .3
-            pos: 400, 400
-            canvas.after:
-                Color:
-                    rgba: 1, 1, 0, 1
-        Boat:
-            size_hint: .25, .25
-            id: ship
+            Planet:
+                size_hint: .3, .3
+                pos: 400, 400
+                canvas.after:
+                    Color:
+                        rgba: 1, 1, 0, 1
+            Boat:
+                size_hint: .25, .25
+                id: ship
 
 
