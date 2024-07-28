@@ -14,7 +14,7 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.lang import Builder
-from kivy.vector import Vector
+from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.scrollview import ScrollView
 
 Builder.load_file("Starsailor.kv")
@@ -43,7 +43,9 @@ class Planet(Widget):
         animation.start(self)
 
 
-class Map(ScrollView):
+class Map(Screen):
+    window_width = Window.width
+    window_height = Window.height
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
             # Convert touch position to the ship's parent coordinate space
@@ -54,7 +56,7 @@ class Map(ScrollView):
         return super().on_touch_down(touch)
     
 
-class Starsailor(GridLayout):    
+class Starsailor(ScreenManager):    
     name = StringProperty()
     food = NumericProperty(0)
     money = NumericProperty(0)
@@ -63,21 +65,22 @@ class Starsailor(GridLayout):
     ship = ObjectProperty(None)
     map = ObjectProperty(None)
 
+    
+
+    
+
+class StartMenu(Screen):
     def create_new_game(self, *args):
         self.food = 100
         self.money = 1000
         self.sanity = 85
-        self.clear_widgets()
-        self.map = Map()
         self.ship = self.map.ids.ship
         self.add_widget(self.map)
-
-    
-
-    
-    
-
         
+
+class TopButtons(BoxLayout):
+    pass
+
 
 class StarsailorApp(App):
     def build(self):
