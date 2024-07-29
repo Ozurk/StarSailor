@@ -2,51 +2,58 @@
 #:import utils kivy.utils
 
 <Starsailor>:
-    id: Root_Layout
-    canvas.before:
-        Color:
-            rgba: (.15, .05, .15, 1)
-        Rectangle:
-            size: self.size
-            pos: self.pos
-    cols: 1
-    rows: 3
-    BoxLayout:
-        id: main_menu_top_buttons
-        size_hint: 1, .20
-        orientation: "horizontal"
-        Image:
-            source: "pictures/active/Starsailor_HELP.png"
-            size_hint: .15, 1
-        Image:
-            source: "pictures/active/Starsailor_Banner.png"
-            allow_stretch: True
-            keep_ratio: False
-            size_hint: .7, 1
-            size: self.texture_size
-        Image:
-            source: "pictures/active/Starsailor_MENU.png"
-            size_hint: .15, 1
-    Image:
-        source: "pictures/active/coverphoto.jpg"
-        size_hint: 1, .7
-        keep_ratio: False
-        allow_stretch: True
-        size: self.texture_size
-    BoxLayout:
-        id: Bottom_Tool_Bar
-        size_hint_y: .25
-        orientation: "horizontal"
-        Button:
-            id: new_game_button
-            text: "New Game"
-            on_release: root.create_new_game()
-        Button:
-            text: "Load Game"
-        Button:
-            text: "Help"
-    
+    StartMenu:
+    Map:
 
+
+<StartMenu>
+    name: "StartMenu"
+    GridLayout:
+        id: Root_Layout
+        canvas.before:
+            Color:
+                rgba: (.15, .05, .15, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        cols: 1
+        rows: 3
+        TopButtons:
+        Image:
+            source: "pictures/active/coverphoto.jpg"
+            size_hint: 1, .7
+            keep_ratio: False
+            allow_stretch: True
+            size: self.texture_size
+        BoxLayout:
+            id: Bottom_Tool_Bar
+            size_hint_y: .25
+            orientation: "horizontal"
+            Button:
+                id: new_game_button
+                text: "New Game"
+                on_press: app.root.current = "Map"
+            Button:
+                text: "Load Game"
+            Button:
+                text: "Help"
+        
+<TopButtons>
+    id: main_menu_top_buttons
+    size_hint: 1, .20
+    orientation: "horizontal"
+    Image:
+        source: "pictures/active/Starsailor_HELP.png"
+        size_hint: .15, 1
+    Image:
+        source: "pictures/active/Starsailor_Banner.png"
+        allow_stretch: True
+        keep_ratio: False
+        size_hint: .7, 1
+        size: self.texture_size
+    Image:
+        source: "pictures/active/Starsailor_MENU.png"
+        size_hint: .15, 1
 
     
 
@@ -85,35 +92,40 @@
             pos: self.pos
 
 <Map>:
-    ScrollView:
-        id: _map
-        Label:
-            size: 2000, 1000
-            size_hint: None, None
-            Planet:
-                size_hint: .25, .25
-                pos: 450, 70
-            Planet:
-                size_hint: .25, .25
-                pos: 900, 800
-            Planet:
-                size_hint: .25, .25
-                pos: 1700, 700
-            Planet:
-                size_hint: .25, .25
-                pos: 1500, 900
-            Planet:
-                size_hint: .25, .25
-                pos: 100, 800
+    name: "Map"
+    BoxLayout:
+        orientation: "vertical"
+        TopButtons:
+            size_hint_y: .2
+        ScrollView:
+            id: _map
+            Label:
+                size: root.window_width * 4, root.window_height * 6
+                size_hint: None, None
+                Planet:
+                    size_hint: .25, .25
+                    pos: 450, 70
+                Planet:
+                    size_hint: .25, .25
+                    pos: 900, 800
+                Planet:
+                    size_hint: .25, .25
+                    pos: 1700, 700
+                Planet:
+                    size_hint: .25, .25
+                    pos: 1500, 900
+                Planet:
+                    size_hint: .25, .25
+                    pos: 100, 800
 
-            Planet:
-                size_hint: .3, .3
-                pos: 400, 400
-                canvas.after:
-                    Color:
-                        rgba: 1, 1, 0, 1
-            Boat:
-                size_hint: .25, .25
-                id: ship
+                Planet:
+                    size_hint: .3, .3
+                    pos: 400, 400
+                    canvas.after:
+                        Color:
+                            rgba: 1, 1, 0, 1
+                Boat:
+                    size_hint: .25, .25
+                    id: ship
 
 
