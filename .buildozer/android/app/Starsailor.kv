@@ -99,15 +99,18 @@
             size_hint_y: .2
         ScrollView:
             id: _map
-            Label:
-                size: root.window_width * 4, root.window_height * 3
+            Image:
+                source: "pictures/Hunters Pictures/map.png"
+                keep_ratio: False
+                allow_stretch: True
+                size: root.window_width * 5, root.window_height * 4
                 size_hint: None, None
-                Planet:
-                    size_hint: .25, .25
-                    pos: 450, 70
-                Planet:
-                    size_hint: .25, .25
-                    pos: 900, 800
+                Image:
+                    source: "pictures/Hunters Pictures/hforge.png"
+                    size: 700, 700
+                    pos: 500, 600
+
+              
                 Planet:
                     size_hint: 6, .6
                     pos: 1700, 700
@@ -125,7 +128,7 @@
                         Color:
                             rgba: 1, 1, 0, 1
                 Boat:
-                    size_hint: .9, .9
+                    size: 100, 100
                     id: ship
 
 
