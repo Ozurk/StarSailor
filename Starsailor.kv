@@ -4,6 +4,8 @@
 <Starsailor>:
     StartMenu:
     Map:
+    HForgeFactory:
+    HForgeTopDown:
 
 
 <StartMenu>
@@ -35,6 +37,7 @@
                 on_press: app.root.current = "Map"
             Button:
                 text: "Load Game"
+                on_press: app.root.current = "HForgeTopDown"
             Button:
                 text: "Help"
         
@@ -109,6 +112,7 @@
                     source: "pictures/Hunters Pictures/hforge.png"
                     size: 700, 700
                     pos: 500, 600
+                    on_touch_down: app.root.current = "HForgeTopDown"
 
               
                 Planet:
@@ -130,5 +134,43 @@
                 Boat:
                     size: 100, 100
                     id: ship
+
+
+<HForgeTopDown>
+    name: "HForgeTopDown"
+    ScrollView:
+        Image:
+            size_hint: None, None
+            source: 'pictures/Hunters Pictures/hforgetopdown.png'
+            size: root.window_width, root.window_height
+            keep_ratio: False
+            allow_stretch: True
+            Button:
+                text: "Enter the Market"
+                pos: 60, 350
+                size: 125, 20
+
+                
+            Button:
+                text: "Heaven's Forge"
+                pos: root.window_width * .6, 150
+                size: 220, 20
+                on_press: app.root.current = "HForgeFactory"
+
+<HForgeFactory>
+    name: "HForgeFactory"
+    ScrollView:
+    Image:
+        source: 'pictures/Hunters Pictures/Heavens forge factory.png'
+        LightWelder:
+            size_hint: None, None
+            pos: 60, 150
+            size: 200, 200
+
+
+<LightWelder>
+    source: "pictures/Hunters Pictures/lightwelder.png"
+    
+
 
 
