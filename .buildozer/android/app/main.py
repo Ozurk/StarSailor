@@ -55,7 +55,21 @@ class Map(Screen):
             self.ids.ship.move_to(touch_pos[0], touch_pos[1], 1)
         return super().on_touch_down(touch)
     
+class HForgeTopDown(Screen):
+    window_width = Window.width
+    window_height = Window.height
 
+
+class HForgeFactory(Screen):
+    pass
+
+class LightWelder(Image):
+    def on_touch_move(self, touch):
+        animation = Animation(x=self.x + 20, y=self.y, duration=.2)
+        animation.start(self)
+        return super().on_touch_move(touch)
+            
+            
 class Starsailor(ScreenManager):    
     name = StringProperty()
     food = NumericProperty(0)
