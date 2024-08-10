@@ -65,11 +65,17 @@ class HForgeFactory(Screen):
 
 class LightWelder(Image):
     def on_touch_move(self, touch):
-        animation = Animation(x=self.x + 20, y=self.y, duration=.2)
-        animation.start(self)
+        if self.collide_point(*touch.pos):
+            animation = Animation(x=self.x + 100, y=self.y, duration=0.2)
+            animation.start(self)
+            return True
         return super().on_touch_move(touch)
-            
-            
+
+class RustyLightWelder(Image):
+    pass
+
+
+
 class Starsailor(ScreenManager):    
     name = StringProperty()
     food = NumericProperty(0)
@@ -91,6 +97,24 @@ class StartMenu(Screen):
         self.ship = self.map.ids.ship
         self.add_widget(self.map)
         
+class RustyLightWelderAside(Screen):
+    robot_dialoge = StringProperty("")
+    index = 0
+    def rusty_lightwelder_dialoge(self):
+        dialoge = ["A Overclocked Lightwelder runs red hot, steam whistling off its rotund metallic frame. It's voice box drones out to you",
+"I have overseen this forge for millennia and time has taken its toll on me.", "These rusty joints once shined with a coat of star paint",
+ " but has since peeled off over the many centuries in this immense heat, and without its protective properties, I fear for my imminent dissolution.",
+   "Here. I fear the last can of starpaint was used up decades ago, should you find some. I will bestow upon you a pallet of hardlight.",
+    "This will surely be invaluable in the exploration of more distant skies."]
+        try:
+            self.robot_dialoge = dialoge[self.index]
+        except IndexError:
+            self.index = 0
+        self.index += 1
+
+
+
+
 
 class TopButtons(BoxLayout):
     pass

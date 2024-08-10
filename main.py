@@ -16,6 +16,7 @@ from kivy.animation import Animation
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.scrollview import ScrollView
+from kivy.graphics import PushMatrix, PopMatrix, Scale
 
 Builder.load_file("Starsailor.kv")
 
@@ -27,8 +28,20 @@ class MainMenuTopButtons(BoxLayout):
 
 class Boat(Image):
     def move_to(self, x_coord, y_coord, _duration):
-        animation = Animation(x=x_coord, y=y_coord, duration=_duration)
+        self.source = "pictures/Morgans Pictures/boat_in_motion.png"
+        if x_coord < self.x:  # Moving left
+            self.source = "pictures/Morgans Pictures/boat_in_motion_left.png"
+        else:  # Moving right
+            self.source = "pictures/Morgans Pictures/boat_in_motion.png"
+        animation = Animation(x=x_coord - self.width / 2, y=y_coord - self.height / 2, duration=_duration)
+        animation.bind(on_complete=self.on_stop_motion)
         animation.start(self)
+
+    def on_stop_motion(self, *args):
+        if self.source == "pictures/Morgans Pictures/boat_in_motion_left.png":
+            self.source = "pictures/Morgans Pictures/boat_left.png"
+        else:
+            self.source = "pictures/Morgans Pictures/boat.png"
 
 
         

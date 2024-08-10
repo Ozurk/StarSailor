@@ -6,6 +6,7 @@
     Map:
     HForgeFactory:
     HForgeTopDown:
+    RustyLightWelderAside:
 
 
 <StartMenu>
@@ -112,12 +113,12 @@
                     source: "pictures/Hunters Pictures/hforge.png"
                     size: 700, 700
                     pos: 500, 600
-                    on_touch_down: app.root.current = "HForgeTopDown"
-
+                    on_touch_down: if self.collide_point(*args[1].pos): app.root.current = "HForgeTopDown"
               
-                Planet:
-                    size_hint: 6, .6
+                Image:
+                    size: 600, 600
                     pos: 1700, 700
+                    source: "pictures/Hunters Pictures/Valdstafar.png"
                 Planet:
                     size_hint: .25, .25
                     pos: 1500, 900
@@ -138,34 +139,47 @@
 
 <HForgeTopDown>
     name: "HForgeTopDown"
-    ScrollView:
+    FloatLayout:
         Image:
-            size_hint: None, None
-            source: 'pictures/Hunters Pictures/hforgetopdown.png'
-            size: root.window_width, root.window_height
-            keep_ratio: False
-            allow_stretch: True
-            Button:
-                text: "Enter the Market"
-                pos: 60, 350
-                size: 125, 20
+            size_hint: .5, .5
+            source: "pictures/Hunters Pictures/The forge.png"
+            pos_hint: {'right': 1, 'bottom': 1}
+            on_touch_down: if self.collide_point(*args[1].pos): app.root.current = "HForgeFactory"
+        
+        Image:
+            size_hint: .5, .5
+            source: "pictures/Hunters Pictures/H forge store.png"
+            pos_hint: {'left': 1, 'top': 1}
 
+        
                 
-            Button:
-                text: "Heaven's Forge"
-                pos: root.window_width * .6, 150
-                size: 220, 20
-                on_press: app.root.current = "HForgeFactory"
+        
 
 <HForgeFactory>
     name: "HForgeFactory"
     ScrollView:
     Image:
         source: 'pictures/Hunters Pictures/Heavens forge factory.png'
+        RustyLightWelder:
+            pos: 250, 250
+            on_touch_down: if self.collide_point(*args[1].pos): app.root.current = "RustyLightWelderAside"
         LightWelder:
             size_hint: None, None
-            pos: 60, 150
+            pos: 60, 250
+            size: 160, 160
+        LightWelder:
+            size_hint: None, None
+            pos: 140, 200
+            size: 150, 150
+        LightWelder:
+            size_hint: None, None
+            pos: 278, 200
             size: 200, 200
+        LightWelder:
+            size_hint: None, None
+            pos: 300, 90
+            size: 250, 250
+
 
 
 <LightWelder>
@@ -173,4 +187,21 @@
     
 
 
+<RustyLightWelder>
+    source: "pictures/Hunters Pictures/Rusty light welder.png"
 
+<RustyLightWelderAside>
+    name: "RustyLightWelderAside"
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: root.robot_dialoge
+            size_hint_y: .3333
+            font_size: 27
+            text_size: self.size
+            valign: "top"
+            halign: "center"
+        Image: 
+            size_hint_y: .6666
+            source: "pictures/Hunters Pictures/Rusty light welder.png"
+            on_touch_down: if self.collide_point(*args[1].pos): root.rusty_lightwelder_dialoge()
