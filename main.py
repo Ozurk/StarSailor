@@ -126,10 +126,6 @@ class RustyLightWelderAside(Screen):
             self.index = 0
         
 
-
-
-
-
 class TopButtons(BoxLayout):
     pass
 
