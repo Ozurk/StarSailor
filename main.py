@@ -121,9 +121,10 @@ class RustyLightWelderAside(Screen):
     "This will surely be invaluable in the exploration of more distant skies."]
         try:
             self.robot_dialoge = dialoge[self.index]
+            self.index += 1
         except IndexError:
             self.index = 0
-        self.index += 1
+        
 
 
 
