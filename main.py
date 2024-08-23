@@ -18,7 +18,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.scrollview import ScrollView
 from kivy.graphics import PushMatrix, PopMatrix, Scale
 
-Builder.load_file("Starsailor.kv")
+# Builder.load_file("Starsailor.kv")
 
 
 
