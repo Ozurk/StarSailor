@@ -78,23 +78,26 @@ class HForgeStore(Screen):
     def on_enter(self, *args):
         self.create_sale_items()
         return super().on_enter(*args)
-    sale_items = {"screws": 10,
-                  "nails": 10,
-                  "pallet of hardlight": 20000,
-                  "copper ingot": 30,
-                  "brass ore": 20,
-                  "cable": 30,
-                  "heavens forge novelty pin": 100,
-                  "Sunscreen": 20,}
+    sale_items = {"screws": [10, "A large box of screws"],
+                  "nails": [10, "A large box of nails"],
+                  "pallet of hardlight": [20000, "a pallet of sheets of hardlight. etc"],
+                  "copper ingot": [30, "30 blocks of copper ingot"],
+                  "brass ore": [20, "brass ore.. curious how this is even possible..."],
+                  "cable": [30, "spool of .5 gauge stainess steel cable"],
+                  "heavens forge novelty pin": [100, 'big ol pin'],
+                  "Sunscreen": [20, "bottle of the strongest sunscreen known to man"],}
     def create_sale_items(self):
         store_grid = self.ids.store_grid
         if store_grid.children == []:
             for item in self.sale_items:
                 if item == None:
                     pass
-                btn = Button(text=f"{item} :${self.sale_items[item]}")
+                btn = Button(text=f"{item}")
                 btn.bind()
                 store_grid.add_widget(btn)
+    
+    def purchase_item(self):
+        pass
             
 
 class HForgeFactory(Screen):
