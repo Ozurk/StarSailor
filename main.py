@@ -11,40 +11,37 @@ from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scatter import Scatter
 from kivy.core.window import Window
-from kivy.clock import Clock
+
 from kivy.animation import Animation
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.scrollview import ScrollView
-from kivy.graphics import PushMatrix, PopMatrix, Scale
+
 
 # Builder.load_file("Starsailor.kv")
-
-
 
 
 class MainMenuTopButtons(BoxLayout):
     pass
 
+
 class Boat(Image):
     def move_to(self, x_coord, y_coord, _duration):
-        self.source = "pictures/Morgans Pictures/boat_in_motion.png"
+        self.source = "pictures/Boats/boat_in_motion.png"
         if x_coord < self.x:  # Moving left
-            self.source = "pictures/Morgans Pictures/boat_in_motion_left.png"
+            self.source = "pictures/Boats/boat_in_motion_left.png"
         else:  # Moving right
-            self.source = "pictures/Morgans Pictures/boat_in_motion.png"
+            self.source = "pictures/Boats/boat_in_motion.png"
         animation = Animation(x=x_coord - self.width / 2, y=y_coord - self.height / 2, duration=_duration)
         animation.bind(on_complete=self.on_stop_motion)
         animation.start(self)
 
     def on_stop_motion(self, *args):
-        if self.source == "pictures/Morgans Pictures/boat_in_motion_left.png":
-            self.source = "pictures/Morgans Pictures/boat_left.png"
+        if self.source == "pictures/Boats/boat_in_motion_left.png":
+            self.source = "pictures/Boats/boat_left.png"
         else:
-            self.source = "pictures/Morgans Pictures/boat.png"
+            self.source = "pictures/Boats/boat.png"
 
-
-        
 
 class Planet(Widget):
     def move_to(self, x_coord, y_coord, _duration):
@@ -59,6 +56,7 @@ class Planet(Widget):
 class Map(Screen):
     window_width = Window.width
     window_height = Window.height
+
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
             # Convert touch position to the ship's parent coordinate space
@@ -67,7 +65,8 @@ class Map(Screen):
             # Move the ship to the new position
             self.ids.ship.move_to(touch_pos[0], touch_pos[1], 1)
         return super().on_touch_down(touch)
-    
+
+
 class HForgeTopDown(Screen):
     window_width = Window.width
     window_height = Window.height
@@ -75,6 +74,7 @@ class HForgeTopDown(Screen):
 
 class HForgeFactory(Screen):
     pass
+
 
 class LightWelder(Image):
     def on_touch_move(self, touch):
@@ -84,12 +84,12 @@ class LightWelder(Image):
             return True
         return super().on_touch_move(touch)
 
+
 class RustyLightWelder(Image):
     pass
 
 
-
-class Starsailor(ScreenManager):    
+class Starsailor(ScreenManager):
     name = StringProperty()
     food = NumericProperty(0)
     money = NumericProperty(0)
@@ -98,33 +98,35 @@ class Starsailor(ScreenManager):
     ship = ObjectProperty(None)
     map = ObjectProperty(None)
 
-    
-
-    
 
 class StartMenu(Screen):
     def create_new_game(self, *args):
-        self.food = 100
-        self.money = 1000
-        self.sanity = 85
-        self.ship = self.map.ids.ship
-        self.add_widget(self.map)
-        
+        Starsailor.food = 100
+        Starsailor.money = 1000
+        Starsailor.sanity = 85
+
+
 class RustyLightWelderAside(Screen):
     robot_dialoge = StringProperty("")
     index = 0
+
     def rusty_lightwelder_dialoge(self):
-        dialoge = ["A Overclocked Lightwelder runs red hot, steam whistling off its rotund metallic frame. It's voice box drones out to you",
-"I have overseen this forge for millennia and time has taken its toll on me.", "These rusty joints once shined with a coat of star paint",
- " but has since peeled off over the many centuries in this immense heat, and without its protective properties, I fear for my imminent dissolution.",
-   "Here. I fear the last can of starpaint was used up decades ago, should you find some. I will bestow upon you a pallet of hardlight.",
-    "This will surely be invaluable in the exploration of more distant skies."]
+        dialog = [
+            "A Overclocked Lightwelder runs red hot, steam whistling off its rotund metallic frame. It's voice box "
+            "drones out to you",
+            "I have overseen this forge for millennia and time has taken its toll on me.",
+            "These rusty joints once shined with a coat of star paint",
+            "but has since peeled off over the many centuries in this immense heat, and without its protective "
+            "properties, I fear for my imminent dissolution.",
+            "Here. I fear the last can of starpaint was used up decades ago, should you find some. I will bestow upon "
+            "you a pallet of hardlight.",
+            "This will surely be invaluable in the exploration of more distant skies."]
         try:
-            self.robot_dialoge = dialoge[self.index]
+            self.robot_dialoge = dialog[self.index]
             self.index += 1
         except IndexError:
             self.index = 0
-        
+
 
 class TopButtons(BoxLayout):
     pass
@@ -134,7 +136,6 @@ class StarsailorApp(App):
     def build(self):
         root = Starsailor()
         return root
-        
 
 
 if __name__ == '__main__':

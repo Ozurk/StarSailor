@@ -23,7 +23,7 @@
         rows: 3
         TopButtons:
         Image:
-            source: "pictures/active/coverphoto.jpg"
+            source: "pictures/GUI/coverphoto.jpg"
             size_hint: 1, .7
             keep_ratio: False
             allow_stretch: True
@@ -47,41 +47,23 @@
     size_hint: 1, .20
     orientation: "horizontal"
     Image:
-        source: "pictures/active/Starsailor_HELP.png"
+        source: "pictures/GUI/Starsailor_HELP.png"
         size_hint: .15, 1
     Image:
-        source: "pictures/active/Starsailor_Banner.png"
+        source: "pictures/GUI/Starsailor_Banner.png"
         allow_stretch: True
         keep_ratio: False
         size_hint: .7, 1
         size: self.texture_size
     Image:
-        source: "pictures/active/Starsailor_MENU.png"
+        source: "pictures/GUI/Starsailor_MENU.png"
         size_hint: .15, 1
-
-    
-
-    
-<MoveButtons>
-    Button:
-        text: "<"
-        font_size: 30
-    Button:
-        text: "<"
-        font_size: 30
-    Button:
-        text: "^"
-        font_size: 30
-        on_press: MainGameWindow.scroll_up()
-    Button:
-        text: "\/"
-        font_size: 30
 
 
 
 
 <Boat>:
-    source: "pictures/Morgans Pictures/boat.png"   
+    source: "pictures/Boats/boat.png"
 
 
 
@@ -107,13 +89,13 @@
         ScrollView:
             id: _map
             Image:
-                source: "pictures/Hunters Pictures/map.png"
+                source: "pictures/GUI/map.png"
                 keep_ratio: False
                 allow_stretch: True
                 size: root.window_width * 5, root.window_height * 4
                 size_hint: None, None
                 Image:
-                    source: "pictures/Hunters Pictures/hforge.png"
+                    source: "pictures/heavens forge/hforge.png"
                     size: 700, 700
                     pos: 500, 600
                     on_touch_down: if self.collide_point(*args[1].pos): app.root.current = "HForgeTopDown"
@@ -146,7 +128,7 @@
     BoxLayout:
         orientation: "vertical"
         Image:
-            source: "pictures/Hunters Pictures/hforgelanding.png"
+            source: "pictures/heavens forge/hforgelanding.png"
             keep_ratio: False
             allow_stretch: True
             id: hforgetopdownpng
@@ -155,13 +137,13 @@
             
                 Image:
                     size_hint: .7, .7
-                    source: "pictures/Hunters Pictures/The forge.png"
+                    source: "pictures/heavens forge/The forge.png"
                     pos_hint: {'right': 1, 'bottom': 1}
                     on_touch_down: if self.collide_point(*args[1].pos): app.root.current = "HForgeFactory"
             
                 Image:
                     size_hint: .5, .5
-                    source: "pictures/Hunters Pictures/H forge store.png"
+                    source: "pictures/heavens forge/H forge store.png"
                     pos_hint: {'left': 1, 'top': 1}
                 Button:
                     text: "Back to Map"
@@ -181,7 +163,7 @@
 <HForgeFactory>
     name: "HForgeFactory"
     Image:
-        source: 'pictures/Hunters Pictures/Heavens forge factory.png'
+        source: 'pictures/heavens forge/Heavens forge factory.png'
         RustyLightWelder:
             pos: 250, 250
             on_touch_down: if self.collide_point(*args[1].pos): app.root.current = "RustyLightWelderAside"
@@ -214,12 +196,12 @@
 
 
 <LightWelder>
-    source: "pictures/Hunters Pictures/lightwelder.png"
+    source: "pictures/heavens forge/inside the factory/lightwelder.png"
     
 
 
 <RustyLightWelder>
-    source: "pictures/Hunters Pictures/Rusty light welder.png"
+    source: "pictures/heavens forge/inside the factory/Rusty light welder.png"
 
 <RustyLightWelderAside>
     name: "RustyLightWelderAside"
@@ -232,9 +214,8 @@
             text_size: self.size
             valign: "top"
             halign: "center"
-        Image: 
+        RustyLightWelder:
             size_hint_y: .6666
-            source: "pictures/Hunters Pictures/Rusty light welder.png"
             on_touch_down: if self.collide_point(*args[1].pos): root.rusty_lightwelder_dialoge()
         Button:
             text: "Return to the factory floor"
