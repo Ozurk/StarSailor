@@ -71,6 +71,31 @@ class HForgeTopDown(Screen):
     window_width = Window.width
     window_height = Window.height
 
+class Store(Screen):
+    pass
+
+class HForgeStore(Screen):
+    def on_enter(self, *args):
+        self.create_sale_items()
+        return super().on_enter(*args)
+    sale_items = {"screws": 10,
+                  "nails": 10,
+                  "pallet of hardlight": 20000,
+                  "copper ingot": 30,
+                  "brass ore": 20,
+                  "cable": 30,
+                  "heavens forge novelty pin": 100,
+                  "Sunscreen": 20,}
+    def create_sale_items(self):
+        store_grid = self.ids.store_grid
+        if store_grid.children == []:
+            for item in self.sale_items:
+                if item == None:
+                    pass
+                btn = Button(text=f"{item} :${self.sale_items[item]}")
+                btn.bind()
+                store_grid.add_widget(btn)
+            
 
 class HForgeFactory(Screen):
     pass
@@ -126,6 +151,7 @@ class RustyLightWelderAside(Screen):
             self.index += 1
         except IndexError:
             self.index = 0
+
 
 
 class TopButtons(BoxLayout):
