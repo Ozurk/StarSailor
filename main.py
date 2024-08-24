@@ -14,11 +14,11 @@ from kivy.core.window import Window
 
 from kivy.animation import Animation
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.screenmanager import Screen, ScreenManager, FadeTransition, SwapTransition
 from kivy.uix.scrollview import ScrollView
 
 
-# Builder.load_file("Starsailor.kv")
+Builder.load_file("Starsailor.kv")
 
 
 class MainMenuTopButtons(BoxLayout):
@@ -71,10 +71,8 @@ class HForgeTopDown(Screen):
     window_width = Window.width
     window_height = Window.height
 
-class Store(Screen):
-    pass
 
-class HForgeStore(Screen):
+class MainStore(Screen):
     def on_enter(self, *args):
         self.create_sale_items()
         return super().on_enter(*args)
@@ -164,6 +162,7 @@ class TopButtons(BoxLayout):
 class StarsailorApp(App):
     def build(self):
         root = Starsailor()
+        root.transition = SwapTransition()
         return root
 
 

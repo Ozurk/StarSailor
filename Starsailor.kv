@@ -6,7 +6,7 @@
     Map:
     HForgeFactory:
     HForgeTopDown:
-    HForgeStore:
+    MainStore:
     RustyLightWelderAside:
 
 
@@ -156,20 +156,16 @@
                     size_hint_x: .25
                     pos: 0, 0 
                 
-
-
-
-<Store>
     
-<HForgeStore>
-    name: "HForgeStore"
+<MainStore>
+    name: "MainStore"
     BoxLayout:
         orientation: "vertical"
         BoxLayout:
             size_hint_y: .2
             orientation: "horizontal"
             Image:
-                source: "pictures\Market\The market header.png"
+                source: "pictures/Market/The market header.png"
                 allow_stretch: True
                 keep_ratio: False
             Button:
@@ -219,7 +215,6 @@
         Button:
             text: "Back to the Heaven's Forge Landing"
             on_press:
-                app.root.transition.direction = 'right'  
                 app.root.current = "HForgeTopDown"
             size: 200, 100
             text_size: self.size
