@@ -1,6 +1,50 @@
 #:kivy 2.3.0
 #:import utils kivy.utils
-
+# parent widget
 <Starsailor>:
+    orientation: 'vertical'
+    # separate the help menu/inventory from the screenmanger
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_y: .2
+        Image:
+            id: HelpButton
+            source: 'pictures/GUI/Starsailor_HELP.png'
+            fit_mode: "fill"
+            size_hint_x: .25
+        Image:
+            source: 'pictures/GUI/Starsailor_Banner.png'
+            fit_mode: "fill"
+        Image:
+            source: 'pictures/GUI/Starsailor_MENU.png'
+            fit_mode: 'fill'
+            size_hint_x: .25
+    ScreenManager:
+        MainMenu:
+
+            
+
+<MainMenu>
+    name: 'MainMenu'
+    RelativeLayout:            
+        Image:
+            source: 'pictures/startscreen/startscreen2.png'
+            fit_mode: 'fill'
+        Button:
+            text: "Start"
+            pos_hint: {'center_x': .5, 'y': .2}
+            size_hint: .3, .1
+
+
+
+
+
+
+
+
+
+
+        
+        
 
 
