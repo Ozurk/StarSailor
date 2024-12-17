@@ -19,10 +19,14 @@
             source: 'pictures/GUI/Starsailor_MENU.png'
             fit_mode: 'fill'
             size_hint_x: .25
-    ScreenManager:
-        MainMenu:
+    RelativeLayout:
+        ScreenManager:
+            id: ScreenManager
+            MainMenu:
+            IntroScreen:
+            Map:
 
-            
+        
 
 <MainMenu>
     name: 'MainMenu'
@@ -34,6 +38,47 @@
             text: "Start"
             pos_hint: {'center_x': .5, 'y': .2}
             size_hint: .3, .1
+            background_color: (.1, .1, .1, .8)
+            border: (20, 20, 20, 20)
+            on_press: app.root.ids.ScreenManager.current = "IntroScreen"
+
+
+<IntroScreen>
+    name: "IntroScreen"
+    RelativeLayout:
+        Image:
+            source: "pictures/map/map.png"
+            fit_mode: "fill"
+        Label: 
+            size_hint: .8, .8
+            pos_hint: {'center_x': .5, 'top': 1}
+            canvas.before:
+                Color:
+                    rgba: (1, 1, 1, 1)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            color: (0, 0, 0, 1) 
+            text_size: self.size
+            halign: "left"
+            valign: "top"
+            text: "Here is a whole bunch of text that that will be in this part"
+        Button:
+            text: "Continue"
+            size_hint: .3, .2
+            pos_hint: {'center_x': .5, 'top': .2}
+            on_press: app.root.ids.ScreenManager.current = "Map"
+
+
+<Map>
+    name: "Map"
+    ScrollView:
+        Image:
+            source: 'pictures/map/map.png'
+            size_hint: None, None
+            size: 1792 * 2, 1024 * 2
+            fit_mode: 'fill'
+
 
 
 

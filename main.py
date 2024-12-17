@@ -21,11 +21,22 @@ Builder.load_file("Starsailor.kv")
 
 
 class Starsailor(BoxLayout):
+    # root widget
     pass
 
 
 class MainMenu(Screen):
+    # start screen
     pass
+
+class IntroScreen(Screen):
+    # Intro_Screen
+    pass
+
+class Map(Screen):
+    # Central Map
+    pass
+
 
 class StarsailorApp(App):
     def build(self):
