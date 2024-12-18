@@ -25,14 +25,15 @@
             MainMenu:
             IntroScreen:
             Map:
-
-        
+        Inventory:
+            id: Inventory
+                    
 
 <MainMenu>
     name: 'MainMenu'
     RelativeLayout:            
         Image:
-            source: 'pictures/startscreen/startscreen2.png'
+            source: 'pictures/startscreen/startscreen.png'
             fit_mode: 'fill'
         Button:
             text: "Start"
@@ -59,8 +60,6 @@
                     size: self.size
                     pos: self.pos
             color: (0, 0, 0, 1) 
-            text_size: self.size
-            halign: "left"
             valign: "top"
             text: "Here is a whole bunch of text that that will be in this part"
         Button:
@@ -80,7 +79,12 @@
             fit_mode: 'fill'
 
 
-
+<Inventory>
+    orientation: 'vertical'
+    Label:
+        text: "Money:"
+    Label:
+        text: str(app.root.ids.Inventory.money)
 
 
 

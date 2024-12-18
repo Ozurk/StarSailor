@@ -21,9 +21,7 @@ Builder.load_file("Starsailor.kv")
 
 
 class Starsailor(BoxLayout):
-    # root widget
-    pass
-
+    money = NumericProperty()
 
 class MainMenu(Screen):
     # start screen
@@ -35,6 +33,9 @@ class IntroScreen(Screen):
 
 class Map(Screen):
     # Central Map
+    pass
+
+class Inventory(BoxLayout):
     pass
 
 
