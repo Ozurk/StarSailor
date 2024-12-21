@@ -25,9 +25,30 @@
             MainMenu:
             IntroScreen:
             Map:
-        Inventory:
+            HeavensForgeLanding:
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.2, 0.2, .8  # Outline color (red in this case)
+                Line:
+                    width: 2  # Outline thickness
+                    rectangle: self.x, self.y, self.width, self.height 
+            orientation: "vertical"
             id: Inventory
-                    
+            size_hint: .25, 1
+            Label:
+                text: "Money"
+                size_hint_y: .15
+            Label:
+                text: str(root.money)
+                size_hint_y: .15
+            Label:
+                text: "Inventory"
+            GridLayout:
+                id: Inventory_Grid
+                rows: 6
+                cols: 1
+            
 
 <MainMenu>
     name: 'MainMenu'
@@ -73,19 +94,46 @@
     name: "Map"
     ScrollView:
         Image:
+            id: MapImage
             source: 'pictures/map/map.png'
             size_hint: None, None
-            size: 1792 * 2, 1024 * 2
+            size: 1792, 1024
             fit_mode: 'fill'
+            RelativeLayout:
+                size: MapImage.size
+                pos: MapImage.pos
+                Image: 
+                    size_hint: .1, .1
+                    id: HeavensForgePlanet
+                    source:  'pictures/map/heavens_forge.png'
+                    on_touch_down: app.root.ids.ScreenManager.current = "HeavensForgeLanding"
+                    
+                Image:
+                    size_hint: .1, .1
+                    id: ChtakPlanet
+                    source: "pictures/map/chtak.png"
+                    pos_hint: {'x': .4, 'y': 0}
+                
 
+<HeavensForgeLanding>
+    name: "HeavensForgeLanding"
+    Image:
+        source: "pictures/heavens_forge/heavens forge.png"
+        RelativeLayout:
+            Button:
+                text: "Go Back"
+                size_hint: .15, .2
+                pos_hint: {'x': 0, 'center_y': .5}
+            Button:
+                text: "Enter"
+                size_hint: .2, .15
+                pos_hint: {"center_x": .5 , 'y': 0}
+            Button:
+                text: "Proceed" 
+                size_hint: .15, .2
+                pos_hint: {'right': 1, 'center_y': .5}
 
-<Inventory>
-    orientation: 'vertical'
-    Label:
-        text: "Money:"
-    Label:
-        text: str(app.root.money)
-
+        
 
 
 

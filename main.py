@@ -15,13 +15,14 @@ from kivy.animation import Animation
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager, FadeTransition, SwapTransition
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.relativelayout import RelativeLayout
 
 
 Builder.load_file("Starsailor.kv")
 
 
 class Starsailor(BoxLayout):
-    money = NumericProperty()
+    money = NumericProperty(0)
 
 class MainMenu(Screen):
     # start screen
@@ -39,9 +40,69 @@ class Inventory(BoxLayout):
     pass
 
 
+class NavigationButtons(RelativeLayout):
+    # buttons for navigation within landings
+    pass
+
+
+
+
+
+
+
+
+
+class HeavensForgeLanding(Screen):
+    pass
+
+class ChtakLanding(Screen):
+    pass
+
+class TwilightIslesLanding(Screen):
+    pass
+
+class Valstafarlanding(Screen):
+    pass
+
+class EndLanding(Screen):
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class StarsailorApp(App):
     def build(self):
         root = Starsailor()
+        self.root = root
         return root
 
 
