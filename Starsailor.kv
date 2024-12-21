@@ -22,10 +22,13 @@
     RelativeLayout:
         ScreenManager:
             id: ScreenManager
+            HeavensForgeLanding:
+            LightWelder:
+            Factory:
             MainMenu:
             IntroScreen:
             Map:
-            HeavensForgeLanding:
+            
         BoxLayout:
             canvas.before:
                 Color:
@@ -106,7 +109,7 @@
                     size_hint: .1, .1
                     id: HeavensForgePlanet
                     source:  'pictures/map/heavens_forge.png'
-                    on_touch_down: app.root.ids.ScreenManager.current = "HeavensForgeLanding"
+                    on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "HeavensForgeLanding"
                     
                 Image:
                     size_hint: .1, .1
@@ -117,24 +120,57 @@
 
 <HeavensForgeLanding>
     name: "HeavensForgeLanding"
+    id: HeavensForgeLanding
     Image:
         source: "pictures/heavens_forge/heavens forge.png"
+        fit_mode: "fill"
         RelativeLayout:
+            size: HeavensForgeLanding.size
             Button:
                 text: "Go Back"
-                size_hint: .15, .2
-                pos_hint: {'x': 0, 'center_y': .5}
+                size_hint: .2, .1
+                pos_hint: {'center_x': .5, 'top': 1}
+                on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "Map"
             Button:
                 text: "Enter"
-                size_hint: .2, .15
+                size_hint: .2, .1
                 pos_hint: {"center_x": .5 , 'y': 0}
+                on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "Factory"
+
+<Factory>
+    name: 'Factory'
+    Image:
+        id: FactoryImage
+
+        source: 'pictures/heavens_forge/the factory/heavensforge.png'
+        fit_mode: "fill"
+        RelativeLayout:
+            size: FactoryImage.size
+            pos: FactoryImage.pos
+
             Button:
-                text: "Proceed" 
-                size_hint: .15, .2
-                pos_hint: {'right': 1, 'center_y': .5}
+                text: "Talk to the Lightwelder"
+                pos_hint: {'center_x': .7, 'center_y': .5}
+                size_hint: .15, .15    
+                text_size: self.size
+                halign: 'center'
+                valign: 'middle'
+                background_color: .7, .2, .2, .5
+                on_press: app.root.ids.ScreenManager.current = "LightWelder"
 
-        
 
+<LightWelder>
+    name: "LightWelder"
+    Image:
+        id: LightWelder
+        source: "pictures/heavens_forge/the factory/inside.png"  
+        fit_mode: "fill"
+        RelativeLayout:
+            size: LightWelder.size
+            Image:
+                source:'pictures/heavens_forge/the factory/lightwelder.png'
+                pos_hint: {'center_x': .5, 'y': 0}
+                size_hint_y: .6
 
 
 

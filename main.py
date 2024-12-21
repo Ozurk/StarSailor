@@ -40,20 +40,15 @@ class Inventory(BoxLayout):
     pass
 
 
-class NavigationButtons(RelativeLayout):
-    # buttons for navigation within landings
-    pass
-
-
-
-
-
-
-
-
-
 class HeavensForgeLanding(Screen):
     pass
+
+class Factory(Screen):
+    pass
+
+class LightWelder(Screen):
+    pass
+
 
 class ChtakLanding(Screen):
     pass
