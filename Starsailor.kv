@@ -172,6 +172,15 @@
                 pos_hint: {'center_x': .5, 'y': 0}
                 size_hint_y: .6
 
+            Label:
+                id: LightWelderText
+                text: root.dialog 
+            Button:
+                text: "Get Hardlight"
+                size_hint: .2, .2
+                pos_hint: {"x": 0, "center_y": .5}
+                on_press: root.add_hardlight_to_inventory()
+
 
 
 

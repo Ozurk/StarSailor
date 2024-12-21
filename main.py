@@ -47,7 +47,21 @@ class Factory(Screen):
     pass
 
 class LightWelder(Screen):
-    pass
+    dialog = """A Overclocked Lightwelder runs red hot steam whistling off its rotund metallic frame. It's voice box
+            drones out to you.I have overseen this forge for millennia and time has taken its toll on me.
+            These rusty joints once shined with a coat of star paint but has since peeled off over the many centuries in this immense heat, 
+            and without its protective properties, I fear for my imminent dissolution. I fear the last can of starpaint was used up decades ago, should you find some. I will bestow upon 
+            you a pallet of hardlight. This will surely be invaluable in the exploration of more distant skies."""
+
+    success = "Thank you very much. Here is your hardlight"
+
+    def add_hardlight_to_inventory(self):
+        app = App.get_running_app()
+        inventory = app.root.ids.Inventory_Grid
+        hardlight = Image(source="pictures/heavens_forge/the factory/hardlight.png")
+        if "Hardlight" not in inventory.ids:
+            inventory.add_widget(hardlight)
+            inventory.ids.Hardlight = hardlight
 
 
 class ChtakLanding(Screen):
