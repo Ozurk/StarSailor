@@ -70,7 +70,20 @@ class ChtakLanding(Screen):
 class TwilightIslesLanding(Screen):
     pass
 
-class Valstafarlanding(Screen):
+
+class Showroom(Screen):
+    def add_starpaint_to_inventory(self):
+        app = App.get_running_app()
+        inventory = app.root.ids.Inventory_Grid
+        # The item which needs to be put into inventory
+        # this is the Image widget
+        item = Image(source="pictures/valdstafar/showroom/starpaint.png")
+        if "Starpaint" not in inventory.ids:
+            inventory.add_widget(item)
+            # change id here. This would surely have been a great time for abstraction
+            inventory.ids.Starpaint = item
+
+class ValdstafarLanding(Screen):
     pass
 
 class EndLanding(Screen):
