@@ -24,6 +24,21 @@ Builder.load_file("Starsailor.kv")
 class Starsailor(BoxLayout):
     money = NumericProperty(0)
 
+    def toggle_inventory(self):
+        # Access the inventory widget
+        app = App.get_running_app()
+        inventory = app.root.ids.Inventory
+
+        # Toggle visibility
+        if inventory.opacity == 0:  # If currently hidden
+            inventory.opacity = 1
+            inventory.disabled = False
+        else:  # If currently visible
+            inventory.opacity = 0
+            inventory.height = 0
+            inventory.disabled = True
+
+
 class MainMenu(Screen):
     # start screen
     pass
@@ -72,6 +87,10 @@ class TwilightIslesLanding(Screen):
 
 
 class Showroom(Screen):
+    pass
+
+
+class DisplayCase(Screen):
     def add_starpaint_to_inventory(self):
         app = App.get_running_app()
         inventory = app.root.ids.Inventory_Grid
@@ -80,8 +99,12 @@ class Showroom(Screen):
         item = Image(source="pictures/valdstafar/showroom/starpaint.png")
         if "Starpaint" not in inventory.ids:
             inventory.add_widget(item)
-            # change id here. This would surely have been a great time for abstraction
-            inventory.ids.Starpaint = item
+            # change id here.
+            inventory.ids["StarPaint"] = item  # Add the item to the ids dictionary
+            starpaint_widget = self.ids.StarPaint
+            if starpaint_widget.parent:
+                starpaint_widget.parent.remove_widget(starpaint_widget)
+
 
 class ValdstafarLanding(Screen):
     pass

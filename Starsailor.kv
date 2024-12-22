@@ -7,11 +7,12 @@
     BoxLayout:
         orientation: "horizontal"
         size_hint_y: .2
-        Image:
+        Button:
             id: HelpButton
-            source: 'pictures/GUI/Starsailor_HELP.png'
             fit_mode: "fill"
             size_hint_x: .25
+            text: "Inventory"
+            on_press: root.toggle_inventory()
         Image:
             source: 'pictures/GUI/Starsailor_Banner.png'
             fit_mode: "fill"
@@ -23,10 +24,11 @@
         # Below is the screemanager
         ScreenManager:
             id: ScreenManager
+            Factory:
             Showroom:
             TwilightIslesLanding:
             ValdstafarLanding:
-            
+            DisplayCase:
             ChtakLanding:
             HeavensForgeLanding:
             LightWelder:
@@ -39,12 +41,16 @@
             canvas.before:
                 Color:
                     rgba: 0.2, 0.2, 0.2, .8  # Outline color (red in this case)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
                 Line:
                     width: 2  # Outline thickness
                     rectangle: self.x, self.y, self.width, self.height 
             orientation: "vertical"
             id: Inventory
             size_hint: .25, 1
+            opacity: 0
             Label:
                 text: "Money"
                 size_hint_y: .15
@@ -189,9 +195,28 @@
         fit_mode: "fill"
         RelativeLayout:
             size: LightWelder.size
-            size_hint: .2, .2
-            pos_hint: {"x": 0, "center_y": .5}
-            on_touch_down: root.add_hardlight_to_inventory()
+            pos: LightWelder.pos
+            Image:
+                source: 'pictures/heavens_forge/the factory/lightwelder.png'
+                size_hint_y: .5
+                pos_hint: {"center_x": .5, "y": 0}
+            Label:
+                canvas.before:
+                    Color:
+                        rgba: .2, .2, .2, .8
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                id: LightWelderDialog
+                text: root.dialog
+                text_size: self.size
+                halign: 'center'
+                valign: 'top'
+                size_hint: 1, .25
+                pos_hint: {'y': .75}
+            
+
+
 
 
 
@@ -280,14 +305,39 @@
                 size_hint: .2, .1
                 pos_hint: {'center_x': .5, 'top': 1}
                 on_press: app.root.ids.ScreenManager.current = "ValdstafarLanding"
+            Button:
+                text: "View DisplayCase"
+                size_hint: .2, .1
+                pos_hint: {'center_x': .5, 'y': 0}
+                on_press: app.root.ids.ScreenManager.current = "DisplayCase"
+                
+
+<DisplayCase>
+# The name for the screenmanager to read
+    name: "DisplayCase"
+    # add this to children of the screemanager
+
+    # change id
+    id: DisplayCase
+    Image:
+        # change image source here
+        source: "pictures/valdstafar/showroom/display_ case.png"
+        fit_mode: "fill"
+        RelativeLayout:
+            # change reference here
+            size: DisplayCase.size
+            Button:
+                text: "Go Back"
+                size_hint: .2, .1
+                pos_hint: {'center_x': .5, 'top': 1}
+                on_press: app.root.ids.ScreenManager.current = "Showroom"
             Image:
                 id: StarPaint
                 source: 'pictures/valdstafar/showroom/starpaint.png'
-                size_hint: .1, .1
-                pos_hint: {'x': .1, 'y': .3}
+                size_hint_y: .2
+                pos_hint: {'center_x': .5, 'y': .22}
                 on_touch_down: if self.collide_point(*args[1].pos): root.add_starpaint_to_inventory()
 
-                
 
 # ------------------------------------------Valdstafar----------------------------------------------------
 
