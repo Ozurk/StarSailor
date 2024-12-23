@@ -35,7 +35,6 @@ class Starsailor(BoxLayout):
             inventory.disabled = False
         else:  # If currently visible
             inventory.opacity = 0
-            inventory.height = 0
             inventory.disabled = True
 
 
@@ -48,7 +47,9 @@ class IntroScreen(Screen):
     pass
 
 class Map(Screen):
-    # Central Map
+    pass
+
+class Boat(Image):
     pass
 
 class Inventory(BoxLayout):
@@ -62,6 +63,7 @@ class Factory(Screen):
     pass
 
 class LightWelder(Screen):
+    
     dialog = """A Overclocked Lightwelder runs red hot steam whistling off its rotund metallic frame. It's voice box
             drones out to you.I have overseen this forge for millennia and time has taken its toll on me.
             These rusty joints once shined with a coat of star paint but has since peeled off over the many centuries in this immense heat, 
@@ -70,10 +72,23 @@ class LightWelder(Screen):
 
     success = "Thank you very much. Here is your hardlight"
 
+
+    def trade_starpaint(self):
+        app = App.get_running_app()
+        inventory = app.root.ids.Inventory_Grid
+        if 'Starpaint' in inventory.ids:
+            starpaint = inventory.ids.Starpaint
+            inventory.remove_widget(starpaint)
+            self.ids.LightWelderDialog.text = self.success
+            self.add_hardlight_to_inventory()
+
+
+
     def add_hardlight_to_inventory(self):
         app = App.get_running_app()
         inventory = app.root.ids.Inventory_Grid
         hardlight = Image(source="pictures/heavens_forge/the factory/hardlight.png")
+        print(inventory.ids)
         if "Hardlight" not in inventory.ids:
             inventory.add_widget(hardlight)
             inventory.ids.Hardlight = hardlight
@@ -100,7 +115,7 @@ class DisplayCase(Screen):
         if "Starpaint" not in inventory.ids:
             inventory.add_widget(item)
             # change id here.
-            inventory.ids["StarPaint"] = item  # Add the item to the ids dictionary
+            inventory.ids["Starpaint"] = item  # Add the item to the ids dictionary
             starpaint_widget = self.ids.StarPaint
             if starpaint_widget.parent:
                 starpaint_widget.parent.remove_widget(starpaint_widget)
