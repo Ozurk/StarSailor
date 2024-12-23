@@ -106,41 +106,81 @@
 
 <Map>
     name: "Map"
-    ScrollView:
-        Image:
-            id: MapImage
-            source: 'pictures/map/map.png'
-            size_hint: None, None
-            size: 1792, 1024
-            fit_mode: 'fill'
-            RelativeLayout:
-                size: MapImage.size
-                pos: MapImage.pos
-                Image: 
-                    size_hint: .1, .1
-                    id: HeavensForgePlanet
-                    source:  'pictures/map/heavens_forge.png'
-                    on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "HeavensForgeLanding"
-                    
-                Image:
-                    size_hint: .1, .1
-                    id: ChtakPlanet
-                    source: "pictures/map/chtak.png"
-                    pos_hint: {'x': .4, 'y': 0}
-                    on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "ChtakLanding"
+    RelativeLayout:
+        size: root.size
+        pos: root.pos
+        ScrollView:
+            Image:
+                id: MapImage
+                source: 'pictures/map/map.png'
+                size_hint: None, None
+                size: 1792, 1024
+                fit_mode: 'fill'
+                RelativeLayout:
+                    size: MapImage.size
+                    pos: MapImage.pos
+                    Image: 
+                        size_hint: .1, .1
+                        id: HeavensForgePlanet
+                        source:  'pictures/map/heavens_forge.png'
+                        on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "HeavensForgeLanding"
+                        
+                    Image:
+                        size_hint: .1, .1
+                        id: ChtakPlanet
+                        source: "pictures/map/chtak.png"
+                        pos_hint: {'x': .4, 'y': 0}
+                        on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "ChtakLanding"
 
-                Image:
-                    size_hint: .1, .1
-                    id: ValdstafarPlanet
-                    source: "pictures/map/valdstafar.png"
-                    pos_hint: {'x': .4, 'y': .2}
-                    on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "ValdstafarLanding"
-                Image:
-                    size_hint: .1, .1
-                    id: TwliglightIslesPlanet
-                    source: "pictures/map/twilight_isles.png"
-                    pos_hint: {'x': .7, 'y': .8}
-                    on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "TwilightIslesLanding"
+                    Image:
+                        size_hint: .1, .1
+                        id: ValdstafarPlanet
+                        source: "pictures/map/valdstafar.png"
+                        pos_hint: {'x': .4, 'y': .2}
+                        on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "ValdstafarLanding"
+                    Image:
+                        size_hint: .1, .1
+                        id: TwliglightIslesPlanet
+                        source: "pictures/map/twilight_isles.png"
+                        pos_hint: {'x': .7, 'y': .8}
+                        on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "TwilightIslesLanding"
+
+                    Boat:
+                        id: Boat
+                        size_hint: .1, .1
+        Button:
+            id: UpButton
+            text:'^'
+            pos_hint: {'center_x': .5, 'y': 0.3}
+            size_hint: .1, .1
+            on_press: root.start_moving_boat('up')
+            on_release: root.stop_moving_boat()
+
+        Button:
+            id: DownButton
+            text:'\/'
+            pos_hint: {'center_x': .5, 'y': .0}
+            size_hint: .1, .1
+            on_press: root.start_moving_boat('down')
+            on_release: root.stop_moving_boat()
+
+        Button:
+            id: LeftButton
+            text:'<'
+            pos_hint: {'center_x': .2, 'y': .2}
+            size_hint: .1, .1
+            on_press: root.start_moving_boat('left')
+            on_release: root.stop_moving_boat()
+
+        Button:
+            id: RightButton
+            text:'>'
+            pos_hint: {'center_x': .8, 'y': .2}
+            size_hint: .1, .1
+            on_press: root.start_moving_boat('right')
+            on_release: root.stop_moving_boat()
+
+                
 
 
                 
@@ -384,5 +424,4 @@
 
 
 <Boat>
-    Image:
-        source: 'pictures/Boats/boat.png'
+    source: 'pictures/Boats/boat.png'

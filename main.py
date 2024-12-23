@@ -16,6 +16,7 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager, FadeTransition, SwapTransition
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.relativelayout import RelativeLayout
+from kivy.clock import Clock
 
 
 Builder.load_file("Starsailor.kv")
@@ -47,7 +48,48 @@ class IntroScreen(Screen):
     pass
 
 class Map(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.moving_boat_event = None  # Event for continuous movement
+
+    def start_moving_boat(self, direction):
+        """Start moving the boat in the given direction."""
+        if self.moving_boat_event is None:
+            self.moving_boat_event = Clock.schedule_interval(
+                lambda dt: self.move_boat(direction), 0.05
+            )
+
+    def move_boat(self, direction):
+        """Move the boat in the specified direction."""
+        boat = self.ids.Boat  # Reference to the boat widget
+        if direction == 'up':
+            boat.y += 15  # Adjust the increment as needed
+            boat.source = 'pictures/Boats/boat_in_motion_up.png'
+        elif direction == 'down':
+            boat.y -= 15
+            boat.source = 'pictures/Boats/boat_in_motion_down.png'
+        elif direction == 'left':
+            boat.source = 'pictures/Boats/boat_in_motion_left.png'
+            boat.x -= 15
+        elif direction == 'right':
+            boat.source = 'pictures/Boats/boat_in_motion.png'
+            boat.x += 15
+
+    def stop_moving_boat(self):
+        boat = self.ids.Boat  # Reference to the boat widget
+        """Stop moving the boat."""
+        if self.moving_boat_event is not None:
+            self.moving_boat_event.cancel()
+            self.moving_boat_event = None
+            if boat.source == "pictures/Boats/boat_in_motion.png":
+                boat.source = 'pictures/Boats/boat.png'
+            elif boat.source == 'pictures/Boats/boat_in_motion_left.png':
+                boat.source = 'pictures/Boats/boat_left.png'
+            elif boat.source == 'pictures/Boats/boat_in_motion_up.png':
+                boat.source = 'pictures/Boats/boat_up.png'
+            elif boat.source == 'pictures/Boats/boat_in_motion_down.png':
+                boat.source = 'pictures/Boats/boat_down.png'
+                
 
 class Boat(Image):
     pass
