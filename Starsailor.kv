@@ -20,29 +20,31 @@
             source: 'pictures/GUI/Starsailor_MENU.png'
             fit_mode: 'fill'
             size_hint_x: .25
+            on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "Map"
     RelativeLayout:
         # Below is the screemanager
         ScreenManager:
             id: ScreenManager
+            MainMenu:
+            TwilightIslesLanding:
+            Navigator:
+            Factory:
             Experience:
             Map:
-            MainMenu:
             IntroScreen:
             Showroom:
-            TwilightIslesLanding:
             ValdstafarLanding:
             DisplayCase:
             ChtakLanding:
             HeavensForgeLanding:
             LightWelder:
-            Factory:
-            
+        
 
             
         BoxLayout:
             canvas.before:
                 Color:
-                    rgba: 0.2, 0.2, 0.2, .8  # Outline color (red in this case)
+                    rgba: 0.2, 0.2, 0.2, .8  
                 Rectangle:
                     size: self.size
                     pos: self.pos
@@ -61,6 +63,7 @@
                 size_hint_y: .15
             Label:
                 text: "Inventory"
+                size_hint_y: .15
             GridLayout:
                 id: Inventory_Grid
                 rows: 6
@@ -88,21 +91,31 @@
         Image:
             source: "pictures/map/map.png"
             fit_mode: "fill"
-        Label: 
-            size_hint: .8, .8
-            pos_hint: {'center_x': .5, 'top': 1}
-            canvas.before:
-                Color:
-                    rgba: (1, 1, 1, 1)
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
-            color: (0, 0, 0, 1) 
-            valign: "top"
-            text: "Here is a whole bunch of text that that will be in this part"
+            id: IntroImage
+        RelativeLayout:
+            size: IntroImage.size
+            ScrollView:
+                size_hint_y: .8
+                pos_hint: {'top': 1}
+                Label:
+                    canvas.before:
+                        Color:
+                            rgba: .1, .1, .1, .8
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    id: LightWelderDialog
+                    text: root.intro
+                    text_size: self.width, None
+                    size_hint_y: None
+                    halign: 'center'
+                    valign: 'top'
+                    size: self.texture_size
+                    font_size: 25
+            
         Button:
             text: "Continue"
-            size_hint: .3, .2
+            size_hint: 1, .2
             pos_hint: {'center_x': .5, 'top': .2}
             on_press: app.root.ids.ScreenManager.current = "Map"
 
@@ -248,20 +261,23 @@
                 source: 'pictures/heavens_forge/the factory/lightwelder.png'
                 size_hint_y: .5
                 pos_hint: {"center_x": .5, "y": 0}
-            Label:
-                canvas.before:
-                    Color:
-                        rgba: .2, .2, .2, .8
-                    Rectangle:
-                        size: self.size
-                        pos: self.pos
-                id: LightWelderDialog
-                text: root.dialog
-                text_size: self.size
-                halign: 'center'
-                valign: 'top'
-                size_hint: 1, .25
-                pos_hint: {'y': .75}
+            ScrollView:
+                size_hint_y: .25
+                pos_hint: {'top': 1}
+                Label:
+                    canvas.before:
+                        Color:
+                            rgba: .2, .2, .2, .8
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    id: LightWelderDialog
+                    text: root.dialog
+                    text_size: self.width, None
+                    size_hint_y: None
+                    halign: 'center'
+                    valign: 'top'
+                    size: self.texture_size
             Button:
                 text: "Go Back"
                 size_hint: .2, .1
@@ -273,6 +289,8 @@
                 size_hint: .2, .1
                 pos_hint: {'right': 1, 'y': 0}
                 on_press: root.trade_starpaint()
+                halign: 'center'
+                valign: 'middle'
             
 
 
@@ -292,22 +310,36 @@
     id: ChtakLanding
     Image:
         # change image source here
-        source: "pictures/chtak/chtak.png"
+        source: "pictures/chtak/chtak_landing.png"
         fit_mode: "fill"
         RelativeLayout:
-            # change reference here
             size: ChtakLanding.size
+            ScrollView:
+                size_hint_y: .25
+                pos_hint: {'top': 1}
+                Label:
+                    canvas.before:
+                        Color:
+                            rgba: .2, .2, .2, .8
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    id: LightWelderDialog
+                    text: root.dialog
+                    text_size: self.width, None
+                    size_hint_y: None
+                    halign: 'center'
+                    valign: 'top'
+                    size: self.texture_size
             Button:
                 text: "Go Back"
                 size_hint: .2, .1
-                pos_hint: {'center_x': .5, 'top': 1}
                 on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "Map"
             Button:
-                text: "Enter"
+                text: "Talk to the Shaaman"
                 size_hint: .2, .1
                 pos_hint: {"center_x": .5 , 'y': 0}
-                # on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "experience"
-
+                on_press: app.root.ids.ScreenManager.current = "Experience"
 
 # -----------------------------------------Chtak----------------------------------------------------
 
@@ -419,12 +451,12 @@
                 text: "Go Back"
                 size_hint: .2, .1
                 pos_hint: {'center_x': .5, 'top': 1}
-                on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "Map"
+                on_press: app.root.ids.ScreenManager.current = "Map"
             Button:
                 text: "Enter"
                 size_hint: .2, .1
                 pos_hint: {"center_x": .5 , 'y': 0}
-                # on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "experience"
+                on_press: app.root.ids.ScreenManager.current = "Navigator"
 
 
 <Boat>
@@ -440,14 +472,27 @@
         RelativeLayout:
             size: EPImage.size
             pos: EPImage.pos
-            Image:
-                source: 'pictures/chtak/talasandra.png'
-                size_hint_y: .6
-                pos_hint:{'center_x': .5, 'y': 0}
+            ScrollView:
+                size_hint_y: .25
+                pos_hint: {'top': 1}
+                Label:
+                    canvas.before:
+                        Color:
+                            rgba: .2, .2, .2, .8
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    id: TalasandraDialog
+                    text: root.dialog
+                    text_size: self.width, None
+                    size_hint_y: None
+                    halign: 'center'
+                    valign: 'top'
+                    size: self.texture_size
             Button:
                 text: 'Get UPS Device'
                 size_hint: .3, .2
-                pos_hint: {'x': .6, 'y': .7} 
+                pos_hint: {'right': 1, 'y': 0} 
                 on_press: root.add_compass_to_inventory()
             Button:
                 size_hint: .3, .2
@@ -459,8 +504,8 @@
 <Compass>
     id: Compass
     orientation: 'vertical'
-    spacing: 20
-    padding: 20
+    spacing: 10
+    padding: 10
     canvas.before:
         Color:
             rgba: .0, .1, .2, 1
@@ -491,3 +536,41 @@
         text: 'y: ' + str(root.y_coords)
         halign: 'center'
         valign: 'middle'
+
+<Navigator>
+    name: 'Navigator'
+    Image:
+        id: NavigatorImage
+        source: 'pictures/twilight_isles/sun_seared_navigator.png'
+        fit_mode: 'fill'
+        RelativeLayout:
+            size: NavigatorImage.size
+            pos: NavigatorImage.pos
+            ScrollView:
+                size_hint_y: .25
+                pos_hint: {'top': 1}
+                Label:
+                    canvas.before:
+                        Color:
+                            rgba: .2, .2, .2, .8
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    id: NavigatorDialog
+                    text: root.dialog
+                    text_size: self.width, None
+                    size_hint_y: None
+                    halign: 'center'
+                    valign: 'top'
+                    size: self.texture_size
+            Button:
+                text: 'Get Goggles'
+                size_hint: .3, .2
+                pos_hint: {'right': 1, 'y': 0} 
+                on_press: root.add_goggles_to_inventory()
+            Button:
+                size_hint: .3, .2
+                text: "Go back"
+                on_press: app.root.ids.ScreenManager.current = 'TwilightIslesLanding'
+                
+        
