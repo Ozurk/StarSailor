@@ -444,19 +444,26 @@
                 source: 'pictures/chtak/talasandra.png'
                 size_hint_y: .6
                 pos_hint:{'center_x': .5, 'y': 0}
-            Compass:
-                size_hint: .18, .3
-                pos_hint: {'right': .9, 'top': .9}
+            Button:
+                text: 'Get UPS Device'
+                size_hint: .3, .2
+                pos_hint: {'x': .6, 'y': .7} 
+                on_press: root.add_compass_to_inventory()
+            Button:
+                size_hint: .3, .2
+                text: "Go back"
+                on_press: app.root.ids.ScreenManager.current = 'ChtakLanding'
                 
 
 
 <Compass>
+    id: Compass
     orientation: 'vertical'
     spacing: 20
     padding: 20
     canvas.before:
         Color:
-            rgba: .4, .2, 0, 1
+            rgba: .0, .1, .2, 1
         Rectangle:
             size: self.size
             pos: self.pos
@@ -468,7 +475,7 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
-        text: 'x: '
+        text: 'x: '+ str(root.x_coords)
         text_size: self.size
         halign: 'center'
         valign: 'middle'
@@ -481,6 +488,6 @@
                 size: self.size
                 pos: self.pos 
         text_size: self.size
-        # text: 'y: ' + str(root.ids.map.ids.Boat.y)
+        text: 'y: ' + str(root.y_coords)
         halign: 'center'
         valign: 'middle'

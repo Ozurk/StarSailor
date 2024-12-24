@@ -176,19 +176,41 @@ class EndLanding(Screen):
     pass
 
 class Experience(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.update_compass_coordinates, 0.1)
+
+    def update_compass_coordinates(self, dt):
+        """Update Compass coordinates with Boat's current position."""
+        app = App.get_running_app()
+        map_screen = app.root.ids.ScreenManager.get_screen("Map")  # Ensure correct id
+        boat = map_screen.ids.Boat  # Get the Boat instance
+        compass = app.root.ids.Inventory_Grid.ids.get("Compass")
+
+        if compass:
+            compass.x_coords = boat.x
+            compass.y_coords = boat.y
+
+
+
+    
+    def add_compass_to_inventory(self):
+        app = App.get_running_app()
+        print(app.root.ids)
+        inventory = app.root.ids.Inventory_Grid
+        map = app.root.ids.ScreenManager.get_screen("Map")
+        boat = map.ids.Boat
+        ups = Compass(x_coords=boat.x, y_coords=boat.y)
+        print(inventory.ids)
+        if "Compass" not in inventory.ids:
+            inventory.add_widget(ups)
+            inventory.ids.Compass = ups
 
 class Compass(BoxLayout):
-    boat_pos_x = NumericProperty(0)
-    boat_pos_y = NumericProperty(0)
-    def on_kv_post(self, base_widget):
-        app = App.get_running_app()
-        self.boat_pos_x = app.root.ids.Boat.x
-        self.boat_pos_y = app.root.ids.Boat.y
-        return super().on_kv_post(base_widget)
-    
-
-
+    x_coords = NumericProperty(0)
+    y_coords = NumericProperty(0)
+    pass
+        
 
 
 
