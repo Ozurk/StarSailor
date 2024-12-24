@@ -31,7 +31,7 @@ class Starsailor(BoxLayout):
         # Toggle visibility
         if inventory.opacity == 0:  # If currently hidden
             inventory.opacity = 1
-            inventory.width = self.width / 2
+            inventory.width = self.width
             inventory.disabled = False
         else:  # If currently visible
             inventory.opacity = 0
@@ -292,8 +292,18 @@ I took these googles from the dead deck-hand, s'pose he don't need em' anymore.
 -- Take them, you will need them if you insist on venturing into the negitive x coords---"""
 
 
+class Turtle(Screen):
+    dialog = """"text"""
 
-
+    def add_map_to_inventory(self):
+        app = App.get_running_app()
+        print(app.root.ids)
+        inventory = app.root.ids.Inventory_Grid
+        map = Image(source='pictures/twilight_isles/turtles/map.png')
+        print(inventory.ids)
+        if "Map" not in inventory.ids:
+            inventory.add_widget(map)
+            inventory.ids.Map = map
 
 
 
