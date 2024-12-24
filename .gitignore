@@ -160,3 +160,36 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+
+# Buildozer build directory
+/build/
+
+# Distribution directory
+/bin/
+
+# Buildozer-specific files
+*.apk
+*.aab
+*.keystore
+
+# Local properties file for Android
+local.properties
+
+# Hidden Buildozer directory
+.buildozer/
+
+# Logs
+*.log
+
+# Python environment
+.venv/
+env/
+*.pyc
+__pycache__/
+
+# Miscellaneous
+*.bak
+*.swp
+.DS_Store
+Thumbs.db

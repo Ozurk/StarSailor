@@ -17,8 +17,6 @@ from kivy.uix.screenmanager import Screen, ScreenManager, FadeTransition, SwapTr
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.clock import Clock
-
-
 Builder.load_file("Starsailor.kv")
 
 
@@ -33,9 +31,11 @@ class Starsailor(BoxLayout):
         # Toggle visibility
         if inventory.opacity == 0:  # If currently hidden
             inventory.opacity = 1
+            inventory.width = 0
             inventory.disabled = False
         else:  # If currently visible
             inventory.opacity = 0
+            inventory.width = self.width / 2
             inventory.disabled = True
 
 
@@ -61,6 +61,9 @@ class Map(Screen):
 
     def move_boat(self, direction):
         """Move the boat in the specified direction."""
+        scrollview = self.ids.Scrollview
+        layout = self.ids.MapImage
+
         boat = self.ids.Boat  # Reference to the boat widget
         if direction == 'up':
             boat.y += 15  # Adjust the increment as needed
@@ -74,6 +77,9 @@ class Map(Screen):
         elif direction == 'right':
             boat.source = 'pictures/Boats/boat_in_motion.png'
             boat.x += 15
+
+        scrollview.scroll_x = (boat.x + boat.width / 2 - scrollview.width / 2) / layout.width * 2
+        scrollview.scroll_y = (boat.y + boat.height / 2 - scrollview.height / 2) / layout.height * 2
 
     def stop_moving_boat(self):
         boat = self.ids.Boat  # Reference to the boat widget
@@ -169,10 +175,18 @@ class ValdstafarLanding(Screen):
 class EndLanding(Screen):
     pass
 
+class Experience(Screen):
+    pass
 
-
-
-
+class Compass(BoxLayout):
+    boat_pos_x = NumericProperty(0)
+    boat_pos_y = NumericProperty(0)
+    def on_kv_post(self, base_widget):
+        app = App.get_running_app()
+        self.boat_pos_x = app.root.ids.Boat.x
+        self.boat_pos_y = app.root.ids.Boat.y
+        return super().on_kv_post(base_widget)
+    
 
 
 

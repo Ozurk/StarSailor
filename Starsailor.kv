@@ -24,6 +24,10 @@
         # Below is the screemanager
         ScreenManager:
             id: ScreenManager
+            Experience:
+            Map:
+            MainMenu:
+            IntroScreen:
             Showroom:
             TwilightIslesLanding:
             ValdstafarLanding:
@@ -32,9 +36,8 @@
             HeavensForgeLanding:
             LightWelder:
             Factory:
-            MainMenu:
-            IntroScreen:
-            Map:
+            
+
             
         BoxLayout:
             canvas.before:
@@ -110,6 +113,7 @@
         size: root.size
         pos: root.pos
         ScrollView:
+            id: Scrollview
             Image:
                 id: MapImage
                 source: 'pictures/map/map.png'
@@ -151,7 +155,7 @@
         Button:
             id: UpButton
             text:'^'
-            pos_hint: {'center_x': .5, 'y': 0.3}
+            pos: root.width - self.width * 2, self.height
             size_hint: .1, .1
             on_press: root.start_moving_boat('up')
             on_release: root.stop_moving_boat()
@@ -159,7 +163,7 @@
         Button:
             id: DownButton
             text:'\/'
-            pos_hint: {'center_x': .5, 'y': .0}
+            pos: root.width - self.width * 2, 0
             size_hint: .1, .1
             on_press: root.start_moving_boat('down')
             on_release: root.stop_moving_boat()
@@ -167,7 +171,7 @@
         Button:
             id: LeftButton
             text:'<'
-            pos_hint: {'center_x': .2, 'y': .2}
+            pos: root.width - self.width * 3, 0
             size_hint: .1, .1
             on_press: root.start_moving_boat('left')
             on_release: root.stop_moving_boat()
@@ -175,7 +179,7 @@
         Button:
             id: RightButton
             text:'>'
-            pos_hint: {'center_x': .8, 'y': .2}
+            pos: root.width - self.width, 0
             size_hint: .1, .1
             on_press: root.start_moving_boat('right')
             on_release: root.stop_moving_boat()
@@ -425,3 +429,58 @@
 
 <Boat>
     source: 'pictures/Boats/boat.png'
+
+
+<Experience>
+    name: 'Experience'
+    Image:
+        id: EPImage
+        source: 'pictures/chtak/experience.png'
+        fit_mode: 'fill'
+        RelativeLayout:
+            size: EPImage.size
+            pos: EPImage.pos
+            Image:
+                source: 'pictures/chtak/talasandra.png'
+                size_hint_y: .6
+                pos_hint:{'center_x': .5, 'y': 0}
+            Compass:
+                size_hint: .18, .3
+                pos_hint: {'right': .9, 'top': .9}
+                
+
+
+<Compass>
+    orientation: 'vertical'
+    spacing: 20
+    padding: 20
+    canvas.before:
+        Color:
+            rgba: .4, .2, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    Label:
+        id: ShipPosX
+        canvas.before:
+            Color:
+                rgba: .1, .1, .1, .8 
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        text: 'x: '
+        text_size: self.size
+        halign: 'center'
+        valign: 'middle'
+    Label:
+        id: ShipPosY
+        canvas.before:
+            Color:
+                rgba: .1, .1, .1, .8 
+            Rectangle:
+                size: self.size
+                pos: self.pos 
+        text_size: self.size
+        # text: 'y: ' + str(root.ids.map.ids.Boat.y)
+        halign: 'center'
+        valign: 'middle'
