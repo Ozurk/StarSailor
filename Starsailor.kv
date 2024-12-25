@@ -25,8 +25,8 @@
         # Below is the screemanager
         ScreenManager:
             id: ScreenManager
-            Turtle:
             MainMenu:
+            Turtle:
             TwilightIslesLanding:
             Navigator:
             Factory:
@@ -112,7 +112,7 @@
                     halign: 'center'
                     valign: 'top'
                     size: self.texture_size
-                    font_size: 25
+                    font_size: 45
             
         Button:
             text: "Continue"
@@ -124,6 +124,7 @@
 <Map>
     name: "Map"
     RelativeLayout:
+        id: Map_Layout
         size: root.size
         pos: root.pos
         ScrollView:
@@ -163,9 +164,10 @@
                         pos_hint: {'x': .7, 'y': .8}
                         on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "TwilightIslesLanding"
 
-                    Boat:
-                        id: Boat
-                        size_hint: .1, .1
+        Boat:
+            id: Boat
+            size_hint: .3, .3
+            pos_hint: {'center_x':.5, 'center_y': .5}
         Button:
             id: UpButton
             text:'^'

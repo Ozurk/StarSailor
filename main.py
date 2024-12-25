@@ -71,20 +71,20 @@ class Map(Screen):
 
         boat = self.ids.Boat  # Reference to the boat widget
         if direction == 'up':
-            boat.y += 15  # Adjust the increment as needed
+            scrollview.scroll_y = scrollview.scroll_y +.03
             boat.source = 'pictures/Boats/boat_in_motion_up.png'
         elif direction == 'down':
-            boat.y -= 15
+            scrollview.scroll_y = scrollview.scroll_y -.03
             boat.source = 'pictures/Boats/boat_in_motion_down.png'
         elif direction == 'left':
             boat.source = 'pictures/Boats/boat_in_motion_left.png'
-            boat.x -= 15
+            scrollview.scroll_x = scrollview.scroll_x -.03
         elif direction == 'right':
             boat.source = 'pictures/Boats/boat_in_motion.png'
-            boat.x += 15
+            scrollview.scroll_x = scrollview.scroll_x +.03
 
-        scrollview.scroll_x = (boat.x + boat.width / 2 - scrollview.width / 2) / layout.width * 2
-        scrollview.scroll_y = (boat.y + boat.height / 2 - scrollview.height / 2) / layout.height * 2
+        scrollview.scroll_x = (boat.x + boat.width / 2 - scrollview.width / 2) / layout.width
+        # scrollview.scroll_y = (boat.y + boat.height / 2 - scrollview.height / 2) / layout.height * 4
 
     def stop_moving_boat(self):
         boat = self.ids.Boat  # Reference to the boat widget
