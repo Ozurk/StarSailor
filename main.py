@@ -57,6 +57,7 @@ class Map(Screen):
         super().__init__(**kwargs)
         self.moving_boat_event = None  # Event for continuous movement
 
+    
     def start_moving_boat(self, direction):
         """Start moving the boat in the given direction."""
         if self.moving_boat_event is None:
@@ -64,27 +65,42 @@ class Map(Screen):
                 lambda dt: self.move_boat(direction), 0.05
             )
 
+
     def move_boat(self, direction):
         """Move the boat in the specified direction."""
         scrollview = self.ids.Scrollview
         layout = self.ids.MapImage
-
         boat = self.ids.Boat  # Reference to the boat widget
+
+
         if direction == 'up':
-            scrollview.scroll_y = scrollview.scroll_y +.03
+            boat.y += 15
             boat.source = 'pictures/Boats/boat_in_motion_up.png'
+            scroll_distance = scrollview.convert_distance_to_scroll(0, 15)
+            scrollview.scroll_y = scrollview.scroll_y + scroll_distance[1]
+
         elif direction == 'down':
-            scrollview.scroll_y = scrollview.scroll_y -.03
+            boat.y -= 15
             boat.source = 'pictures/Boats/boat_in_motion_down.png'
+            scroll_distance = scrollview.convert_distance_to_scroll(0, -15)
+            scrollview.scroll_y = scrollview.scroll_y + scroll_distance[1]
+
         elif direction == 'left':
             boat.source = 'pictures/Boats/boat_in_motion_left.png'
-            scrollview.scroll_x = scrollview.scroll_x -.03
-        elif direction == 'right':
-            boat.source = 'pictures/Boats/boat_in_motion.png'
-            scrollview.scroll_x = scrollview.scroll_x +.03
+            boat.x -= 15
+            scroll_distance = scrollview.convert_distance_to_scroll(-15, 0)
+            scrollview.scroll_x = scrollview.scroll_x + scroll_distance[0]
 
-        scrollview.scroll_x = (boat.x + boat.width / 2 - scrollview.width / 2) / layout.width
-        # scrollview.scroll_y = (boat.y + boat.height / 2 - scrollview.height / 2) / layout.height * 4
+        elif direction == 'right':
+                boat.source = 'pictures/Boats/boat_in_motion.png'
+                boat.x += 15   
+                scrollview.convert_distance_to_scroll(15, 0)
+                scroll_distance = scrollview.convert_distance_to_scroll(15, 0)
+                scrollview.scroll_x = scrollview.scroll_x + scroll_distance[0]
+            
+        
+
+
 
     def stop_moving_boat(self):
         boat = self.ids.Boat  # Reference to the boat widget
@@ -94,10 +110,13 @@ class Map(Screen):
             self.moving_boat_event = None
             if boat.source == "pictures/Boats/boat_in_motion.png":
                 boat.source = 'pictures/Boats/boat.png'
+
             elif boat.source == 'pictures/Boats/boat_in_motion_left.png':
                 boat.source = 'pictures/Boats/boat_left.png'
+
             elif boat.source == 'pictures/Boats/boat_in_motion_up.png':
                 boat.source = 'pictures/Boats/boat_up.png'
+
             elif boat.source == 'pictures/Boats/boat_in_motion_down.png':
                 boat.source = 'pictures/Boats/boat_down.png'
                 

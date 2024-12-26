@@ -164,10 +164,11 @@
                         pos_hint: {'x': .7, 'y': .8}
                         on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "TwilightIslesLanding"
 
-        Boat:
-            id: Boat
-            size_hint: .3, .3
-            pos_hint: {'center_x':.5, 'center_y': .5}
+                    Boat:
+                        id: Boat
+                        size_hint: .3, .3
+
+
         Button:
             id: UpButton
             text:'^'
