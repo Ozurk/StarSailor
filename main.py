@@ -92,12 +92,12 @@ class Map(Screen):
             scrollview.scroll_x = scrollview.scroll_x + scroll_distance[0]
 
         elif direction == 'right':
-                boat.source = 'pictures/Boats/boat_in_motion.png'
-                boat.x += 15   
-                scrollview.convert_distance_to_scroll(15, 0)
-                scroll_distance = scrollview.convert_distance_to_scroll(15, 0)
-                scrollview.scroll_x = scrollview.scroll_x + scroll_distance[0]
-            
+            boat.source = 'pictures/Boats/boat_in_motion.png'
+            boat.x += 15   
+            scrollview.convert_distance_to_scroll(15, 0)
+            scroll_distance = scrollview.convert_distance_to_scroll(15, 0)
+            scrollview.scroll_x = scrollview.scroll_x + scroll_distance[0]
+        print(boat.pos)
         
 
 
@@ -201,7 +201,19 @@ class TwilightIslesLanding(Screen):
 
 
 class Showroom(Screen):
-    pass
+    def add_xyclon_to_inventory(self):
+        app = App.get_running_app()
+        inventory = app.root.ids.Inventory_Grid
+        # The item which needs to be put into inventory
+        # this is the Image widget
+        item = Image(source="pictures/valdstafar/showroom/Xclon-3.png")
+        if "Xyclont" not in inventory.ids:
+            inventory.add_widget(item)
+            # change id here.
+            inventory.ids["Xyclon"] = item  # Add the item to the ids dictionary
+            xyclon_widget = self.ids.Xyclon
+            if xyclon_widget.parent:
+                xyclon_widget.parent.remove_widget(xyclon_widget)
 
 
 class DisplayCase(Screen):
@@ -218,6 +230,19 @@ class DisplayCase(Screen):
             starpaint_widget = self.ids.StarPaint
             if starpaint_widget.parent:
                 starpaint_widget.parent.remove_widget(starpaint_widget)
+    def add_machine_to_inventory(self):
+        app = App.get_running_app()
+        inventory = app.root.ids.Inventory_Grid
+        # The item which needs to be put into inventory
+        # this is the Image widget
+        item = Image(source="pictures/valdstafar/showroom/machine.png")
+        if "Machine" not in inventory.ids:
+            inventory.add_widget(item)
+            # change id here.
+            inventory.ids["Machine"] = item  # Add the item to the ids dictionary
+            machine_widget = self.ids.Machine
+            if machine_widget.parent:
+                machine_widget.parent.remove_widget(machine_widget)
 
 
 class ValdstafarLanding(Screen):
@@ -312,7 +337,40 @@ I took these googles from the dead deck-hand, s'pose he don't need em' anymore.
 
 
 class Turtle(Screen):
-    dialog = """"text"""
+    dialog = """Here is a map with the coordinates to a the secret portal"""
+
+
+
+class WormHoleLanding(Screen):
+    dialog = 'Welcome to the wormhole launch site'
+    
+
+    def attempt_wormhole_travel(self):
+        app = App.get_running_app()
+        map_screen = app.root.ids.ScreenManager.get_screen("Map")
+        boat = map_screen.ids.Boat
+        inventory = app.root.ids.Inventory_Grid
+        compass = app.root.ids.Inventory_Grid.ids.get("Compass")
+        hardlight = app.root.ids.Inventory_Grid.ids.get("Hardlight")
+        goggles = app.root.ids.Inventory_Grid.ids.get("Goggles")
+        # Set failure texts
+        if hardlight is None:
+            pass
+        elif goggles is None:
+            pass
+        elif not 245 < boat.x < 445 and -550 < boat.y < - 350:
+            pass
+        else:
+                app.root.ids.Screenmanger.current = 'SuccessScreen'
+
+        
+
+
+
+        
+
+
+
 
     def add_map_to_inventory(self):
         app = App.get_running_app()
@@ -326,22 +384,11 @@ class Turtle(Screen):
 
 
 
+class FailScreen(Screen):
+    pass
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class SuccessScreen(Screen):
+    pass
 
 class StarsailorApp(App):
     def build(self):
@@ -352,3 +399,6 @@ class StarsailorApp(App):
 
 if __name__ == '__main__':
     StarsailorApp().run()
+
+
+

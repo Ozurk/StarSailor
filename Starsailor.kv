@@ -25,6 +25,8 @@
         # Below is the screemanager
         ScreenManager:
             id: ScreenManager
+            WormHoleLanding:
+            SuccessScreen:
             MainMenu:
             Turtle:
             TwilightIslesLanding:
@@ -39,9 +41,7 @@
             ChtakLanding:
             HeavensForgeLanding:
             LightWelder:
-        
 
-            
         BoxLayout:
             canvas.before:
                 Color:
@@ -129,6 +129,8 @@
         pos: root.pos
         ScrollView:
             id: Scrollview
+            scroll_x: .5
+            scroll_y: .5
             Image:
                 id: MapImage
                 source: 'pictures/map/map.png'
@@ -163,12 +165,11 @@
                         source: "pictures/map/twilight_isles.png"
                         pos_hint: {'x': .7, 'y': .8}
                         on_touch_down: if self.collide_point(*args[1].pos): app.root.ids.ScreenManager.current = "TwilightIslesLanding"
-
+ 
                     Boat:
                         id: Boat
-                        size_hint: .3, .3
-
-
+                        size_hint: .1, .1
+                        pos: (MapImage.width / 2, MapImage.height/2)
         Button:
             id: UpButton
             text:'^'
@@ -200,7 +201,18 @@
             size_hint: .1, .1
             on_press: root.start_moving_boat('right')
             on_release: root.stop_moving_boat()
+        Button:
+            size_hint: .2, .18
+            background_color: (.8 ,.1, .1, 1)
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+            pos_hint: {'right': 1, 'y':.75}
+            id: Teleport_Button
+            text:"Attempt WormHole Travel"
+            on_press: app.root.ids.ScreenManager.current = 'WormHoleLanding'
 
+        
                 
 
 
@@ -392,9 +404,10 @@
         # change image source here
         source: "pictures/valdstafar/showroom/showroom.png"
         fit_mode: "fill"
+        id: ShowroomImage
         RelativeLayout:
             # change reference here
-            size: Showroom.size
+            size: ShowroomImage.size
             Button:
                 text: "Go Back"
                 size_hint: .2, .1
@@ -405,6 +418,12 @@
                 size_hint: .2, .1
                 pos_hint: {'center_x': .5, 'y': 0}
                 on_press: app.root.ids.ScreenManager.current = "DisplayCase"
+            Image:
+                id: Xyclon            
+                source: 'pictures/valdstafar/showroom/Xclon-3.png'
+                size_hint: None, .3
+                pos_hint: {'right': 1, 'y': .2}
+                on_touch_down: if self.collide_point(*args[1].pos): root.add_xyclon_to_inventory()
                 
 
 <DisplayCase>
@@ -430,8 +449,14 @@
                 id: StarPaint
                 source: 'pictures/valdstafar/showroom/starpaint.png'
                 size_hint_y: .2
-                pos_hint: {'center_x': .5, 'y': .22}
+                pos_hint: {'center_x': .2, 'y': .12}
                 on_touch_down: if self.collide_point(*args[1].pos): root.add_starpaint_to_inventory()
+            Image:
+                id: Machine
+                source: 'pictures/valdstafar/showroom/machine.png'
+                size_hint_y: .2
+                pos_hint: {'center_x': .8, 'y': .12}
+                on_touch_down: if self.collide_point(*args[1].pos): root.add_machine_to_inventory()
 
 
 # ------------------------------------------Valdstafar----------------------------------------------------
@@ -457,10 +482,17 @@
                 pos_hint: {'center_x': .5, 'top': 1}
                 on_press: app.root.ids.ScreenManager.current = "Map"
             Button:
-                text: "Enter"
+                text: 'Talk to Navigator'
                 size_hint: .2, .1
                 pos_hint: {"center_x": .5 , 'y': 0}
                 on_press: app.root.ids.ScreenManager.current = "Navigator"
+            Button:
+                text: "Talk to Turtle"
+                size_hint: .2, .1
+                pos_hint: {"right": 1 , 'top': 1}
+                on_press: app.root.ids.ScreenManager.current = "Turtle"
+
+            
 
 
 <Boat>
@@ -612,4 +644,46 @@
                 size_hint: .3, .2
                 pos_hint: {'right': 1, 'y': 0} 
                 on_press: root.add_map_to_inventory()
-            
+
+<WormHoleLanding>
+    name: 'WormHoleLanding'
+    Image:
+        id: WormHoleLandingImage
+        source: 'pictures/end/toll booth.png'
+        fit_mode: 'fill'
+        RelativeLayout:
+            size: WormHoleLandingImage.size
+            pos: WormHoleLandingImage.pos
+            ScrollView:
+                size_hint_y: .25
+                pos_hint: {'top': 1}
+                Label:
+                    canvas.before:
+                        Color:
+                            rgba: .2, .2, .2, .8
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    id: WormHoleDialog
+                    text: root.dialog
+                    text_size: self.width, None
+                    size_hint_y: None
+                    halign: 'center'
+                    valign: 'top'
+                    size: self.texture_size    
+            Button:
+                text: "Attempt WormHole Travel"
+                size_hint: .3, .2
+                pos_hint: {'right': 1, 'y': 0}
+                on_press: root.attempt_wormhole_travel()
+<SuccessScreen>
+    name: 'SucessScreen'
+    Image:
+        source: 'pictures/startscreen/startscreen2.png' 
+        id: SucessScreenImage
+        RelativeLayout:
+            size: SucessScreenImage.size
+            pos: SucessScreenImage.pos
+            Label:
+                id:SucessScreenLabelText
+                text: 'You Won'
