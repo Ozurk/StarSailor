@@ -338,7 +338,16 @@ I took these googles from the dead deck-hand, s'pose he don't need em' anymore.
 
 class Turtle(Screen):
     dialog = """Here is a map with the coordinates to a the secret portal"""
-
+    
+    def add_map_to_inventory(self):
+        app = App.get_running_app()
+        print(app.root.ids)
+        inventory = app.root.ids.Inventory_Grid
+        map = Image(source='pictures/twilight_isles/turtles/map.png')
+        print(inventory.ids)
+        if "Map" not in inventory.ids:
+            inventory.add_widget(map)
+            inventory.ids.Map = map
 
 
 class WormHoleLanding(Screen):
