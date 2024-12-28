@@ -370,7 +370,7 @@ class WormHoleLanding(Screen):
         elif not 245 < boat.x < 445 and -550 < boat.y < - 350:
             pass
         else:
-                app.root.ids.Screenmanger.current = 'SuccessScreen'
+            app.root.ids.ScreenManger.current = 'SuccessScreen'
 
         
 
