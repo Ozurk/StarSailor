@@ -42,6 +42,7 @@
             LightWelder:
             SuccessScreen:
             WormHoleLanding:
+            FailureScreen:
 
         BoxLayout:
             canvas.before:
@@ -676,10 +677,11 @@
                 text: "Attempt WormHole Travel"
                 size_hint: .3, .2
                 pos_hint: {'right': 1, 'y': 0}
-                on_press: root.attempt_wormhole_travel()
+                on_press: root.attempt_wormhole_travel() 
+
 
 <SuccessScreen>
-    name: 'SucessScreen'
+    name: 'SuccessScreen'
     Image:
         source: 'pictures/startscreen/startscreen2.png' 
         id: SucessScreenImage
@@ -689,3 +691,17 @@
             Label:
                 id:SucessScreenLabelText
                 text: 'You Won'
+
+
+<FailureScreen>:
+    name: 'FailureScreen'
+    id: Failure
+    Label:
+        id: FailureLabel
+        canvas.before:
+            Color:
+                rgba: 1, .2, .0, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+

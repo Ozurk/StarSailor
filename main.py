@@ -358,27 +358,23 @@ class WormHoleLanding(Screen):
         app = App.get_running_app()
         map_screen = app.root.ids.ScreenManager.get_screen("Map")
         boat = map_screen.ids.Boat
-        inventory = app.root.ids.Inventory_Grid
-        compass = app.root.ids.Inventory_Grid.ids.get("Compass")
+        screenmanager = app.root.ids.ScreenManager
         hardlight = app.root.ids.Inventory_Grid.ids.get("Hardlight")
         goggles = app.root.ids.Inventory_Grid.ids.get("Goggles")
+        print(app.root.ids.ScreenManager.current)
+        fail_screen = screenmanager.get_screen('FailureScreen')
+        fail_label = fail_screen.ids.FailureLabel
+
         # Set failure texts
         if hardlight is None:
-            pass
+            screenmanager.current = 'FailureScreen'
+            fail_label.text = "Your Ship was destroyed through 'Spaghetification'"
         elif goggles is None:
             pass
         elif not 245 < boat.x < 445 and -550 < boat.y < - 350:
             pass
         else:
-            app.root.ids.ScreenManger.current = 'SuccessScreen'
-
-        
-
-
-
-        
-
-
+            app.root.ids.ScreenManager.current = 'SuccessScreen'
 
 
     def add_map_to_inventory(self):
@@ -393,7 +389,7 @@ class WormHoleLanding(Screen):
 
 
 
-class FailScreen(Screen):
+class FailureScreen(Screen):
     pass
 
 class SuccessScreen(Screen):
