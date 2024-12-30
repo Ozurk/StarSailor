@@ -207,7 +207,7 @@ class Showroom(Screen):
         # The item which needs to be put into inventory
         # this is the Image widget
         item = Image(source="pictures/valdstafar/showroom/Xclon-3.png")
-        if "Xyclont" not in inventory.ids:
+        if "Xyclon" not in inventory.ids:
             inventory.add_widget(item)
             # change id here.
             inventory.ids["Xyclon"] = item  # Add the item to the ids dictionary
@@ -361,18 +361,25 @@ class WormHoleLanding(Screen):
         screenmanager = app.root.ids.ScreenManager
         hardlight = app.root.ids.Inventory_Grid.ids.get("Hardlight")
         goggles = app.root.ids.Inventory_Grid.ids.get("Goggles")
+        xyclon = app.root.ids.Inventory_Grid.ids.get("Xyclon")
         print(app.root.ids.ScreenManager.current)
         fail_screen = screenmanager.get_screen('FailureScreen')
         fail_label = fail_screen.ids.FailureLabel
+        info_text = self.ids.InfoLabel
 
         # Set failure texts
-        if hardlight is None:
+        if xyclon is None:
+            info_text.text = 'You do not have any xyclon-3 (The only fuel rated for wormhole travel)'
+            info_text.opacity = 1
+        elif not 245 < boat.x < 445 and -550 < boat.y < - 350:
+            screenmanager.current = 'FailureScreen'
+            fail_label.text = "You used your one and only tank of Xyclon-3 and you were not near the wormhole"
+        elif hardlight is None:
             screenmanager.current = 'FailureScreen'
             fail_label.text = "Your Ship was destroyed through 'Spaghetification'"
         elif goggles is None:
-            pass
-        elif not 245 < boat.x < 445 and -550 < boat.y < - 350:
-            pass
+            screenmanager.current = 'FailureScreen'
+            fail_label.text = "You were blinded by the light within the supernova"
         else:
             app.root.ids.ScreenManager.current = 'SuccessScreen'
 

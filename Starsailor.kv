@@ -673,6 +673,23 @@
                     halign: 'center'
                     valign: 'top'
                     size: self.texture_size    
+            Label:
+                id: InfoLabel
+                size_hint: 1, .3
+                pos_hint: {'center_x': .5, 'y': .6}
+                font_size: 50
+                color: 0, 0, 0, 1  
+                text_size: self.size
+                halign: 'center'
+                valign: 'middle'
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Rectangle:
+                        pos:self.pos
+                        size:self.size
+
+                opacity: 0
             Button:
                 text: "Attempt WormHole Travel"
                 size_hint: .3, .2
