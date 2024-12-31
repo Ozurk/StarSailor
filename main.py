@@ -373,7 +373,7 @@ class WormHoleLanding(Screen):
             info_text.opacity = 1
         elif not 245 < boat.x < 445 and -550 < boat.y < - 350:
             screenmanager.current = 'FailureScreen'
-            fail_label.text = "You used your one and only tank of Xyclon-3 and you were not near the wormhole"
+            fail_label.text = "You used your only tank of Xyclon-3 and you were not near the wormhole"
         elif hardlight is None:
             screenmanager.current = 'FailureScreen'
             fail_label.text = "Your Ship was destroyed through 'Spaghetification'"
@@ -403,10 +403,13 @@ class SuccessScreen(Screen):
     pass
 
 class StarsailorApp(App):
+    root = None
     def build(self):
         root = Starsailor()
         self.root = root
         return root
+
+        
 
 
 if __name__ == '__main__':
