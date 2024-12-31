@@ -224,7 +224,6 @@
              
         Button:
             size_hint: .4, .18
-            background_color: (.8 ,.1, .1, 1)
             text_size: self.size
             halign: 'center'
             valign: 'middle'
@@ -252,8 +251,27 @@
     Image:
         source: "pictures/heavens_forge/heavens forge.png"
         fit_mode: "fill"
+        id: HeavensForgeImage
         RelativeLayout:
-            size: HeavensForgeLanding.size
+            size: HeavensForgeImage.size
+            pos: HeavensForgeImage.pos
+            ScrollView:
+                size_hint_y: .25
+                pos_hint: {'top': 1}
+                Label:
+                    canvas.before:
+                        Color:
+                            rgba: .2, .2, .2, .8
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    id: HeavensForgeLandingDialog
+                    text: root.dialog
+                    text_size: self.width, None
+                    size_hint_y: None
+                    halign: 'center'
+                    valign: 'top'
+                    size: self.texture_size
             Button:
                 text: "Go Back"
                 size_hint: .2, .1
@@ -501,13 +519,31 @@
         # change image source here
         source: "pictures/twilight_isles/twilight_isles.png"
         fit_mode: "fill"
+        id: TwilightIslesImage
         RelativeLayout:
+            size: TwilightIslesImage.size
+            pos: TwilightIslesImage.pos
+            ScrollView:
+                size_hint_y: .25
+                pos_hint: {'top': 1}
+                Label:
+                    canvas.before:
+                        Color:
+                            rgba: .2, .2, .2, .8
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    id: TwlightIslesDialog
+                    text: root.dialog
+                    text_size: self.width, None
+                    size_hint_y: None
+                    halign: 'center'
+                    valign: 'top'
+                    size: self.texture_size
             # change reference here
-            size: TwilightIslesLanding.size
             Button:
                 text: "Go Back"
                 size_hint: .2, .1
-                pos_hint: {'center_x': .5, 'top': 1}
                 on_press: app.root.ids.ScreenManager.current = "Map"
             Button:
                 text: 'Talk to Navigator'
@@ -517,7 +553,7 @@
             Button:
                 text: "Talk to Turtle"
                 size_hint: .2, .1
-                pos_hint: {"right": 1 , 'top': 1}
+                pos_hint: {"right": 1 , 'y': 0}
                 on_press: app.root.ids.ScreenManager.current = "Turtle"
 
             
@@ -718,10 +754,16 @@
                 opacity: 0
                 on_touch_down: self.opacity = 0
             Button:
-                text: "Attempt WormHole Travel"
                 size_hint: .3, .2
                 pos_hint: {'right': 1, 'y': 0}
                 on_press: root.attempt_wormhole_travel() 
+                canvas.after:
+                    Rectangle:
+                        source: 'pictures/GUI/Starsailor_Wormhole travel.png'
+                        pos: self.pos
+                        size: self.size
+
+
 
 
 <EndLanding>

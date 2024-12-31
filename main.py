@@ -45,11 +45,10 @@ class MainMenu(Screen):
 
 class IntroScreen(Screen):
     intro = """As the captain of the Starbound Skiff, a ship unlike any other—crafted from starlight and wood—you’ve always been the guardian of the seas and skies.
-But disaster struck when your loyal companion, Astra the sea turtle, was taken by the nefarious Tideforged, a shadowy entity that thrives in the darkest depths.
-With Astra gone, the balance of the ocean is unraveling. Whispers from the waves reveal that Astra is being held captive in a hidden underwater stronghold,
-guarded by riddles, traps, and creatures born of the Tideforged’s wickedness.
-Your mission is clear: navigate treacherous waters, decode ancient maps, and harness the magic of the seas to find Astra.
- But reaching her won’t be enough. To save your friend, you must face the Tideforged and restore harmony to the waters.
+But disaster struck when your loyal companion, Astra the sea turtle was ensnared by a trap laid by a shadowy entity that thrives in the darkest depths.
+With Astra gone, the balance of the ocean is unraveling. Whispers from the waves reveal that Astra is being held captive in a hidden underwater stronghold, on a planet 
+only accessable via invisable wormhole.
+Your mission is clear: navigate treacherous waters and skies, recover the ancient map, and harness the magic of the seas to find Astra. But reaching her won’t be enough. To save your friend, you must face the Tideforged and restore harmony to the waters.
 Will your courage and wit be enough to save Astra and uncover the secrets of the ocean’s depths? The tides wait for no one, Captain."""
 
 class Map(Screen):
@@ -62,7 +61,7 @@ class Map(Screen):
         """Start moving the boat in the given direction."""
         if self.moving_boat_event is None:
             self.moving_boat_event = Clock.schedule_interval(
-                lambda dt: self.move_boat(direction), 0.05
+                lambda dt: self.move_boat(direction), 0.01
             )
 
 
@@ -136,7 +135,18 @@ class Inventory(BoxLayout):
 
 
 class HeavensForgeLanding(Screen):
-    pass
+    dialog = '''
+You have arrived at Heaven's Forge!
+
+A rich orange sun bobs upon a starry sea of violet, flanked by the remnants of an abandoned dyson sphere. An edifice of
+ancient and ingenious artifice, the crumbling construct cast a shadow upon the star's light that allows for safe
+approach. Thirteen ringed mirrors of burnished gold encircle the sun, a clockwork cage of gilded glass drinking up the
+bronze, buttery glow. Even though the incomplete structure covers only a quarter of the star, this station produces an
+endless supply of coveted hardlight. This rare resource is treasured universally for its lightweight durability and
+flexibility, particularly for building spacefaring vessels. The Shipyards of Heaven's Forge are renowned among all the
+Seven Suns, and it is held in belief that this place was the beginning of Captain Kip's legendary voyage. It has since
+become a point of pilgrimage for both builders and explorers.
+'''
 
 class Factory(Screen):
     pass
@@ -204,7 +214,19 @@ You call after it but it ignores you completely.
 As you enter into the village, you have similar luck with all you come across."""
 
 class TwilightIslesLanding(Screen):
-    pass
+    dialog = '''You have arrived at the Twilight Isles!
+
+You sail on a sea of midnight blue, a blanket of stars twinkling from its hue. The shining liquid below
+reflects the constellations above, and the refracted points give you the impression of standing inside a geode. Slowly,
+an archipelago blooms upon the blurred horizon. A bale of cosmic turtles nest here, their gargantuan frames of
+shimmering jade coasting along easily. Oceans of starlight pool upon the top of their shells, pouring endlessly over the
+edges and into the void below. An alien atmosphere draws the remnants back up into storm clouds, and showers of
+glimmering starfall refill the silver seas. Autumnal tropics dapple each chrome surface, warm isles of palm trees
+coloured crimson and maple rustle gently in the cool, misty breeze. Natives harvest rich starfruit and other exotic
+flora in the rich soil and skim across the starlight from shell to shell in jade canoes reminiscent of the turtles
+themselves. The largest turtle of this nest sits at its queenly core, and you bring your ship in to the rustic spaceport
+dwelling on its back.
+    '''
 
 
 class Showroom(Screen):
@@ -374,21 +396,52 @@ class WormHoleLanding(Screen):
         fail_label = fail_screen.ids.FailureLabel
         info_text = self.ids.InfoLabel
 
-        # Set failure texts
+            # Set failure texts
+
+
+
         if xyclon is None:
             info_text.text = 'You do not have any xyclon-3 (The only fuel rated for wormhole travel)'
             info_text.opacity = 1
-        elif not 245 < boat.x < 445 and -550 < boat.y < - 350:
-            screenmanager.current = 'FailureScreen'
-            fail_label.text = "You used your only tank of Xyclon-3 and you were not near the wormhole"
-        elif hardlight is None:
-            screenmanager.current = 'FailureScreen'
-            fail_label.text = "Your Ship was destroyed through 'Spaghetification'"
-        elif goggles is None:
-            screenmanager.current = 'FailureScreen'
-            fail_label.text = "You were blinded by the light within the supernova"
+
+        def validate_fuel(xyclon, info_text):
+            """Check if the fuel is available."""
+            if xyclon is None:
+                info_text.text = 'You do not have any xyclon-3 (The only fuel rated for wormhole travel)'
+                info_text.opacity = 1
+                return False
+            return True
+
+        def validate_position(boat):
+            """Check if the boat is in the correct position."""
+            return 245 < boat.x < 445 and -550 < boat.y < -350
+
+        def handle_failure(screenmanager, fail_label, message, target_screen="FailureScreen"):
+            """Set the failure screen with a message."""
+            screenmanager.current = target_screen
+            fail_label.text = message
+
+        def validate_goggles(goggles):
+            """Check if goggles are present."""
+            return goggles is not None
+
+        def validate_hardlight(hardlight):
+            """Check if hardlight is intact."""
+            return hardlight is not None
+
+        # Main validation logic
+        if xyclon is None:
+            info_text = 'You do not have any xyclon-3 (the only fuel rate for wormhole travel'   
+        elif not validate_position(boat):
+            handle_failure(screenmanager, fail_label, "You used your only tank of Xyclon-3 and you were not near the wormhole")
+        elif not validate_hardlight(hardlight):
+            handle_failure(screenmanager, fail_label, "Your Ship was destroyed through 'Spaghetification'")
+        elif not validate_goggles(goggles):
+            handle_failure(screenmanager, fail_label, "You were blinded by the light within the supernova")
         else:
+            # Success: Navigate to success screen
             app.root.ids.ScreenManager.current = 'SuccessScreen'
+
 
 
     def add_map_to_inventory(self):
