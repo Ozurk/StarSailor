@@ -119,7 +119,14 @@ class Map(Screen):
 
             elif boat.source == 'pictures/Boats/boat_in_motion_down.png':
                 boat.source = 'pictures/Boats/boat_down.png'
-                
+    def center_boat(self):
+        boat = self.ids.Boat
+        scrollview = self.ids.Scrollview
+        map_image = self.ids.MapImage
+        boat_center_x = boat.center_x
+        boat_center_y = boat.center_y
+        scrollview.scroll_x = boat_center_x / map_image.width
+        scrollview.scroll_y = boat_center_y / map_image.height
 
 class Boat(Image):
     pass

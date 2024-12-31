@@ -27,7 +27,6 @@
         # Below is the screemanager
         ScreenManager:
             id: ScreenManager
-
             MainMenu:
             Turtle:
             TwilightIslesLanding:
@@ -45,7 +44,7 @@
             SuccessScreen:
             WormHoleLanding:
             FailureScreen:
-
+            EndLanding:
         BoxLayout:
             canvas.before:
                 Color:
@@ -235,7 +234,10 @@
             text:"Attempt WormHole Travel"
             on_press: app.root.ids.ScreenManager.current = 'WormHoleLanding'
 
-        
+        Button:
+            text:'Center Ship'
+            on_press: root.center_boat()
+            size_hint: .2, .2 
                 
 
 
@@ -719,17 +721,26 @@
                 on_press: root.attempt_wormhole_travel() 
 
 
-<SuccessScreen>
+<EndLanding>
     name: 'SuccessScreen'
     Image:
-        source: 'pictures/startscreen/startscreen2.png' 
+        source: 'pictures/end/seaturtle.png' 
         id: SucessScreenImage
+        fit_mode: 'fill'
         RelativeLayout:
             size: SucessScreenImage.size
             pos: SucessScreenImage.pos
             Label:
                 id:SucessScreenLabelText
-                text: 'You Won'
+                text: 'You Sucessfully Rescued your friend :) '
+                pos_hint: {'top': 1}
+                size_hint_y: .2
+                text_size: self.size
+                halign: 'center'
+                valign: 'middle'
+                font_size: 45
+                color: 0, 0, 0, 1
+
 
 
 <FailureScreen>:
