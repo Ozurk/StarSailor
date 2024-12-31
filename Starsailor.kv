@@ -275,10 +275,10 @@
             Button:
                 text: "Go Back"
                 size_hint: .2, .1
-                pos_hint: {'center_x': .5, 'top': 1}
+                # pos_hint: {'center_x': .5, 'top': 1}
                 on_press: app.root.ids.ScreenManager.current = "Map"
             Button:
-                text: "Enter"
+                text: "Enter the Factory"
                 size_hint: .2, .1
                 pos_hint: {"center_x": .5 , 'y': 0}
                 on_press: app.root.ids.ScreenManager.current = "Factory"
