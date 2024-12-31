@@ -60,12 +60,6 @@
             size_hint: .5, 1
             opacity: 0
             Label:
-                text: "Money"
-                size_hint_y: .15
-            Label:
-                text: str(root.money)
-                size_hint_y: .15
-            Label:
                 text: "Inventory"
                 size_hint_y: .15
             GridLayout:
@@ -82,11 +76,16 @@
             fit_mode: 'fill'
         Button:
             text: "Start"
-            pos_hint: {'center_x': .5, 'y': .2}
-            size_hint: .3, .1
+            pos_hint: {'x': .08, 'y': .1}
+            size_hint: .34, .2
             background_color: (.1, .1, .1, .8)
             border: (20, 20, 20, 20)
             on_press: app.root.ids.ScreenManager.current = "IntroScreen"
+            canvas.after:
+                Rectangle:
+                    source: 'pictures/GUI/Starsailor_START.png'
+                    pos: self.pos
+                    size: self.size
 
 
 <IntroScreen>
@@ -224,15 +223,19 @@
                     size: self.size
              
         Button:
-            size_hint: .2, .18
+            size_hint: .4, .18
             background_color: (.8 ,.1, .1, 1)
             text_size: self.size
             halign: 'center'
             valign: 'middle'
-            pos_hint: {'right': 1, 'y':.75}
+            pos_hint: {'right': 1, 'top':1}
             id: Teleport_Button
-            text:"Attempt WormHole Travel"
             on_press: app.root.ids.ScreenManager.current = 'WormHoleLanding'
+            canvas.after:
+                Rectangle:
+                    source: 'pictures/GUI/Starsailor_Wormhole travel.png'
+                    pos: self.pos
+                    size: self.size
 
         Button:
             text:'Center Ship'
