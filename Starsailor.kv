@@ -28,6 +28,7 @@
         ScreenManager:
             id: ScreenManager
             MainMenu:
+            Preliminary:
             Turtle:
             TwilightIslesLanding:
             Navigator:
@@ -80,12 +81,47 @@
             size_hint: .34, .2
             background_color: (.1, .1, .1, .8)
             border: (20, 20, 20, 20)
-            on_press: app.root.ids.ScreenManager.current = "IntroScreen"
+            on_press: app.root.ids.ScreenManager.current = "Preliminary"
             canvas.after:
                 Rectangle:
                     source: 'pictures/GUI/Starsailor_START.png'
                     pos: self.pos
                     size: self.size
+
+<Preliminary>
+    name: "Preliminary"
+    RelativeLayout:
+        Image:
+            source: "pictures/map/map.png"
+            fit_mode: "fill"
+            id: PreliminaryImage
+        RelativeLayout:
+            size: PreliminaryImage.size
+            pos: PreliminaryImage.pos
+            ScrollView:
+                size_hint_y: .8
+                pos_hint: {'top': 1}
+                Label:
+                    canvas.before:
+                        Color:
+                            rgba: .1, .1, .1, .8
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    id: PreliminaryText
+                    text: root.dialog
+                    text_size: self.width, None
+                    size_hint_y: None
+                    halign: 'left'
+                    valign: 'top'
+                    size: self.texture_size
+                    font_size: 45
+            Button:
+                text: "Continue"
+                size_hint: 1, .2
+                pos_hint: {'center_x': .5, 'top': .2}
+                on_press: app.root.ids.ScreenManager.current = "IntroScreen"
+
 
 
 <IntroScreen>
@@ -111,7 +147,7 @@
                     text: root.intro
                     text_size: self.width, None
                     size_hint_y: None
-                    halign: 'center'
+                    halign: 'left'
                     valign: 'top'
                     size: self.texture_size
                     font_size: 45
@@ -269,7 +305,7 @@
                     text: root.dialog
                     text_size: self.width, None
                     size_hint_y: None
-                    halign: 'center'
+                    halign: 'left'
                     valign: 'top'
                     size: self.texture_size
             Button:
@@ -337,7 +373,7 @@
                     text: root.dialog
                     text_size: self.width, None
                     size_hint_y: None
-                    halign: 'center'
+                    halign: 'left'
                     valign: 'top'
                     size: self.texture_size
             Button:
@@ -351,7 +387,7 @@
                 size_hint: .2, .1
                 pos_hint: {'right': 1, 'y': 0}
                 on_press: root.trade_starpaint()
-                halign: 'center'
+                halign: 'left'
                 valign: 'middle'
             
 
@@ -390,7 +426,7 @@
                     text: root.dialog
                     text_size: self.width, None
                     size_hint_y: None
-                    halign: 'center'
+                    halign: 'left'
                     valign: 'top'
                     size: self.texture_size
             Button:
@@ -425,12 +461,7 @@
             # change reference here
             size: ValdstafarLanding.size
             Button:
-                text: "Go Back"
-                size_hint: .2, .1
-                pos_hint: {'center_x': .5, 'top': 1}
-                on_press: app.root.ids.ScreenManager.current = "Map"
-            Button:
-                text: "Enter"
+                text: "Enter Showroom"
                 size_hint: .2, .1
                 pos_hint: {"center_x": .5 , 'y': 0}
                 on_press: app.root.ids.ScreenManager.current = "Showroom"
@@ -495,14 +526,9 @@
                 id: StarPaint
                 source: 'pictures/valdstafar/showroom/starpaint.png'
                 size_hint_y: .2
-                pos_hint: {'center_x': .2, 'y': .12}
+                pos_hint: {'center_x': .1, 'y': .12}
                 on_touch_down: if self.collide_point(*args[1].pos): root.add_starpaint_to_inventory()
-            Image:
-                id: Machine
-                source: 'pictures/valdstafar/showroom/machine.png'
-                size_hint_y: .2
-                pos_hint: {'center_x': .8, 'y': .12}
-                on_touch_down: if self.collide_point(*args[1].pos): root.add_machine_to_inventory()
+        
 
 
 # ------------------------------------------Valdstafar----------------------------------------------------
@@ -537,7 +563,7 @@
                     text: root.dialog
                     text_size: self.width, None
                     size_hint_y: None
-                    halign: 'center'
+                    halign: 'left'
                     valign: 'top'
                     size: self.texture_size
             # change reference here
@@ -586,7 +612,7 @@
                     text: root.dialog
                     text_size: self.width, None
                     size_hint_y: None
-                    halign: 'center'
+                    halign: 'left'
                     valign: 'top'
                     size: self.texture_size
             Button:
@@ -660,7 +686,7 @@
                     text: root.dialog
                     text_size: self.width, None
                     size_hint_y: None
-                    halign: 'center'
+                    halign: 'left'
                     valign: 'top'
                     size: self.texture_size
             Button:
@@ -696,7 +722,7 @@
                     text: root.dialog
                     text_size: self.width, None
                     size_hint_y: None
-                    halign: 'center'
+                    halign: 'left'
                     valign: 'top'
                     size: self.texture_size
             Button:
@@ -732,7 +758,7 @@
                     text: root.dialog
                     text_size: self.width, None
                     size_hint_y: None
-                    halign: 'center'
+                    halign: 'left'
                     valign: 'top'
                     size: self.texture_size    
             Label:
@@ -781,7 +807,7 @@
                 pos_hint: {'top': 1}
                 size_hint_y: .2
                 text_size: self.size
-                halign: 'center'
+                halign: 'left'
                 valign: 'middle'
                 font_size: 45
                 color: 0, 0, 0, 1
