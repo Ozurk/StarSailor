@@ -193,3 +193,5 @@ __pycache__/
 *.swp
 .DS_Store
 Thumbs.db
+credentials.txt
+
