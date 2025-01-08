@@ -413,7 +413,9 @@ class WormHoleLanding(Screen):
 
 
 class FailureScreen(Screen):
-    pass
+   def restart(self):
+       app = App.get_running_app()
+       app.stopTouchApp()
 
 class SuccessScreen(Screen):
     pass

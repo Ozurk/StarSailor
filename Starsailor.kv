@@ -818,16 +818,11 @@
     name: 'FailureScreen'
     id: Failure
     BoxLayout:
-        orientation:'horizontal'
+        orientation:'vertical'
         Label:
             id: FailureLabel
-            canvas.before:
-                Color:
-                    rgba: 1, .2, .0, 1
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
+			text:"""As Captain Tuck gazes into the endless expanse, the Starbound Skiff drifts silently, its glowing sails dimming against the backdrop of eternity. The wormhole collapses, its final ripple scattering the hopes of rescue into the void. Somewhere, your dear friend Miri waits, her song a faint echo in the captain’s heart—now a melody lost to time. You’ve charted your last star, Captain, but in the quiet, the universe remembers your courage. The Starbound Skiff will sail on, if only in legend. Game Over"""
         Button:
             text:'Retry'
-            on_press: app.stop()
-
+            on_press: root.restart()
+			
